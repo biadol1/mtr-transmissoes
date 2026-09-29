@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MTR Transmissões</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <section id="landing" class="hero">
+      <div class="badge">MTR • TRANSMISSÕES</div>
+      <h1>A resenha acontece <span>ao vivo.</span></h1>
+      <p>Entre com seu nome, crie uma sala e compartilhe sua tela com a galera.</p>
+
+      <div class="card">
+        <label for="name">SEU NOME</label>
+        <input id="name" maxlength="24" placeholder="Como quer aparecer?" autocomplete="nickname">
+        <label for="roomCode">CÓDIGO DA SALA</label>
+        <input id="roomCode" maxlength="32" placeholder="Ex.: MTR-01">
+        <div class="buttons">
+          <button id="create">Criar sala</button>
+          <button id="join" class="secondary">Entrar na sala</button>
+        </div>
+        <p id="msg" class="message"></p>
+      </div>
+
+      <div class="features">
+        <span>✦ Até 6 pessoas</span><span>✦ Compartilhar tela</span><span>✦ Convite por link</span>
+      </div>
+    </section>
+
+    <section id="roomView" class="room-view hidden">
+      <header class="room-header">
+        <div><div class="badge">MTR • AO VIVO</div><h2 id="roomTitle">Sala</h2></div>
+        <div class="room-actions">
+          <button id="share">Compartilhar tela</button>
+          <button id="invite" class="secondary">Copiar convite</button>
+          <button id="leave" class="danger">Sair</button>
+        </div>
+      </header>
+
+      <div class="stage">
+        <div id="emptyStage" class="empty-stage">
+          <strong>Nenhuma tela sendo compartilhada</strong>
+          <span>Clique em “Compartilhar tela” para começar.</span>
+        </div>
+        <div id="videos" class="videos"></div>
+      </div>
+
+      <footer class="room-footer">
+        <div><span class="live-dot"></span><span id="status">Conectado</span></div>
+        <div id="count">1 / 6 pessoas</div>
+      </footer>
+      <div id="people" class="people"></div>
+      <p id="roomMsg" class="message center"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
