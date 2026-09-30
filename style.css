@@ -3,44 +3,26 @@
 }
 
 :root {
-  --red: #ff1238;
-  --red2: #b00020;
-  --red3: #700014;
-  --black: #030304;
-  --panel: rgba(16, 4, 8, .94);
-  --border: rgba(255, 25, 55, .55);
-  --text2: #d6c8cb;
+  --red: #ff1738;
+  --red-dark: #8f0019;
+  --red-deep: #41000c;
+  --black: #050506;
+  --panel: rgba(13, 4, 7, 0.94);
+  --line: rgba(255, 35, 65, 0.45);
+  --muted: #c9aeb4;
 }
 
 html,
 body {
   margin: 0;
-  width: 100%;
   min-height: 100%;
 }
 
 body {
   min-height: 100vh;
-  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
-  color: white;
-
-  background:
-    linear-gradient(rgba(2,0,1,.58), rgba(2,0,1,.78)),
-    url("mtr-bg.png") center / cover fixed no-repeat;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-
-  background:
-    radial-gradient(circle at 15% 30%, rgba(255,0,45,.25), transparent 30%),
-    radial-gradient(circle at 85% 15%, rgba(255,0,35,.20), transparent 32%),
-    radial-gradient(circle at 50% 100%, rgba(130,0,20,.22), transparent 35%);
+  color: #fff;
+  background: #050506;
 }
 
 button,
@@ -58,48 +40,22 @@ button {
 }
 
 
-/* =========================================
-   LOGO MTR
-========================================= */
-
-.mtr-logo {
-  font-size: 46px;
-  font-weight: 1000;
-  font-style: italic;
-  letter-spacing: -4px;
-
-  color: white;
-
-  text-shadow:
-    3px 3px 0 #111,
-    5px 5px 0 #8d0017,
-    0 0 18px rgba(255, 20, 55, .55);
-}
-
-.mtr-logo span {
-  color: #ff1538;
-
-  text-shadow:
-    3px 3px 0 #54000e,
-    0 0 22px rgba(255, 0, 40, .85);
-}
-
-
-/* =========================================
-   TELA DE ENTRADA
-========================================= */
+/* ==============================
+   ENTRADA
+============================== */
 
 .welcome-screen {
   min-height: 100vh;
+  position: relative;
+
   display: grid;
   place-items: center;
 
-  position: relative;
-  padding: 25px;
+  padding: 30px 20px;
 
   background:
-    linear-gradient(rgba(3,0,2,.62), rgba(3,0,2,.78)),
-    url("mtr-bg.png") center / cover no-repeat;
+    linear-gradient(rgba(0,0,0,.40), rgba(0,0,0,.66)),
+    url("mtr-bg.png") center center / cover no-repeat;
 }
 
 .welcome-overlay {
@@ -107,10 +63,17 @@ button {
   inset: 0;
 
   background:
-    radial-gradient(circle at center, rgba(255,0,45,.10), transparent 40%),
-    linear-gradient(90deg, rgba(0,0,0,.55), transparent, rgba(0,0,0,.55));
-
-  backdrop-filter: blur(2px);
+    radial-gradient(
+      circle at center,
+      rgba(255, 0, 45, .08),
+      transparent 42%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.55),
+      transparent 50%,
+      rgba(0,0,0,.55)
+    );
 }
 
 .welcome-card {
@@ -119,33 +82,46 @@ button {
 
   width: min(470px, 94vw);
 
-  padding: 35px;
+  padding: 28px 32px 32px;
 
-  border-radius: 18px;
-
-  border: 1px solid rgba(255, 45, 75, .75);
+  border: 1px solid rgba(255, 50, 75, .58);
+  border-radius: 16px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(55, 8, 20, .94),
-      rgba(13, 5, 8, .98)
+      rgba(69, 5, 18, .91),
+      rgba(9, 5, 7, .97)
     );
 
   box-shadow:
-    0 0 60px rgba(255,0,45,.25),
-    inset 0 0 40px rgba(255,0,45,.05);
+    0 0 50px rgba(255, 0, 40, .22),
+    inset 0 0 35px rgba(255, 20, 50, .04);
+
+  backdrop-filter: blur(7px);
 }
 
-.welcome-card .mtr-logo {
-  text-align: center;
-  margin-bottom: 35px;
+.welcome-logo {
+  display: block;
+
+  width: min(330px, 90%);
+  height: auto;
+
+  margin: -8px auto 10px;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 0 12px rgba(255, 0, 35, .45));
 }
 
 .welcome-card h1 {
-  font-size: 24px;
-  margin: 0 0 25px;
+  margin: 0 0 24px;
+
   text-align: center;
+
+  font-size: 22px;
+  line-height: 1.25;
 }
 
 .welcome-card label {
@@ -153,196 +129,223 @@ button {
 
   margin: 14px 0 7px;
 
-  font-size: 12px;
+  color: #ff9cab;
+
+  font-size: 11px;
   font-weight: 900;
 
-  color: #ff9cab;
+  text-transform: uppercase;
+  letter-spacing: .8px;
 }
 
 .welcome-card input {
   width: 100%;
-  height: 52px;
+  height: 50px;
 
-  padding: 0 15px;
+  padding: 0 14px;
 
-  color: white;
-
-  border-radius: 9px;
-
-  border: 1px solid rgba(255, 45, 75, .55);
+  color: #fff;
 
   outline: none;
 
-  background: rgba(4, 4, 5, .78);
+  border: 1px solid rgba(255, 55, 80, .38);
+  border-radius: 8px;
+
+  background: rgba(3, 3, 4, .82);
 }
 
 .welcome-card input:focus {
-  border-color: #ff294b;
+  border-color: var(--red);
 
   box-shadow:
-    0 0 0 3px rgba(255,20,55,.12),
-    0 0 20px rgba(255,0,40,.18);
+    0 0 0 3px rgba(255, 23, 56, .10),
+    0 0 18px rgba(255, 0, 40, .16);
 }
 
-.welcome-card button {
-  width: 100%;
+.welcome-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 
-  margin-top: 18px;
+  gap: 10px;
 
-  padding: 15px;
+  margin-top: 19px;
+}
 
-  border: 1px solid #ff4864;
-  border-radius: 9px;
+.welcome-buttons button {
+  min-height: 48px;
 
-  color: white;
+  border: 1px solid rgba(255, 65, 90, .62);
+  border-radius: 8px;
+
+  color: #fff;
+
   font-weight: 900;
 
   background:
-    linear-gradient(135deg, #e9002c, #ff3852);
+    linear-gradient(
+      135deg,
+      #d80028,
+      #ff2d4c
+    );
 
   box-shadow:
-    0 0 20px rgba(255,0,40,.18);
+    0 0 18px rgba(255, 0, 40, .18);
 
-  transition: .2s;
+  transition: .18s;
 }
 
-.welcome-card button:hover {
+.welcome-buttons button:hover {
   transform: translateY(-2px);
 
   box-shadow:
-    0 0 25px rgba(255,0,45,.4);
+    0 0 25px rgba(255, 0, 40, .40);
 }
 
-.welcome-card button.secondary {
-  background: rgba(10, 8, 9, .9);
-}
-
-.room-entry {
-  margin-top: 5px;
-}
-
-
-/* =========================================
-   APLICAÇÃO
-========================================= */
-
-.stream-app {
-  min-height: 100vh;
-  width: 100%;
-
+.welcome-buttons .secondary {
   background:
     linear-gradient(
-      90deg,
-      rgba(75,0,16,.30),
-      rgba(0,0,0,.35)
+      135deg,
+      rgba(27, 10, 14, .95),
+      rgba(8, 7, 8, .95)
     );
 }
 
 
-/* =========================================
+/* ==============================
+   SALA
+============================== */
+
+.stream-app {
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      rgba(0,0,0,.48),
+      rgba(0,0,0,.68)
+    ),
+    url("mtr-bg.png") center / cover fixed no-repeat;
+}
+
+
+/* ==============================
    TOPO
-========================================= */
+============================== */
 
 .topbar {
-  height: 92px;
+  height: 84px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 28px;
+  gap: 20px;
 
-  border-bottom: 1px solid rgba(255,30,60,.65);
+  padding: 8px 24px;
+
+  border-bottom:
+    1px solid rgba(255, 35, 65, .50);
 
   background:
     linear-gradient(
       90deg,
-      rgba(13,4,7,.98),
-      rgba(34,5,12,.96)
+      rgba(10, 4, 6, .97),
+      rgba(42, 4, 12, .94),
+      rgba(9, 4, 6, .97)
     );
 
   box-shadow:
-    0 5px 25px rgba(255,0,40,.12);
+    0 7px 25px rgba(0,0,0,.45);
 }
 
-.top-logo {
-  font-size: 34px;
+.top-logo-img {
+  width: 165px;
+  max-height: 72px;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 0 9px rgba(255,0,40,.45));
 }
 
 .top-status {
   display: flex;
   align-items: center;
-  gap: 12px;
+
+  gap: 10px;
 }
 
 .viewer-count,
 .offline-badge {
-  padding: 10px 15px;
+  min-height: 38px;
 
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
 
-  border: 1px solid rgba(255,40,70,.45);
+  padding: 0 14px;
 
-  background: rgba(8,6,7,.78);
+  border: 1px solid rgba(255, 50, 75, .38);
+  border-radius: 7px;
 
-  font-size: 13px;
+  background: rgba(8, 6, 7, .78);
+
+  font-size: 12px;
   font-weight: 800;
 }
 
 .offline-badge {
-  display: flex;
-  align-items: center;
   gap: 8px;
 }
 
 .status-dot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
 
   border-radius: 50%;
 
-  background: #ff1238;
+  background: #ff1738;
 
   box-shadow:
-    0 0 12px #ff1238;
+    0 0 10px #ff1738;
 }
 
 
-/* =========================================
+/* ==============================
    LAYOUT
-========================================= */
+============================== */
 
 .stream-layout {
   display: grid;
 
-  grid-template-columns: 270px 1fr;
+  grid-template-columns: 270px minmax(0, 1fr);
 
-  min-height: calc(100vh - 92px);
+  min-height: calc(100vh - 84px);
 }
 
 
-/* =========================================
-   SIDEBAR
-========================================= */
+/* ==============================
+   MENU LATERAL
+============================== */
 
 .sidebar {
   position: relative;
 
-  padding: 20px;
+  min-height: calc(100vh - 84px);
+
+  padding: 20px 17px;
 
   overflow-y: auto;
 
-  border-right: 1px solid rgba(255,35,65,.6);
+  border-right:
+    1px solid rgba(255, 35, 65, .52);
 
   background:
     linear-gradient(
-      rgba(118, 6, 29, .82),
-      rgba(38, 3, 11, .92)
-    ),
-    url("mtr-bg.png") left center / cover;
+      rgba(90, 3, 22, .80),
+      rgba(31, 3, 10, .93)
+    );
 
   box-shadow:
-    8px 0 35px rgba(255,0,35,.10);
+    8px 0 30px rgba(0,0,0,.32);
 }
 
 .sidebar::before {
@@ -353,65 +356,59 @@ button {
 
   pointer-events: none;
 
+  opacity: .18;
+
   background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.035),
-      transparent 35%
-    );
+    url("mtr-bg.png") left center / auto 100% no-repeat;
 }
 
 .sidebar > * {
   position: relative;
+  z-index: 1;
 }
 
 .sidebar h2 {
-  margin: 0 0 16px;
+  margin: 0 0 15px;
 
-  font-size: 17px;
+  font-size: 16px;
 }
 
 
-/* =========================================
+/* ==============================
    CONVITE
-========================================= */
+============================== */
 
 .invite-card {
-  position: relative;
+  padding: 16px;
 
-  padding: 18px;
-
-  border-radius: 12px;
-
-  border: 1px solid rgba(255,100,120,.65);
+  border: 1px solid rgba(255, 110, 130, .52);
+  border-radius: 10px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(255,40,70,.15),
-      rgba(20,5,9,.35)
+      rgba(255, 35, 65, .12),
+      rgba(12, 5, 7, .28)
     );
-
-  box-shadow:
-    inset 0 0 20px rgba(255,0,40,.06);
 }
 
 .invite-icon {
-  font-size: 24px;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
+
+  font-size: 22px;
 }
 
-.invite-card strong {
-  font-size: 16px;
+.invite-text strong {
+  font-size: 14px;
 }
 
-.invite-card p {
-  margin: 8px 0 12px;
+.invite-text p {
+  margin: 6px 0 12px;
 
-  color: #d9b8be;
+  color: #dab8bf;
 
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .invite-button {
@@ -419,143 +416,164 @@ button {
 
   padding: 10px;
 
-  color: white;
+  color: #fff;
 
-  border: 1px solid rgba(255,70,95,.5);
-
+  border: 1px solid rgba(255, 75, 100, .45);
   border-radius: 7px;
 
-  background: rgba(255,20,55,.14);
+  background:
+    rgba(255, 25, 55, .13);
 
   font-weight: 800;
 }
 
 
-/* =========================================
-   SEÇÕES SIDEBAR
-========================================= */
+/* ==============================
+   PESSOAS
+============================== */
 
 .side-section {
-  padding: 20px 0;
+  padding: 19px 0;
 
-  border-bottom: 1px solid rgba(255,255,255,.12);
+  border-bottom:
+    1px solid rgba(255,255,255,.10);
 }
 
 .section-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
 }
 
 .side-section h3 {
-  margin: 0 0 13px;
+  margin: 0;
 
-  font-size: 15px;
+  font-size: 14px;
 }
 
-.people {
-  display: grid;
-  gap: 7px;
-}
-
-.people span {
-  display: block;
-
-  padding: 10px 11px;
-
-  border-radius: 7px;
-
-  border: 1px solid rgba(255,60,85,.42);
-
-  background:
-    rgba(73,7,20,.72);
-
-  font-size: 12px;
-}
-
-.empty-slot {
-  margin-top: 7px;
-
-  padding: 9px 10px;
-
-  border-radius: 7px;
-
-  color: rgba(255,255,255,.48);
-
-  border: 1px solid rgba(255,255,255,.10);
-
-  background:
-    rgba(0,0,0,.18);
-
-  font-size: 11px;
-}
-
-
-/* =========================================
-   CONFIGURAÇÕES
-========================================= */
-
-.settings-section label {
-  display: block;
-
-  margin: 14px 0 7px;
+#sideCount {
+  color: #ff9cac;
 
   font-size: 11px;
   font-weight: 900;
 }
 
+.people {
+  display: grid;
+
+  gap: 6px;
+}
+
+.people span {
+  display: block;
+
+  padding: 9px 10px;
+
+  border: 1px solid rgba(255, 65, 90, .36);
+  border-radius: 6px;
+
+  background:
+    rgba(80, 7, 22, .70);
+
+  font-size: 11px;
+}
+
+.empty-slots {
+  display: grid;
+
+  gap: 6px;
+
+  margin-top: 6px;
+}
+
+.empty-slot {
+  padding: 8px 10px;
+
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 6px;
+
+  color: rgba(255,255,255,.42);
+
+  background:
+    rgba(0,0,0,.15);
+
+  font-size: 10px;
+}
+
+
+/* ==============================
+   CONFIGURAÇÕES
+============================== */
+
+.settings-section label {
+  display: block;
+
+  margin: 13px 0 6px;
+
+  color: #fff;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
 .settings-section select {
   width: 100%;
 
-  padding: 11px 10px;
+  padding: 10px;
 
-  border-radius: 7px;
-
-  color: white;
+  color: #fff;
 
   outline: none;
 
-  border: 1px solid rgba(255,55,80,.4);
+  border: 1px solid rgba(255, 55, 80, .35);
+  border-radius: 6px;
 
-  background: #260811;
+  background: #250810;
+
+  font-size: 10px;
 }
 
 .helper {
-  color: #d3aeb6;
+  margin: 7px 0 0;
 
-  font-size: 10px;
-  line-height: 1.5;
+  color: #cda6ae;
+
+  font-size: 9px;
+  line-height: 1.45;
 }
 
 .check-option {
   display: flex !important;
-
   align-items: flex-start;
 
-  gap: 8px;
+  gap: 7px;
 
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .check-option input {
+  margin-top: 1px;
+
   accent-color: #ff1738;
 }
 
 
-/* =========================================
-   INFORMAÇÕES DE ÁUDIO
-========================================= */
+/* ==============================
+   ÁUDIO
+============================== */
 
 .audio-info {
-  margin-top: 18px;
+  margin-top: 16px;
 
-  padding: 12px;
+  padding: 11px;
 
-  border-radius: 9px;
+  border: 1px solid rgba(255, 55, 80, .28);
+  border-radius: 8px;
 
-  border: 1px solid rgba(255,55,80,.35);
-
-  background: rgba(20,4,8,.5);
+  background:
+    rgba(17, 4, 8, .48);
 }
 
 .audio-info div {
@@ -564,91 +582,91 @@ button {
 
   gap: 10px;
 
-  padding: 5px 0;
+  padding: 4px 0;
 
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .audio-info strong {
-  color: #ff9aaa;
+  color: #ff9eae;
 }
 
 
-/* =========================================
-   BOTÃO SAIR
-========================================= */
+/* ==============================
+   SAIR
+============================== */
 
 .leave-button {
   width: 100%;
 
-  margin-top: 18px;
+  margin-top: 17px;
 
-  padding: 12px;
+  padding: 11px;
 
-  border-radius: 8px;
+  color: #ffb0bc;
 
-  border: 1px solid rgba(255,60,80,.45);
+  border: 1px solid rgba(255, 65, 90, .38);
+  border-radius: 7px;
 
-  color: #ffb2be;
-
-  background: rgba(30,3,8,.6);
+  background:
+    rgba(20, 3, 7, .58);
 
   font-weight: 900;
 }
 
 
-/* =========================================
-   ÁREA PRINCIPAL
-========================================= */
+/* ==============================
+   TRANSMISSÃO
+============================== */
 
 .main-stream {
   min-width: 0;
 
-  padding: 20px;
+  padding: 17px;
 
   background:
     linear-gradient(
-      rgba(3,3,4,.62),
-      rgba(3,3,4,.82)
+      rgba(0,0,0,.18),
+      rgba(0,0,0,.40)
     );
 }
 
 .selected-window {
-  margin-bottom: 12px;
+  height: 24px;
 
-  color: #ff8798;
+  color: #ff91a2;
 
-  font-size: 12px;
+  font-size: 11px;
 }
 
 
-/* =========================================
+/* ==============================
    PALCO
-========================================= */
+============================== */
 
 .stage {
   position: relative;
 
   width: 100%;
+  height: calc(100vh - 175px);
 
-  min-height: calc(100vh - 190px);
+  min-height: 520px;
 
   overflow: hidden;
 
-  border-radius: 15px;
-
-  border: 1px solid rgba(255,30,60,.55);
+  border: 1px solid rgba(255, 35, 65, .50);
+  border-radius: 13px;
 
   background:
     linear-gradient(
-      rgba(4,0,2,.35),
-      rgba(4,0,2,.52)
+      rgba(0,0,0,.18),
+      rgba(0,0,0,.42)
     ),
     url("mtr-bg.png") center / cover no-repeat;
 
   box-shadow:
-    0 0 35px rgba(255,0,40,.10),
-    inset 0 0 80px rgba(0,0,0,.35);
+    0 0 35px rgba(255, 0, 40, .08),
+    inset 0 0 80px rgba(0,0,0,.28);
 }
 
 .stage::after {
@@ -657,16 +675,18 @@ button {
   position: absolute;
   inset: 0;
 
+  z-index: 1;
+
   pointer-events: none;
 
   box-shadow:
-    inset 0 0 100px rgba(0,0,0,.45);
+    inset 0 0 100px rgba(0,0,0,.48);
 }
 
 
-/* =========================================
-   SEM TRANSMISSÃO
-========================================= */
+/* ==============================
+   TELA VAZIA
+============================== */
 
 .empty-stage {
   position: absolute;
@@ -676,98 +696,82 @@ button {
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   padding: 30px;
 
   text-align: center;
 }
 
-.stage-logo {
-  margin-bottom: 35px;
+.stage-logo-img {
+  width: min(480px, 65%);
+  height: auto;
 
-  font-size: clamp(55px, 8vw, 115px);
+  margin-bottom: 24px;
 
-  font-weight: 1000;
-  font-style: italic;
+  object-fit: contain;
 
-  letter-spacing: -7px;
-
-  color: white;
-
-  transform: skew(-6deg);
-
-  text-shadow:
-    5px 5px 0 #b40020,
-    0 0 30px rgba(255,0,40,.85);
-}
-
-.stage-logo span {
-  color: #ff1238;
-
-  text-shadow:
-    4px 4px 0 #55000e,
-    0 0 30px rgba(255,0,40,.85);
+  filter:
+    drop-shadow(0 0 18px rgba(255,0,40,.48));
 }
 
 .empty-stage strong {
-  font-size: clamp(20px, 2.5vw, 30px);
+  font-size: clamp(20px, 2.2vw, 30px);
 
   text-shadow:
     0 3px 10px #000;
 }
 
 .empty-stage p {
-  margin: 12px 0 25px;
+  margin: 10px 0 22px;
 
-  color: #d8cdd0;
+  color: #d7c7ca;
 
-  font-size: 14px;
+  font-size: 12px;
 }
 
 
-/* =========================================
-   COMPARTILHAR
-========================================= */
+/* ==============================
+   BOTÃO COMPARTILHAR
+============================== */
 
 .share-button {
-  min-width: 220px;
+  min-width: 210px;
 
-  padding: 15px 25px;
+  padding: 13px 23px;
 
-  border-radius: 9px;
+  color: #fff;
 
-  border: 1px solid #ff5b73;
-
-  color: white;
-
-  font-weight: 900;
+  border: 1px solid #ff6078;
+  border-radius: 8px;
 
   background:
     linear-gradient(
       135deg,
-      #e9002d,
-      #ff3953
+      #d80029,
+      #ff3150
     );
 
   box-shadow:
-    0 0 25px rgba(255,0,40,.35);
+    0 0 23px rgba(255,0,40,.30);
 
-  transition: .2s;
+  font-weight: 900;
+
+  transition: .18s;
 }
 
 .share-button:hover {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-2px);
 
   box-shadow:
-    0 0 35px rgba(255,0,40,.55);
+    0 0 32px rgba(255,0,40,.50);
 }
 
 
-/* =========================================
-   VÍDEO
-========================================= */
+/* ==============================
+   VÍDEOS
+============================== */
 
 .videos {
   position: relative;
@@ -775,10 +779,9 @@ button {
   z-index: 3;
 
   width: 100%;
-  min-height: calc(100vh - 190px);
+  height: 100%;
 
   display: grid;
-
   place-items: center;
 }
 
@@ -786,7 +789,7 @@ button {
   position: relative;
 
   width: 100%;
-  height: calc(100vh - 190px);
+  height: 100%;
 
   overflow: hidden;
 
@@ -805,74 +808,81 @@ button {
 .video-label {
   position: absolute;
 
-  left: 15px;
-  bottom: 15px;
+  left: 14px;
+  bottom: 14px;
 
-  padding: 8px 12px;
+  padding: 7px 11px;
 
-  border-radius: 7px;
+  color: #fff;
 
-  border: 1px solid rgba(255,40,65,.5);
+  border: 1px solid rgba(255, 45, 70, .45);
+  border-radius: 6px;
 
-  background: rgba(0,0,0,.78);
+  background:
+    rgba(0,0,0,.76);
 
-  font-size: 12px;
+  font-size: 11px;
 }
 
 
-/* =========================================
+/* ==============================
    CONTROLES INFERIORES
-========================================= */
+============================== */
 
 .bottom-controls {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  padding-top: 14px;
+  padding-top: 11px;
 }
 
 .volume-control {
   display: flex;
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 
-  padding: 10px 16px;
+  padding: 8px 14px;
 
+  color: #ff9cac;
+
+  border: 1px solid rgba(255, 45, 70, .35);
   border-radius: 999px;
 
-  border: 1px solid rgba(255,45,70,.45);
-
   background:
-    rgba(30,5,10,.82);
+    rgba(28, 4, 9, .78);
 
-  color: #ff9eac;
-
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .volume-control input {
   accent-color: #ff1738;
 }
 
+.fullscreen-icon {
+  font-size: 16px;
+}
+
 .bottom-controls p {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
 
-  color: #bd8c96;
+  color: #b99098;
 
-  font-size: 10px;
+  font-size: 9px;
 }
 
 
-/* =========================================
+/* ==============================
    MENSAGENS
-========================================= */
+============================== */
 
 .message {
-  color: #ff7890;
+  min-height: 16px;
 
-  font-size: 12px;
+  color: #ff8295;
+
+  font-size: 11px;
 }
 
 .center {
@@ -880,44 +890,45 @@ button {
 }
 
 
-/* =========================================
-   SCROLLBAR MTR
-========================================= */
+/* ==============================
+   SCROLL
+============================== */
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090305;
+  background: #080305;
 }
 
 ::-webkit-scrollbar-thumb {
-  background:
-    linear-gradient(#ff1738, #850019);
-
   border-radius: 10px;
+
+  background:
+    linear-gradient(
+      #ff1738,
+      #820018
+    );
 }
 
 
-/* =========================================
-   CELULAR / TABLET
-========================================= */
+/* ==============================
+   TABLET
+============================== */
 
 @media (max-width: 900px) {
 
   .topbar {
     height: auto;
 
-    padding: 15px;
-
-    gap: 15px;
+    padding: 10px 15px;
 
     flex-wrap: wrap;
   }
 
-  .top-logo {
-    font-size: 27px;
+  .top-logo-img {
+    width: 140px;
   }
 
   .stream-layout {
@@ -925,43 +936,37 @@ button {
   }
 
   .sidebar {
+    min-height: auto;
+
     border-right: 0;
 
     border-bottom:
-      1px solid rgba(255,35,60,.5);
-  }
-
-  .main-stream {
-    padding: 10px;
+      1px solid rgba(255, 35, 65, .5);
   }
 
   .stage {
-    min-height: 60vh;
+    height: 65vh;
+    min-height: 430px;
   }
-
-  .videos {
-    min-height: 60vh;
-  }
-
-  .video-card {
-    height: 60vh;
-  }
-
-  .stage-logo {
-    letter-spacing: -4px;
-  }
-
 }
 
 
-@media (max-width: 520px) {
+/* ==============================
+   CELULAR
+============================== */
+
+@media (max-width: 560px) {
 
   .welcome-card {
-    padding: 24px 18px;
+    padding: 22px 18px;
   }
 
-  .mtr-logo {
-    font-size: 37px;
+  .welcome-logo {
+    width: 260px;
+  }
+
+  .welcome-buttons {
+    grid-template-columns: 1fr;
   }
 
   .top-status {
@@ -971,16 +976,28 @@ button {
   .viewer-count,
   .offline-badge {
     flex: 1;
-    text-align: center;
+
+    justify-content: center;
   }
 
-  .stage-logo {
-    font-size: 48px;
-    letter-spacing: -4px;
+  .main-stream {
+    padding: 9px;
+  }
+
+  .stage {
+    height: 58vh;
+    min-height: 380px;
+  }
+
+  .stage-logo-img {
+    width: 80%;
   }
 
   .empty-stage strong {
-    font-size: 19px;
+    font-size: 18px;
   }
 
+  .empty-stage p {
+    font-size: 11px;
+  }
 }
