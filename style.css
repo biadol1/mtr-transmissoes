@@ -3326,3 +3326,10 @@ body {
   position: relative !important;
   z-index: 10 !important;
 }
+.empty-stage .highlight-red {
+  color: #ff1748;
+
+  text-shadow:
+    0 0 8px rgba(255, 0, 40, .55),
+    0 0 18px rgba(255, 0, 40, .25);
+}
