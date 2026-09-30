@@ -3497,35 +3497,32 @@ video {
   display: block !important;
 
   position: relative !important;
-
   float: right !important;
 
-  width: 180px !important;
-  height: 105px !important;
+  width: 145px !important;
+  height: 85px !important;
 
-  min-width: 180px !important;
-  min-height: 105px !important;
+  min-width: 145px !important;
+  min-height: 85px !important;
 
-  margin:
-    10px 10px 0 0 !important;
+  margin: 12px 12px 0 0 !important;
 
   z-index: 20 !important;
 
   overflow: hidden !important;
 
-  border-radius: 12px !important;
+  border-radius: 10px !important;
 
   background: #050505 !important;
 
   border:
     1px solid
-    rgba(255, 35, 75, .8) !important;
+    rgba(255, 35, 75, .9) !important;
 
   box-shadow:
-    0 8px 25px
-    rgba(0, 0, 0, .7) !important;
+    0 5px 18px
+    rgba(0, 0, 0, .75) !important;
 }
-
 
 #videos.mtr-screen-active
 .mtr-camera-card video {
