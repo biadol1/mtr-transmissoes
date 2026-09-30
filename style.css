@@ -1561,3 +1561,203 @@ button {
 .leave-button:hover {
   background: rgba(255,20,60,.12);
 }
+/* ==========================================
+   MTR - INTERFACE COMPACTA EM 100% DE ZOOM
+========================================== */
+
+/* LATERAL MAIS ESTREITA */
+.sidebar {
+  width: 185px !important;
+  min-width: 185px !important;
+  padding: 11px 9px 16px !important;
+}
+
+/* ÁREA PRINCIPAL OCUPA O RESTANTE */
+.stream-layout {
+  grid-template-columns: 185px minmax(0, 1fr) !important;
+}
+
+/* NOME DA SALA */
+.sidebar > h2 {
+  font-size: 13px !important;
+  margin-bottom: 10px !important;
+}
+
+/* CARD DO CONVITE */
+.invite-card {
+  padding: 10px !important;
+  border-radius: 10px !important;
+  margin-bottom: 12px !important;
+}
+
+.invite-icon {
+  font-size: 16px !important;
+  margin-bottom: 5px !important;
+}
+
+.invite-card strong {
+  font-size: 12px !important;
+}
+
+.invite-card p {
+  font-size: 9px !important;
+  margin-bottom: 9px !important;
+}
+
+.invite-button {
+  min-height: 34px !important;
+  font-size: 11px !important;
+}
+
+/* TÍTULOS */
+.section-title h3,
+.settings-section h3 {
+  font-size: 12px !important;
+}
+
+.section-title {
+  margin-bottom: 7px !important;
+}
+
+/* SEÇÕES */
+.side-section {
+  margin-bottom: 11px !important;
+  padding-bottom: 11px !important;
+}
+
+.stream-side-section,
+.settings-section {
+  padding: 10px !important;
+  border-radius: 10px !important;
+}
+
+/* PESSOAS */
+.people {
+  gap: 4px !important;
+}
+
+.people span,
+.empty-slot {
+  min-height: 27px !important;
+  padding: 0 8px !important;
+  font-size: 9px !important;
+  border-radius: 6px !important;
+}
+
+.empty-slot {
+  margin-top: 4px !important;
+}
+
+/* TRANSMISSÕES */
+.mtr-no-stream {
+  font-size: 9px !important;
+  padding: 4px 0 7px !important;
+}
+
+.mtr-stream-button,
+#mtrStopWatching {
+  min-height: 32px !important;
+  padding: 6px 8px !important;
+  font-size: 10px !important;
+  border-radius: 7px !important;
+}
+
+/* COMPARTILHAR */
+.share-control-area {
+  margin-top: 7px !important;
+}
+
+#share {
+  min-height: 38px !important;
+  padding: 7px !important;
+  font-size: 10px !important;
+  border-radius: 7px !important;
+}
+
+/* CONFIGURAÇÕES */
+.settings-section h3 {
+  margin-bottom: 10px !important;
+}
+
+.settings-section label:not(.check-option) {
+  margin: 8px 0 4px !important;
+  font-size: 9px !important;
+}
+
+.settings-section select {
+  height: 32px !important;
+  padding: 0 7px !important;
+  font-size: 9px !important;
+  border-radius: 6px !important;
+}
+
+/* CHECKBOX */
+.check-option {
+  margin-top: 9px !important;
+  gap: 5px !important;
+  font-size: 8px !important;
+}
+
+/* ÁUDIO */
+.audio-info {
+  margin-top: 10px !important;
+  padding: 7px !important;
+  border-radius: 7px !important;
+}
+
+.audio-info > div {
+  padding: 2px 0 !important;
+  font-size: 8px !important;
+}
+
+/* SAIR */
+.leave-button {
+  min-height: 34px !important;
+  font-size: 10px !important;
+}
+
+/* TOPO */
+.topbar {
+  height: 70px !important;
+  min-height: 70px !important;
+  padding: 7px 18px !important;
+}
+
+.top-logo {
+  height: 52px !important;
+  max-width: 115px !important;
+}
+
+/* CONTADORES DO TOPO */
+.viewer-count,
+.offline-badge {
+  font-size: 10px !important;
+  padding: 7px 12px !important;
+}
+
+/* ÁREA DA TRANSMISSÃO */
+.main-stream {
+  min-width: 0;
+}
+
+.stage {
+  min-height: calc(100vh - 110px) !important;
+}
+
+/* TELA SEM TRANSMISSÃO */
+.empty-stage .stage-logo {
+  max-width: 150px !important;
+}
+
+.empty-stage strong {
+  font-size: 24px !important;
+}
+
+.empty-stage p {
+  font-size: 10px !important;
+}
+
+/* CONTROLE DE VOLUME */
+.volume-control {
+  transform: scale(.85);
+}
