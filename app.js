@@ -392,52 +392,76 @@ function bindRoomEvents(room) {
 
 
   room.on(
-    LK.RoomEvent.TrackUnsubscribed,
-    (track) => {
+  LK.RoomEvent.TrackUnsubscribed,
+  (track) => {
 
-      try {
+    try {
 
-        track
-          .detach()
-          .forEach(
-            (element) => {
+      track
+        .detach()
+        .forEach((element) => {
 
-              element.remove();
+          const card =
+            element.closest(
+              ".video-card"
+            );
 
-            }
-          );
+          if (card) {
+            card.remove();
+          } else {
+            element.remove();
+          }
 
-      } catch (error) {
+        });
 
-        console.warn(
-          "Erro removendo vídeo:",
-          error
-        );
+    } catch (error) {
 
-      }
-
-
-      if (track.sid) {
-
-        document
-          .querySelectorAll(
-            `[data-track-sid="${track.sid}"]`
-          )
-          .forEach(
-            (element) =>
-              element.remove()
-          );
-
-      }
-
-
-      updateStage();
+      console.warn(
+        "Erro removendo track:",
+        error
+      );
 
     }
-  );
 
 
-  room.on(
+    if (track.sid) {
+
+      document
+        .querySelectorAll(
+          `[data-track-sid="${track.sid}"]`
+        )
+        .forEach((element) => {
+
+          const card =
+            element.closest(
+              ".video-card"
+            );
+
+          if (card) {
+            card.remove();
+          } else {
+            element.remove();
+          }
+
+        });
+
+    }
+
+
+    setTimeout(
+      () => {
+
+        mtrRefreshStreams();
+        mtrApplySelection();
+        updateStage();
+
+      },
+      100
+    );
+
+  }
+);
+      room.on(
     LK.RoomEvent.ParticipantConnected,
     () => {
 
