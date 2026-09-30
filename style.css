@@ -3982,3 +3982,43 @@ body {
   filter: none !important;
   animation: none !important;
 }
+/* =========================================
+   ORNAMENTO MTR - CORREÇÃO
+========================================= */
+
+.empty-stage p::after {
+  content: "━━━━ ••• ◆ ••• ━━━━" !important;
+
+  display: block !important;
+
+  width: 320px !important;
+  max-width: 90% !important;
+
+  margin: 14px auto 0 !important;
+
+  color: #ff1748 !important;
+
+  font-size: 12px !important;
+  font-weight: 900 !important;
+
+  line-height: 20px !important;
+  letter-spacing: 1px !important;
+
+  text-align: center !important;
+  white-space: nowrap !important;
+
+  border: 0 !important;
+  background: none !important;
+
+  overflow: visible !important;
+
+  text-shadow:
+    0 0 4px #ff1748,
+    0 0 8px #ff1748,
+    0 0 16px rgba(255, 0, 55, .65) !important;
+
+  filter: none !important;
+  animation: none !important;
+
+  transform: none !important;
+}
