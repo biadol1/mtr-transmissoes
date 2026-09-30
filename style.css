@@ -1111,188 +1111,74 @@ button {
 .no-stream button {
     pointer-events: auto !important;
 }
-/* =========================================
-   BOTÕES DA TELA DE ENTRADA — MTR STREAM
-   ========================================= */
 
-#joinScreen button {
-    appearance: none;
-    border: 1px solid rgba(255, 40, 75, 0.75);
-    border-radius: 10px;
-    padding: 13px 22px;
-
-    font-size: 14px;
-    font-weight: 800;
-    color: #fff;
-
-    background: linear-gradient(
-        135deg,
-        #ff1748 0%,
-        #d80032 50%,
-        #8f001f 100%
-    );
-
-    box-shadow:
-        0 0 15px rgba(255, 20, 60, 0.30),
-        inset 0 1px 0 rgba(255,255,255,0.15);
-
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-#joinScreen button:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(
-        135deg,
-        #ff315c,
-        #ed0039,
-        #a50025
-    );
-
-    box-shadow:
-        0 0 25px rgba(255, 20, 60, 0.55),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-}
-
-#joinScreen button:active {
-    transform: translateY(0) scale(0.98);
-}
-
-/* espaço entre os dois botões */
-#joinScreen button + button {
-    margin-left: 8px;
-}
-/* ===== BOTÕES CRIAR / ENTRAR - MTR ===== */
-
-button {
-    font-family: inherit;
-}
-
-/* botão Criar nova sala */
-#createRoom,
-#create-room,
-.btn-create {
-    width: 48%;
-    height: 48px;
-    border: 1px solid #ff3157 !important;
-    border-radius: 8px !important;
-    background: linear-gradient(135deg, #ff1748, #e4003b) !important;
-    color: white !important;
-    font-size: 15px !important;
-    font-weight: 800 !important;
-    cursor: pointer;
-    box-shadow: 0 0 18px rgba(255, 23, 72, 0.25);
-}
-
-/* botão Entrar na sala */
-#joinRoom,
-#join-room,
-.btn-join {
-    width: 48%;
-    height: 48px;
-    border: 1px solid #e52248 !important;
-    border-radius: 8px !important;
-    background: #16070b !important;
-    color: white !important;
-    font-size: 15px !important;
-    font-weight: 800 !important;
-    cursor: pointer;
-}
-
-/* efeitos */
-#createRoom:hover,
-#create-room:hover,
-.btn-create:hover {
-    background: #ff3157 !important;
-    box-shadow: 0 0 22px rgba(255, 23, 72, 0.45);
-}
-
-#joinRoom:hover,
-#join-room:hover,
-.btn-join:hover {
-    background: #290810 !important;
-    border-color: #ff3157 !important;
-}
-/* =========================
-   BOTÕES DA TELA DE ENTRADA
-   ========================= */
+/* =========================================================
+   BOTÕES DA TELA INICIAL — CORRIGIDO
+   ========================================================= */
 
 .buttons {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 18px;
+}
+
+.buttons #create,
+.buttons #join {
+  flex: 1;
+  width: auto;
+  min-height: 48px;
+  margin: 0 !important;
+  padding: 0 18px;
+
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+              background 0.2s ease, border-color 0.2s ease;
+}
+
+.buttons #create {
+  background: linear-gradient(135deg, #ff1748, #e4003b);
+  border: 1px solid #ff3157;
+  box-shadow: 0 5px 15px rgba(255, 0, 61, 0.22);
+}
+
+.buttons #join {
+  background: rgba(12, 8, 10, 0.94);
+  border: 1px solid rgba(255, 55, 80, 0.72);
+  box-shadow: none;
+}
+
+.buttons #create:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #ff3159, #f00046);
+  box-shadow: 0 7px 22px rgba(255, 0, 61, 0.40);
+}
+
+.buttons #join:hover {
+  transform: translateY(-2px);
+  background: #260a11;
+  border-color: #ff3159;
+  box-shadow: 0 5px 18px rgba(255, 0, 61, 0.18);
+}
+
+.buttons #create:active,
+.buttons #join:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  .buttons {
+    flex-direction: column;
+  }
+
+  .buttons #create,
+  .buttons #join {
     width: 100%;
-    margin-top: 14px;
-}
-
-.buttons button {
-    flex: 1;
-    height: 48px;
-
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 800;
-    font-family: inherit;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
-}
-
-
-/* CRIAR NOVA SALA */
-#create {
-    background: linear-gradient(135deg, #ff1748, #e6003d) !important;
-
-    color: #ffffff !important;
-
-    border: 1px solid #ff3159 !important;
-
-    box-shadow:
-        0 5px 15px rgba(255, 0, 61, 0.22);
-}
-
-
-/* ENTRAR NA SALA */
-#join {
-    background: #16070b !important;
-
-    color: #ffffff !important;
-
-    border: 1px solid #d71942 !important;
-
-    box-shadow: none;
-}
-
-
-/* HOVER CRIAR */
-#create:hover {
-    background: linear-gradient(135deg, #ff3159, #f00046) !important;
-
-    box-shadow:
-        0 7px 22px rgba(255, 0, 61, 0.4);
-
-    transform: translateY(-1px);
-}
-
-
-/* HOVER ENTRAR */
-#join:hover {
-    background: #260a11 !important;
-
-    border-color: #ff3159 !important;
-
-    box-shadow:
-        0 5px 18px rgba(255, 0, 61, 0.18);
-
-    transform: translateY(-1px);
-}
-
-
-/* QUANDO CLICAR */
-#create:active,
-#join:active {
-    transform: translateY(1px);
+  }
 }
