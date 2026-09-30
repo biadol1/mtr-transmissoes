@@ -3053,3 +3053,276 @@ body {
     inset 0 0 35px rgba(255, 0, 45, .10),
     0 0 22px rgba(255, 0, 45, .10) !important;
 }
+/* =========================================================
+   MTR — PALCO NO ESTILO DA REFERÊNCIA
+========================================================= */
+
+.stage {
+  position: relative !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, .12),
+      rgba(0, 0, 0, .18)
+    ),
+    url("mtr-background.png") center center / cover no-repeat !important;
+
+  border: 1px solid rgba(255, 25, 60, .55) !important;
+
+  box-shadow:
+    inset 0 0 100px rgba(0, 0, 0, .45),
+    inset 0 0 45px rgba(255, 0, 40, .08),
+    0 0 25px rgba(255, 0, 40, .12) !important;
+}
+
+
+/* CAMADA DE TEXTURA */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 1;
+
+  background:
+
+    /* riscos diagonais */
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 42px,
+      rgba(255, 20, 50, .025) 43px,
+      transparent 45px
+    ),
+
+    /* brilho vermelho nas bordas */
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(255, 0, 40, .12),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 92% 15%,
+      rgba(255, 0, 40, .12),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(255, 0, 40, .08),
+      transparent 35%
+    );
+}
+
+
+/* =========================================================
+   DETALHES VERMELHOS NO FUNDO
+========================================================= */
+
+.stage::after {
+  content:
+    "+    ✦        +             ✦      +"
+    "\A"
+    "      +             ✦        +"
+    "\A"
+    " ✦          +                  ✦";
+
+  white-space: pre;
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 20px;
+
+  color: rgba(255, 20, 55, .32);
+
+  font-size: 22px;
+  letter-spacing: 55px;
+  line-height: 150px;
+
+  text-shadow:
+    0 0 7px rgba(255, 0, 40, .45),
+    0 0 18px rgba(255, 0, 40, .18);
+
+  opacity: .65;
+}
+
+
+/* =========================================================
+   TELA SEM TRANSMISSÃO
+========================================================= */
+
+.empty-stage {
+  position: absolute !important;
+  inset: 0 !important;
+
+  z-index: 5 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
+  justify-content: center !important;
+  align-items: center !important;
+
+  text-align: center !important;
+
+  padding: 30px !important;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 0, 40, .045),
+      transparent 45%
+    );
+}
+
+
+/* =========================================================
+   LOGO CENTRAL
+========================================================= */
+
+.empty-stage .stage-logo,
+.empty-stage img.stage-logo {
+  width: min(360px, 42%) !important;
+  max-width: 360px !important;
+
+  height: auto !important;
+  max-height: 190px !important;
+
+  object-fit: contain !important;
+
+  margin: 0 auto 12px !important;
+
+  filter:
+    drop-shadow(0 0 7px rgba(255, 0, 35, .95))
+    drop-shadow(0 0 20px rgba(255, 0, 35, .65))
+    drop-shadow(0 0 45px rgba(255, 0, 35, .25)) !important;
+
+  animation: mtrLogoGlow 3s ease-in-out infinite;
+}
+
+
+/* brilho pulsando */
+@keyframes mtrLogoGlow {
+
+  0%,
+  100% {
+    filter:
+      drop-shadow(0 0 7px rgba(255, 0, 35, .85))
+      drop-shadow(0 0 20px rgba(255, 0, 35, .50))
+      drop-shadow(0 0 40px rgba(255, 0, 35, .18));
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 10px rgba(255, 0, 35, 1))
+      drop-shadow(0 0 30px rgba(255, 0, 35, .75))
+      drop-shadow(0 0 55px rgba(255, 0, 35, .30));
+  }
+}
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.empty-stage strong {
+  position: relative !important;
+
+  margin: 2px 0 8px !important;
+
+  color: #fff !important;
+
+  font-size: clamp(24px, 2.4vw, 34px) !important;
+
+  font-weight: 900 !important;
+
+  letter-spacing: -.5px;
+
+  text-shadow:
+    0 3px 12px rgba(0, 0, 0, .95),
+    0 0 15px rgba(255, 255, 255, .04) !important;
+}
+
+
+/* palavra "ainda" vermelha */
+.empty-stage strong::after {
+  content: "";
+}
+
+
+/* =========================================================
+   TEXTO ABAIXO
+========================================================= */
+
+.empty-stage p {
+  margin: 0 !important;
+
+  max-width: 500px;
+
+  color: rgba(255, 255, 255, .72) !important;
+
+  font-size: 11px !important;
+
+  line-height: 1.5;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, .9);
+}
+
+
+/* =========================================================
+   DETALHE VERMELHO ABAIXO DO TEXTO
+========================================================= */
+
+.empty-stage p::after {
+  content: "✦";
+
+  display: block;
+
+  margin: 13px auto 0;
+
+  color: #ff1748;
+
+  font-size: 17px;
+
+  text-shadow:
+    0 0 7px #ff1748,
+    0 0 18px rgba(255, 0, 40, .75);
+
+  animation: mtrSpark 2s ease-in-out infinite;
+}
+
+@keyframes mtrSpark {
+
+  0%,
+  100% {
+    opacity: .45;
+    transform: scale(.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+
+/* =========================================================
+   DEIXA OS VÍDEOS ACIMA DO FUNDO
+========================================================= */
+
+#videos {
+  position: relative !important;
+  z-index: 10 !important;
+}
