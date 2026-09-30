@@ -191,19 +191,36 @@ function bindRoomEvents(room) {
       participant
     ) => {
 
-      if (
-        track.kind ===
-        LK.Track.Kind.Video
-      ) {
+     if (track.kind === LK.Track.Kind.Video) {
+  attachVideo(track, participant);
+}
 
-        attachVideo(
-          track,
-          participant
-        );
-      }
+if (track.kind === LK.Track.Kind.Audio) {
+  const audio = track.attach();
 
-      updatePeople();
-      updateStage();
+  audio.autoplay = true;
+  audio.controls = false;
+  audio.volume = Number($("volume")?.value || 75) / 100;
+
+  document.body.appendChild(audio);
+
+  audio.play().catch(() => {
+    console.log("Áudio aguardando interação do usuário.");
+
+    document.addEventListener(
+      "click",
+      () => {
+        audio.play().catch(() => {});
+      },
+      { once: true }
+    );
+  });
+
+  console.log("ÁUDIO DA TRANSMISSÃO RECEBIDO");
+}
+
+updatePeople();
+updateStage();
     }
   );
 
