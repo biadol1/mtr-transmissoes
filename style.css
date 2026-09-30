@@ -1075,3 +1075,39 @@ button {
   margin-left: auto !important;
   margin-right: auto !important;
 }
+/* =====================================================
+   CORREÇÃO DEFINITIVA — BOTÃO COMPARTILHAR TELA
+   ===================================================== */
+
+/* A área dos vídeos não pode bloquear os controles
+   quando não existe transmissão */
+#videos:empty {
+    pointer-events: none;
+}
+
+/* Garante que a tela inicial fique acima da área de vídeo */
+.empty-state,
+.empty,
+.placeholder,
+.no-stream {
+    position: relative;
+    z-index: 20;
+    pointer-events: none;
+}
+
+/* Mas o botão precisa continuar recebendo clique */
+#share,
+.share-button {
+    position: relative !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* Elementos clicáveis dentro da tela inicial */
+.empty-state button,
+.empty button,
+.placeholder button,
+.no-stream button {
+    pointer-events: auto !important;
+}
