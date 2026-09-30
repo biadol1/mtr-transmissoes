@@ -1368,13 +1368,12 @@ function mtrCreateStreamSelector() {
     return;
   }
 
-  const videos =
-    document.getElementById("videos");
+  const sideContainer =
+    document.getElementById(
+      "streamControlsSide"
+    );
 
-  if (
-    !videos ||
-    !videos.parentElement
-  ) {
+  if (!sideContainer) {
     return;
   }
 
@@ -1407,9 +1406,8 @@ function mtrCreateStreamSelector() {
      mas NÃO cobre os controles.
   */
 
-  videos.parentElement.insertBefore(
-    selector,
-    videos
+  sideContainer.appendChild(
+    selector
   );
 
   document
@@ -1730,21 +1728,17 @@ mtrSelectorStyle.textContent = `
 
   z-index: 20;
 
-  width: auto;
+  width: 100%;
 
-  margin:
-    0 12px 12px 12px;
+  margin: 0;
 
-  padding: 12px;
+  padding: 0;
 
-  border:
-    1px solid
-    rgba(255,35,70,.45);
+  border: 0;
 
-  border-radius: 12px;
+  border-radius: 0;
 
-  background:
-    rgba(10,3,6,.94);
+  background: transparent;
 
   box-sizing:
     border-box;
@@ -1769,7 +1763,9 @@ mtrSelectorStyle.textContent = `
 
   display: flex;
 
-  flex-wrap: wrap;
+  flex-direction: column;
+
+  width: 100%;
 
   gap: 8px;
 
@@ -1778,6 +1774,8 @@ mtrSelectorStyle.textContent = `
 
 .mtr-stream-button,
 #mtrStopWatching {
+
+  width: 100%;
 
   position: relative;
 
@@ -1829,7 +1827,7 @@ mtrSelectorStyle.textContent = `
 
 #mtrStopWatching {
 
-  margin-top: 9px;
+  margin-top: 8px;
 
   background:
     #090909;
