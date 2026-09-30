@@ -1,85 +1,143 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
   <title>MTR Stream</title>
-  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 </head>
 
 <body>
 
-  <!-- TELA DE ENTRADA -->
-  <section id="landing" class="welcome-screen">
+  <!-- =========================
+       TELA DE ENTRADA
+  ========================== -->
+
+  <section
+    id="landing"
+    class="welcome-screen"
+  >
+
     <div class="welcome-overlay"></div>
 
     <div class="welcome-card">
 
-      <!-- LOGO REAL -->
       <img
         src="mtr-logo.png"
-        class="welcome-logo"
         alt="MTR Stream"
+        class="welcome-logo"
       >
 
-      <h1>Como você quer aparecer na sala?</h1>
+      <h1>
+        Como você quer aparecer na sala?
+      </h1>
 
-      <label for="name">Seu nome</label>
+      <label for="name">
+        SEU NOME
+      </label>
 
       <input
         id="name"
+        type="text"
         maxlength="24"
         placeholder="Ex.: Sakura"
         autocomplete="nickname"
       >
 
+
       <div class="room-entry">
-        <label for="roomCode">Código da sala</label>
+
+        <label for="roomCode">
+          CÓDIGO DA SALA
+        </label>
 
         <input
           id="roomCode"
+          type="text"
           maxlength="32"
           placeholder="Ex.: MTR-01"
         >
+
       </div>
 
-      <div class="welcome-buttons">
-        <button id="create">
+
+      <div class="buttons">
+
+        <button
+          id="create"
+          type="button"
+        >
           Criar nova sala
         </button>
 
-        <button id="join" class="secondary">
+        <button
+          id="join"
+          type="button"
+          class="secondary"
+        >
           Entrar na sala
         </button>
+
       </div>
 
-      <p id="msg" class="message"></p>
+
+      <p
+        id="msg"
+        class="message"
+      ></p>
 
     </div>
+
   </section>
 
 
-  <!-- SALA -->
-  <main id="roomView" class="stream-app hidden">
+  <!-- =========================
+       SALA
+  ========================== -->
+
+  <main
+    id="roomView"
+    class="stream-app hidden"
+  >
+
 
     <!-- TOPO -->
+
     <header class="topbar">
 
       <img
         src="mtr-logo.png"
-        class="top-logo-img"
         alt="MTR Stream"
+        class="top-logo"
       >
 
       <div class="top-status">
 
-        <div id="count" class="viewer-count">
-          👥 1 / 6 assistindo
+        <div
+          id="count"
+          class="viewer-count"
+        >
+          👥 1/6 assistindo
         </div>
 
         <div class="offline-badge">
+
           <span class="status-dot"></span>
-          <span id="status">ONLINE</span>
+
+          <span id="status">
+            ONLINE
+          </span>
+
         </div>
 
       </div>
@@ -89,28 +147,44 @@
 
     <div class="stream-layout">
 
-      <!-- MENU LATERAL -->
+
+      <!-- =========================
+           BARRA LATERAL
+      ========================== -->
+
       <aside class="sidebar">
 
-        <h2 id="roomTitle">Sala MTR</h2>
+
+        <h2 id="roomTitle">
+          Sala MTR
+        </h2>
 
 
         <!-- CONVITE -->
+
         <div class="invite-card">
 
           <div class="invite-icon">
             🔗
           </div>
 
-          <div class="invite-text">
-            <strong>Convide sua turma</strong>
+          <div>
+
+            <strong>
+              Convide sua turma
+            </strong>
 
             <p>
               Copie o link da sala e mande para a galera.
             </p>
+
           </div>
 
-          <button id="invite" class="invite-button">
+          <button
+            id="invite"
+            type="button"
+            class="invite-button"
+          >
             Copiar convite
           </button>
 
@@ -118,11 +192,14 @@
 
 
         <!-- PESSOAS -->
+
         <section class="side-section">
 
           <div class="section-title">
 
-            <h3>Na sala</h3>
+            <h3>
+              Na sala
+            </h3>
 
             <span id="sideCount">
               1/6
@@ -130,23 +207,47 @@
 
           </div>
 
-          <div id="people" class="people"></div>
 
-          <div class="empty-slots">
-            <div class="empty-slot">＋ Vaga disponível</div>
-            <div class="empty-slot">＋ Vaga disponível</div>
-            <div class="empty-slot">＋ Vaga disponível</div>
-            <div class="empty-slot">＋ Vaga disponível</div>
-            <div class="empty-slot">＋ Vaga disponível</div>
+          <div
+            id="people"
+            class="people"
+          ></div>
+
+
+          <div class="empty-slot">
+            ＋ Vaga disponível
+          </div>
+
+          <div class="empty-slot">
+            ＋ Vaga disponível
+          </div>
+
+          <div class="empty-slot">
+            ＋ Vaga disponível
+          </div>
+
+          <div class="empty-slot">
+            ＋ Vaga disponível
+          </div>
+
+          <div class="empty-slot">
+            ＋ Vaga disponível
           </div>
 
         </section>
 
 
-        <!-- CONFIGURAÇÃO -->
-        <section class="side-section settings-section">
+        <!-- =========================
+             CONFIGURAÇÕES
+        ========================== -->
 
-          <h3>Configurar transmissão</h3>
+        <section
+          class="side-section settings-section"
+        >
+
+          <h3>
+            Configurar transmissão
+          </h3>
 
 
           <label for="shareMode">
@@ -214,29 +315,49 @@
               checked
             >
 
-            <span>
-              Reduzir qualidade se a conexão piorar
-            </span>
+            Reduzir qualidade se a conexão piorar
 
           </label>
 
 
-          <!-- INFORMAÇÕES DE ÁUDIO -->
           <div class="audio-info">
 
             <div>
-              <span>🎙 Microfone</span>
-              <strong>Desligado</strong>
+
+              <span>
+                🎙 Microfone
+              </span>
+
+              <strong>
+                Desligado
+              </strong>
+
             </div>
 
-            <div>
-              <span>🔊 Áudio da call</span>
-              <strong>Não capturar</strong>
-            </div>
 
             <div>
-              <span>🎮 Áudio da janela</span>
-              <strong>Aguardando</strong>
+
+              <span>
+                🔊 Áudio da call
+              </span>
+
+              <strong>
+                Não capturar
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                🎮 Áudio da janela
+              </span>
+
+              <strong>
+                Aguardando
+              </strong>
+
             </div>
 
           </div>
@@ -244,41 +365,68 @@
         </section>
 
 
-        <button id="leave" class="leave-button">
+        <button
+          id="leave"
+          type="button"
+          class="leave-button"
+        >
           Sair da sala
         </button>
 
       </aside>
 
 
-      <!-- TRANSMISSÃO -->
+      <!-- =========================
+           ÁREA PRINCIPAL
+      ========================== -->
+
       <section class="main-stream">
 
-        <div class="selected-window">
+
+        <div
+          id="selectedWindow"
+          class="selected-window"
+        >
           Nenhuma janela selecionada
         </div>
 
 
         <div class="stage">
 
-          <!-- TELA QUANDO NINGUÉM TRANSMITE -->
-          <div id="emptyStage" class="empty-stage">
+
+          <!-- SEM TRANSMISSÃO -->
+
+          <div
+            id="emptyStage"
+            class="empty-stage"
+          >
 
             <img
               src="mtr-logo.png"
-              class="stage-logo-img"
               alt="MTR Stream"
+              class="stage-logo"
             >
+
 
             <strong>
               Ninguém está compartilhando ainda
             </strong>
 
+
             <p>
-              Escolha uma janela ou tela inteira para começar sua transmissão.
+              Escolha uma janela ou tela inteira para
+              começar sua transmissão.
             </p>
 
-            <button id="share" class="share-button">
+
+            <!-- BOTÃO PRINCIPAL -->
+
+            <button
+              id="share"
+              type="button"
+              class="share-button"
+              onclick="startMTRShare()"
+            >
               🖥 Compartilhar tela
             </button>
 
@@ -286,12 +434,17 @@
 
 
           <!-- VÍDEOS -->
-          <div id="videos" class="videos"></div>
+
+          <div
+            id="videos"
+            class="videos"
+          ></div>
 
         </div>
 
 
         <!-- CONTROLES -->
+
         <div class="bottom-controls">
 
           <div class="volume-control">
@@ -308,11 +461,12 @@
               value="75"
             >
 
-            <span class="fullscreen-icon">
+            <span>
               ⛶
             </span>
 
           </div>
+
 
           <p>
             A transmissão só começa quando você autorizar.
@@ -333,11 +487,96 @@
   </main>
 
 
-  <!-- LIVEKIT -->
-  <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+  <!-- =========================
+       LIVEKIT
+  ========================== -->
 
-  <!-- NOSSO JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"
+  ></script>
+
+
+  <!-- APP -->
+
   <script src="app.js"></script>
 
+
+  <!-- =========================
+       BOTÃO DE EMERGÊNCIA
+       PARA COMPARTILHAMENTO
+  ========================== -->
+
+  <script>
+
+    window.startMTRShare = async function () {
+
+      console.log(
+        "BOTÃO HTML COMPARTILHAR CLICADO"
+      );
+
+      /*
+       * Primeiro tentamos disparar o evento
+       * configurado pelo app.js.
+       */
+
+      const button =
+        document.getElementById("share");
+
+      if (
+        button &&
+        typeof button.onclick === "function" &&
+        button.onclick !== window.startMTRShare
+      ) {
+
+        return;
+
+      }
+
+      /*
+       * Caso o app.js não tenha registrado
+       * corretamente o clique, testamos
+       * diretamente o seletor do navegador.
+       */
+
+      try {
+
+        console.log(
+          "Abrindo seletor de compartilhamento..."
+        );
+
+        const stream =
+          await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: true
+          });
+
+        console.log(
+          "Tela selecionada com sucesso.",
+          stream
+        );
+
+        /*
+         * Este fallback confirma que o botão
+         * consegue abrir o seletor.
+         */
+
+        stream
+          .getTracks()
+          .forEach(track => track.stop());
+
+      } catch (error) {
+
+        console.error(
+          "Erro no seletor de tela:",
+          error
+        );
+
+      }
+
+    };
+
+  </script>
+
 </body>
+
 </html>
