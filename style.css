@@ -1,18 +1,25 @@
+/* =========================================================
+   MTR STREAM - STYLE.CSS COMPLETO
+   ========================================================= */
+
 * {
   box-sizing: border-box;
 }
 
 :root {
   --red: #ff1738;
-  --red2: #bd001f;
-  --dark-red: #5e0011;
+  --red-dark: #a90020;
+  --red-deep: #5b0012;
   --black: #050506;
-  --border: rgba(255, 35, 65, 0.55);
+  --panel: rgba(28, 2, 9, 0.94);
+  --border: rgba(255, 23, 56, 0.55);
+  --text-soft: #d7c9cc;
 }
 
 html,
 body {
   margin: 0;
+  padding: 0;
   width: 100%;
   min-height: 100%;
 }
@@ -21,7 +28,15 @@ body {
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
   color: #fff;
-  background: #050506;
+
+  background:
+    linear-gradient(
+      rgba(5, 0, 2, 0.20),
+      rgba(5, 0, 2, 0.35)
+    ),
+    url("mtr-background.png") center center / cover fixed no-repeat;
+
+  overflow-x: hidden;
 }
 
 button,
@@ -38,25 +53,27 @@ button {
   display: none !important;
 }
 
-
-/* =========================
-   TELA DE ENTRADA
-========================= */
+/* =========================================================
+   TELA INICIAL
+   ========================================================= */
 
 .welcome-screen {
-  position: relative;
-  min-height: 100vh;
   width: 100%;
+  min-height: 100vh;
 
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  position: relative;
   padding: 30px 20px;
 
-  background-image: url("./mtr-background.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.22)
+    ),
+    url("mtr-background.png") center center / cover no-repeat;
 }
 
 .welcome-overlay {
@@ -67,61 +84,65 @@ button {
   background:
     radial-gradient(
       circle at center,
-      transparent 20%,
-      rgba(0, 0, 0, 0.25) 100%
+      rgba(255, 0, 35, 0.08),
+      transparent 42%
     );
 }
-
-
-/* =========================
-   CARD DE ENTRADA
-========================= */
 
 .welcome-card {
   position: relative;
   z-index: 2;
 
-  width: min(470px, 94vw);
+  width: min(520px, 94vw);
+  padding: 32px;
 
-  padding: 28px 32px 32px;
-
-  border: 1px solid rgba(255, 45, 75, 0.65);
-  border-radius: 16px;
+  border-radius: 17px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(70, 5, 18, 0.88),
-      rgba(8, 5, 7, 0.94)
+      rgba(84, 0, 20, 0.94),
+      rgba(14, 3, 7, 0.97)
     );
 
-  backdrop-filter: blur(7px);
+  border: 1px solid rgba(255, 40, 70, 0.78);
 
   box-shadow:
-    0 0 55px rgba(255, 0, 40, 0.30),
-    inset 0 0 35px rgba(255, 0, 40, 0.05);
+    0 0 50px rgba(255, 0, 40, 0.22),
+    inset 0 0 35px rgba(255, 0, 35, 0.08);
 }
 
-.welcome-logo {
-  display: block;
+/* =========================================================
+   LOGO DA TELA INICIAL
+   ========================================================= */
 
-  width: min(350px, 92%);
-  height: auto;
+.welcome-card .mtr-logo {
+  width: 100%;
+  height: 120px;
 
-  margin: -8px auto 12px;
+  margin: 0 auto 8px;
 
-  object-fit: contain;
+  font-size: 0;
+
+  background:
+    url("mtr-logo.png") center center / contain no-repeat;
 
   filter:
-    drop-shadow(0 0 14px rgba(255, 0, 40, 0.55));
+    drop-shadow(0 0 8px rgba(255, 0, 30, 0.75))
+    drop-shadow(0 0 20px rgba(255, 0, 30, 0.25));
+}
+
+.welcome-card .mtr-logo span {
+  display: none;
 }
 
 .welcome-card h1 {
-  margin: 0 0 24px;
+  margin: 8px 0 24px;
 
   text-align: center;
 
-  font-size: 22px;
+  font-size: 24px;
+  line-height: 1.2;
 }
 
 .welcome-card label {
@@ -129,310 +150,307 @@ button {
 
   margin: 14px 0 7px;
 
-  color: #ff9eae;
+  color: #ff8a99;
 
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 900;
+  letter-spacing: 1.2px;
 
   text-transform: uppercase;
-  letter-spacing: 0.8px;
 }
 
 .welcome-card input {
   width: 100%;
-  height: 50px;
+  height: 52px;
 
-  padding: 0 14px;
+  padding: 0 15px;
 
   color: #fff;
 
-  outline: none;
+  background: rgba(5, 3, 5, 0.92);
 
-  border: 1px solid rgba(255, 55, 80, 0.42);
+  border: 1px solid rgba(255, 50, 75, 0.55);
   border-radius: 8px;
 
-  background: rgba(3, 3, 4, 0.86);
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.welcome-card input::placeholder {
+  color: #777;
 }
 
 .welcome-card input:focus {
   border-color: var(--red);
 
   box-shadow:
-    0 0 0 3px rgba(255, 23, 56, 0.10),
-    0 0 18px rgba(255, 0, 40, 0.20);
+    0 0 0 3px rgba(255, 23, 56, 0.12),
+    0 0 16px rgba(255, 0, 40, 0.12);
 }
 
 .room-entry {
-  margin-top: 5px;
+  width: 100%;
 }
 
-.welcome-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+/* =========================================================
+   BOTÕES DA TELA INICIAL
+   ========================================================= */
 
-  gap: 10px;
+.welcome-card > button {
+  width: calc(50% - 6px);
+  min-height: 52px;
 
-  margin-top: 19px;
-}
+  margin-top: 18px;
 
-.welcome-buttons button {
-  min-height: 48px;
-
-  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 55, 80, 0.6);
 
   color: #fff;
 
-  border: 1px solid rgba(255, 65, 90, 0.65);
-  border-radius: 8px;
+  font-weight: 900;
 
   background:
     linear-gradient(
       135deg,
-      #d50028,
-      #ff3150
+      #d90029,
+      #ff294b
     );
 
-  font-weight: 900;
-
-  box-shadow:
-    0 0 18px rgba(255, 0, 40, 0.20);
-
-  transition: 0.18s;
+  transition: 0.2s;
 }
 
-.welcome-buttons button:hover {
+.welcome-card > button + button {
+  margin-left: 8px;
+}
+
+.welcome-card > button.secondary {
+  background: rgba(12, 8, 10, 0.94);
+}
+
+.welcome-card > button:hover {
   transform: translateY(-2px);
 
   box-shadow:
-    0 0 28px rgba(255, 0, 40, 0.45);
+    0 0 22px rgba(255, 23, 56, 0.38);
 }
 
-.welcome-buttons .secondary {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(28, 8, 13, 0.96),
-      rgba(7, 6, 7, 0.96)
-    );
+/* =========================================================
+   MENSAGENS
+   ========================================================= */
+
+.message {
+  color: #ff8494;
+
+  font-size: 13px;
+
+  margin-top: 13px;
 }
 
+.center {
+  text-align: center;
+}
 
-/* =========================
-   SALA
-========================= */
+/* =========================================================
+   APLICAÇÃO DA SALA
+   ========================================================= */
 
 .stream-app {
-  position: relative;
-
-  min-height: 100vh;
   width: 100%;
+  min-height: 100vh;
 
-  background-image: url("./mtr-background.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.22)
+    ),
+    url("mtr-background.png") center center / cover fixed no-repeat;
 }
 
-
-/* =========================
-   CABEÇALHO
-========================= */
+/* =========================================================
+   TOPO
+   ========================================================= */
 
 .topbar {
-  position: relative;
-  z-index: 10;
-
-  height: 84px;
+  height: 82px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  gap: 20px;
-
-  padding: 7px 24px;
-
-  border-bottom: 1px solid rgba(255, 35, 65, 0.55);
+  padding: 8px 25px;
 
   background:
     linear-gradient(
       90deg,
-      rgba(9, 3, 5, 0.93),
-      rgba(50, 4, 14, 0.88),
-      rgba(9, 3, 5, 0.93)
+      rgba(17, 1, 5, 0.98),
+      rgba(56, 0, 13, 0.96),
+      rgba(12, 1, 4, 0.98)
     );
 
-  backdrop-filter: blur(8px);
-
-  box-shadow:
-    0 6px 25px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(255, 25, 55, 0.5);
 }
 
-.top-logo-img {
-  width: 170px;
-  max-height: 72px;
+.top-logo {
+  width: 150px;
+  height: 65px;
 
-  object-fit: contain;
+  font-size: 0;
+
+  background:
+    url("mtr-logo.png") left center / contain no-repeat;
 
   filter:
-    drop-shadow(0 0 10px rgba(255, 0, 40, 0.5));
+    drop-shadow(0 0 8px rgba(255, 0, 35, 0.55));
+}
+
+.top-logo span {
+  display: none;
 }
 
 .top-status {
   display: flex;
   align-items: center;
-
-  gap: 10px;
+  gap: 12px;
 }
 
 .viewer-count,
 .offline-badge {
-  min-height: 38px;
+  min-height: 42px;
 
   display: flex;
   align-items: center;
+  justify-content: center;
 
-  padding: 0 14px;
+  padding: 0 18px;
 
-  border: 1px solid rgba(255, 50, 75, 0.42);
-  border-radius: 7px;
+  border-radius: 8px;
 
-  background: rgba(8, 6, 7, 0.82);
+  background: rgba(5, 5, 7, 0.78);
 
-  font-size: 12px;
-  font-weight: 800;
-}
+  border: 1px solid rgba(255, 45, 70, 0.48);
 
-.offline-badge {
-  gap: 8px;
+  font-size: 13px;
+  font-weight: 900;
 }
 
 .status-dot {
   width: 9px;
   height: 9px;
 
+  margin-right: 8px;
+
   border-radius: 50%;
 
-  background: var(--red);
+  background: #ff1744;
 
   box-shadow:
-    0 0 12px var(--red);
+    0 0 12px #ff1744;
 }
 
-
-/* =========================
+/* =========================================================
    LAYOUT
-========================= */
+   ========================================================= */
 
 .stream-layout {
-  position: relative;
-  z-index: 2;
-
   display: grid;
 
-  grid-template-columns: 275px minmax(0, 1fr);
+  grid-template-columns: 245px minmax(0, 1fr);
 
-  min-height: calc(100vh - 84px);
+  width: 100%;
+  min-height: calc(100vh - 82px);
 }
 
-
-/* =========================
-   MENU LATERAL
-========================= */
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
 
 .sidebar {
-  position: relative;
+  min-height: calc(100vh - 82px);
 
-  min-height: calc(100vh - 84px);
-
-  padding: 20px 17px;
-
-  overflow-y: auto;
-
-  border-right: 1px solid rgba(255, 35, 65, 0.55);
+  padding: 18px 16px;
 
   background:
     linear-gradient(
       180deg,
-      rgba(111, 4, 27, 0.86),
-      rgba(35, 3, 11, 0.92)
+      rgba(100, 0, 23, 0.95),
+      rgba(45, 0, 11, 0.97)
     );
 
-  backdrop-filter: blur(8px);
+  border-right: 1px solid rgba(255, 30, 60, 0.55);
 
-  box-shadow:
-    8px 0 30px rgba(0, 0, 0, 0.35);
+  overflow-y: auto;
 }
 
 .sidebar h2 {
   margin: 0 0 15px;
 
-  font-size: 16px;
+  font-size: 17px;
 }
-
-
-/* =========================
-   CONVITE
-========================= */
 
 .invite-card {
   padding: 16px;
 
-  border: 1px solid rgba(255, 110, 130, 0.55);
-  border-radius: 10px;
+  border-radius: 12px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(255, 35, 65, 0.14),
-      rgba(10, 4, 7, 0.30)
+      rgba(125, 3, 31, 0.82),
+      rgba(67, 0, 17, 0.82)
     );
+
+  border: 1px solid rgba(255, 65, 90, 0.5);
 }
 
 .invite-icon {
-  margin-bottom: 7px;
+  font-size: 24px;
 
-  font-size: 22px;
+  margin-bottom: 10px;
 }
 
-.invite-text strong {
+.invite-card strong {
   font-size: 14px;
 }
 
-.invite-text p {
-  margin: 6px 0 12px;
+.invite-card p {
+  margin: 8px 0 13px;
 
-  color: #dab8bf;
+  color: #efcbd1;
 
   font-size: 11px;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .invite-button {
   width: 100%;
 
-  padding: 10px;
+  padding: 12px;
 
-  color: #fff;
-
-  border: 1px solid rgba(255, 75, 100, 0.50);
   border-radius: 7px;
 
-  background: rgba(255, 25, 55, 0.15);
+  border: 1px solid rgba(255, 75, 100, 0.7);
 
-  font-weight: 800;
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(130, 0, 30, 0.9),
+      rgba(90, 0, 20, 0.9)
+    );
+
+  font-weight: 900;
 }
 
-
-/* =========================
-   SEÇÕES
-========================= */
+/* =========================================================
+   SEÇÕES DA LATERAL
+   ========================================================= */
 
 .side-section {
-  padding: 19px 0;
+  padding: 18px 0;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .section-title {
@@ -443,346 +461,368 @@ button {
   margin-bottom: 10px;
 }
 
+.section-title h3,
 .side-section h3 {
   margin: 0;
 
   font-size: 14px;
 }
 
-#sideCount {
-  color: #ff9cac;
-
+.section-title span {
   font-size: 11px;
   font-weight: 900;
 }
 
-
-/* =========================
+/* =========================================================
    PESSOAS
-========================= */
+   ========================================================= */
 
 .people {
-  display: grid;
+  display: flex;
+  flex-direction: column;
 
   gap: 6px;
 }
 
-.people span {
-  display: block;
+.people span,
+.empty-slot {
+  width: 100%;
 
   padding: 9px 10px;
 
-  border: 1px solid rgba(255, 65, 90, 0.38);
   border-radius: 6px;
 
-  background: rgba(80, 7, 22, 0.74);
+  font-size: 10px;
 
-  font-size: 11px;
+  background: rgba(50, 0, 12, 0.72);
+
+  border: 1px solid rgba(255, 60, 85, 0.3);
 }
 
-.empty-slots {
-  display: grid;
-
-  gap: 6px;
-
-  margin-top: 6px;
+.people span {
+  color: white;
 }
 
 .empty-slot {
-  padding: 8px 10px;
+  margin-top: 6px;
 
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 6px;
-
-  color: rgba(255, 255, 255, 0.45);
-
-  background: rgba(0, 0, 0, 0.18);
-
-  font-size: 10px;
+  color: rgba(255, 255, 255, 0.55);
 }
 
-
-/* =========================
+/* =========================================================
    CONFIGURAÇÕES
-========================= */
+   ========================================================= */
 
-.settings-section label {
+.settings-section label:not(.check-option) {
   display: block;
 
   margin: 13px 0 6px;
 
+  color: white;
+
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .settings-section select {
   width: 100%;
+  height: 39px;
 
-  padding: 10px;
+  padding: 0 10px;
 
-  color: #fff;
+  color: white;
 
-  outline: none;
+  background: rgba(20, 3, 8, 0.9);
 
-  border: 1px solid rgba(255, 55, 80, 0.38);
+  border: 1px solid rgba(255, 60, 85, 0.42);
+
   border-radius: 6px;
 
-  background: #250810;
+  outline: none;
 
   font-size: 10px;
 }
 
-.helper {
-  margin: 7px 0 0;
+.settings-section option {
+  color: white;
 
-  color: #cda6ae;
+  background: #180308;
+}
+
+.helper {
+  margin: 7px 0 13px;
+
+  color: #d5b8bd;
 
   font-size: 9px;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .check-option {
-  display: flex !important;
+  display: flex;
+  align-items: center;
 
-  align-items: flex-start;
+  gap: 8px;
 
-  gap: 7px;
+  margin-top: 13px;
 
-  line-height: 1.35;
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .check-option input {
-  margin-top: 1px;
-
   accent-color: var(--red);
 }
 
-
-/* =========================
-   ÁUDIO
-========================= */
+/* =========================================================
+   INFORMAÇÕES DE ÁUDIO
+   ========================================================= */
 
 .audio-info {
   margin-top: 16px;
 
-  padding: 11px;
+  padding: 12px;
 
-  border: 1px solid rgba(255, 55, 80, 0.30);
-  border-radius: 8px;
+  border-radius: 7px;
 
-  background: rgba(17, 4, 8, 0.52);
+  background: rgba(23, 2, 7, 0.72);
+
+  border: 1px solid rgba(255, 50, 80, 0.28);
 }
 
-.audio-info div {
+.audio-info > div {
   display: flex;
   justify-content: space-between;
 
   gap: 10px;
 
-  padding: 4px 0;
+  margin: 8px 0;
 
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .audio-info strong {
-  color: #ff9eae;
+  color: #ff9aaa;
 }
 
-
-/* =========================
+/* =========================================================
    SAIR
-========================= */
+   ========================================================= */
 
 .leave-button {
   width: 100%;
 
-  margin-top: 17px;
+  margin-top: 18px;
 
-  padding: 11px;
+  padding: 13px;
 
-  color: #ffb0bc;
+  color: #fff;
 
-  border: 1px solid rgba(255, 65, 90, 0.42);
+  background: rgba(25, 4, 8, 0.7);
+
+  border: 1px solid rgba(255, 70, 95, 0.55);
+
   border-radius: 7px;
-
-  background: rgba(20, 3, 7, 0.68);
 
   font-weight: 900;
 }
 
-
-/* =========================
+/* =========================================================
    ÁREA PRINCIPAL
-========================= */
+   ========================================================= */
 
 .main-stream {
   min-width: 0;
 
-  padding: 17px;
+  padding: 14px;
 
-  background: rgba(0, 0, 0, 0.10);
+  position: relative;
 }
 
 .selected-window {
-  height: 24px;
+  min-height: 28px;
 
-  color: #ff91a2;
+  display: flex;
+  align-items: center;
 
-  font-size: 11px;
+  padding: 0 10px;
+
+  color: #ff9cac;
+
+  font-size: 10px;
+
+  border-bottom: 1px solid rgba(255, 30, 60, 0.4);
 }
 
-
-/* =========================
+/* =========================================================
    PALCO
-========================= */
+   ========================================================= */
 
 .stage {
   position: relative;
 
   width: 100%;
 
-  height: calc(100vh - 175px);
-  min-height: 520px;
+  min-height: calc(100vh - 180px);
 
   overflow: hidden;
 
-  border: 1px solid rgba(255, 35, 65, 0.52);
-  border-radius: 13px;
+  border-radius: 12px;
 
-  background-image: url("./mtr-background.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  border: 1px solid rgba(255, 30, 60, 0.55);
 
-  box-shadow:
-    0 0 38px rgba(255, 0, 40, 0.12),
-    inset 0 0 60px rgba(0, 0, 0, 0.15);
-}
-
-.stage::after {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  z-index: 1;
-
-  pointer-events: none;
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.12),
+      rgba(0, 0, 0, 0.22)
+    ),
+    url("mtr-background.png") center center / cover no-repeat;
 
   box-shadow:
-    inset 0 0 70px rgba(0, 0, 0, 0.22);
+    inset 0 0 90px rgba(0, 0, 0, 0.35),
+    0 0 25px rgba(255, 0, 40, 0.1);
 }
 
-
-/* =========================
+/* =========================================================
    TELA VAZIA
-========================= */
+   ========================================================= */
 
 .empty-stage {
   position: absolute;
-  inset: 0;
 
-  z-index: 2;
+  inset: 0;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 
-  padding: 30px;
+  justify-content: center;
+  align-items: center;
 
   text-align: center;
+
+  padding: 35px;
 }
 
-.stage-logo-img {
-  width: min(480px, 65%);
-  height: auto;
+/* LOGO CENTRAL - TAMANHO CONTROLADO */
 
-  margin-bottom: 22px;
+.stage-logo {
+  width: min(390px, 48%);
+  height: 190px;
 
-  object-fit: contain;
+  margin: 0 auto 10px;
+
+  font-size: 0;
+
+  background:
+    url("mtr-logo.png") center center / contain no-repeat;
 
   filter:
-    drop-shadow(0 0 18px rgba(255, 0, 40, 0.55));
+    drop-shadow(0 0 10px rgba(255, 0, 30, 0.75))
+    drop-shadow(0 0 25px rgba(255, 0, 30, 0.28));
+}
+
+.stage-logo span {
+  display: none;
+}
+
+/* CASO A LOGO TENHA SIDO COLOCADA COMO IMG */
+
+.empty-stage img,
+.stage-logo img {
+  display: block;
+
+  width: min(390px, 55%) !important;
+  max-width: 390px !important;
+
+  height: auto !important;
+  max-height: 190px !important;
+
+  object-fit: contain !important;
+
+  margin: 0 auto 15px !important;
 }
 
 .empty-stage strong {
-  font-size: clamp(20px, 2.2vw, 30px);
+  display: block;
+
+  margin-top: 3px;
+
+  color: white;
+
+  font-size: clamp(22px, 2.3vw, 34px);
+  font-weight: 900;
 
   text-shadow:
-    0 3px 10px #000;
+    0 3px 12px rgba(0, 0, 0, 0.9);
 }
 
 .empty-stage p {
-  margin: 10px 0 22px;
+  margin: 10px 0 20px;
 
-  color: #e0d1d4;
+  color: #eee;
 
   font-size: 12px;
-
-  text-shadow:
-    0 2px 7px #000;
 }
 
-
-/* =========================
-   COMPARTILHAR
-========================= */
+/* =========================================================
+   BOTÃO COMPARTILHAR
+   ========================================================= */
 
 .share-button {
-  min-width: 210px;
+  min-width: 205px;
 
-  padding: 13px 23px;
+  padding: 15px 24px;
 
-  color: #fff;
+  border: 1px solid rgba(255, 80, 100, 0.85);
 
-  border: 1px solid #ff6078;
   border-radius: 8px;
+
+  color: white;
 
   background:
     linear-gradient(
       135deg,
-      #d80029,
-      #ff3150
+      #e4002d,
+      #ff3151
     );
 
-  box-shadow:
-    0 0 25px rgba(255, 0, 40, 0.36);
-
+  font-size: 15px;
   font-weight: 900;
 
-  transition: 0.18s;
+  box-shadow:
+    0 0 24px rgba(255, 0, 45, 0.3);
+
+  transition: 0.2s;
 }
 
 .share-button:hover {
   transform: translateY(-2px);
 
   box-shadow:
-    0 0 34px rgba(255, 0, 40, 0.55);
+    0 0 30px rgba(255, 0, 45, 0.48);
 }
 
-
-/* =========================
-   VÍDEOS
-========================= */
+/* =========================================================
+   VÍDEOS / COMPARTILHAMENTO
+   ========================================================= */
 
 .videos {
-  position: relative;
-
-  z-index: 3;
-
   width: 100%;
-  height: 100%;
+  min-height: calc(100vh - 180px);
 
   display: grid;
   place-items: center;
+
+  position: relative;
+
+  z-index: 3;
 }
 
 .video-card {
   position: relative;
 
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 180px);
 
   overflow: hidden;
 
@@ -801,32 +841,36 @@ button {
 .video-label {
   position: absolute;
 
-  left: 14px;
-  bottom: 14px;
+  left: 15px;
+  bottom: 15px;
 
-  padding: 7px 11px;
+  padding: 8px 12px;
 
-  color: #fff;
-
-  border: 1px solid rgba(255, 45, 70, 0.48);
-  border-radius: 6px;
+  border-radius: 7px;
 
   background: rgba(0, 0, 0, 0.78);
 
-  font-size: 11px;
+  border: 1px solid rgba(255, 30, 60, 0.55);
+
+  color: white;
+
+  font-size: 12px;
 }
 
-
-/* =========================
-   CONTROLES
-========================= */
+/* =========================================================
+   CONTROLES DE BAIXO
+   ========================================================= */
 
 .bottom-controls {
   display: flex;
   flex-direction: column;
+
+  justify-content: center;
   align-items: center;
 
-  padding-top: 11px;
+  gap: 6px;
+
+  padding: 10px;
 }
 
 .volume-control {
@@ -837,12 +881,11 @@ button {
 
   padding: 8px 14px;
 
-  color: #ff9cac;
-
-  border: 1px solid rgba(255, 45, 70, 0.38);
   border-radius: 999px;
 
-  background: rgba(28, 4, 9, 0.82);
+  background: rgba(18, 3, 7, 0.85);
+
+  border: 1px solid rgba(255, 50, 80, 0.42);
 
   font-size: 10px;
 }
@@ -851,140 +894,146 @@ button {
   accent-color: var(--red);
 }
 
-.fullscreen-icon {
-  font-size: 16px;
-}
-
 .bottom-controls p {
-  margin: 8px 0 0;
+  margin: 0;
 
-  color: #b99098;
+  color: #ff9aaa;
 
   font-size: 9px;
 }
 
+/* =========================================================
+   HOVERS
+   ========================================================= */
 
-/* =========================
-   MENSAGENS
-========================= */
+.invite-button:hover,
+.leave-button:hover {
+  box-shadow:
+    0 0 18px rgba(255, 20, 55, 0.25);
 
-.message {
-  min-height: 16px;
-
-  color: #ff8295;
-
-  font-size: 11px;
+  border-color: rgba(255, 75, 100, 0.85);
 }
 
-.center {
-  text-align: center;
-}
-
-
-/* =========================
-   SCROLL
-========================= */
-
-::-webkit-scrollbar {
-  width: 7px;
-}
-
-::-webkit-scrollbar-track {
-  background: #080305;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-
-  background:
-    linear-gradient(
-      #ff1738,
-      #820018
-    );
-}
-
-
-/* =========================
-   TABLET
-========================= */
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
 
 @media (max-width: 900px) {
+
+  .stream-layout {
+    grid-template-columns: 210px minmax(0, 1fr);
+  }
+
+  .stage-logo {
+    width: 55%;
+    height: 150px;
+  }
+
+  .empty-stage strong {
+    font-size: 23px;
+  }
+}
+
+/* =========================================================
+   CELULAR
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .welcome-card {
+    padding: 25px 20px;
+  }
+
+  .welcome-card .mtr-logo {
+    height: 95px;
+  }
+
+  .welcome-card h1 {
+    font-size: 20px;
+  }
+
+  .welcome-card > button {
+    width: 100%;
+  }
+
+  .welcome-card > button + button {
+    margin-left: 0;
+    margin-top: 9px;
+  }
 
   .topbar {
     height: auto;
 
-    padding: 10px 15px;
+    min-height: 70px;
 
-    flex-wrap: wrap;
+    padding: 8px 12px;
   }
 
-  .top-logo-img {
-    width: 140px;
+  .top-logo {
+    width: 105px;
+    height: 50px;
+  }
+
+  .top-status {
+    gap: 5px;
+  }
+
+  .viewer-count,
+  .offline-badge {
+    padding: 0 8px;
+
+    font-size: 9px;
   }
 
   .stream-layout {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
 
   .sidebar {
     min-height: auto;
 
-    border-right: 0;
-
-    border-bottom:
-      1px solid rgba(255, 35, 65, 0.5);
-  }
-
-  .stage {
-    height: 65vh;
-    min-height: 430px;
-  }
-}
-
-
-/* =========================
-   CELULAR
-========================= */
-
-@media (max-width: 560px) {
-
-  .welcome-card {
-    padding: 22px 18px;
-  }
-
-  .welcome-logo {
-    width: 260px;
-  }
-
-  .welcome-buttons {
-    grid-template-columns: 1fr;
-  }
-
-  .top-status {
-    width: 100%;
-  }
-
-  .viewer-count,
-  .offline-badge {
-    flex: 1;
-
-    justify-content: center;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 30, 60, 0.5);
   }
 
   .main-stream {
-    padding: 9px;
+    padding: 8px;
   }
 
   .stage {
-    height: 58vh;
-    min-height: 380px;
+    min-height: 60vh;
   }
 
-  .stage-logo-img {
-    width: 80%;
+  .empty-stage {
+    padding: 20px;
+  }
+
+  .stage-logo {
+    width: 75%;
+    height: 130px;
+  }
+
+  .empty-stage img,
+  .stage-logo img {
+    width: 75% !important;
+    max-width: 300px !important;
+    max-height: 130px !important;
   }
 
   .empty-stage strong {
-    font-size: 18px;
+    font-size: 21px;
+  }
+
+  .empty-stage p {
+    font-size: 11px;
+  }
+
+  .videos {
+    min-height: 60vh;
+  }
+
+  .video-card {
+    height: 60vh;
   }
 }
