@@ -1213,3 +1213,86 @@ button {
     background: #290810 !important;
     border-color: #ff3157 !important;
 }
+/* =========================
+   BOTÕES DA TELA DE ENTRADA
+   ========================= */
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: 14px;
+}
+
+.buttons button {
+    flex: 1;
+    height: 48px;
+
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 800;
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+/* CRIAR NOVA SALA */
+#create {
+    background: linear-gradient(135deg, #ff1748, #e6003d) !important;
+
+    color: #ffffff !important;
+
+    border: 1px solid #ff3159 !important;
+
+    box-shadow:
+        0 5px 15px rgba(255, 0, 61, 0.22);
+}
+
+
+/* ENTRAR NA SALA */
+#join {
+    background: #16070b !important;
+
+    color: #ffffff !important;
+
+    border: 1px solid #d71942 !important;
+
+    box-shadow: none;
+}
+
+
+/* HOVER CRIAR */
+#create:hover {
+    background: linear-gradient(135deg, #ff3159, #f00046) !important;
+
+    box-shadow:
+        0 7px 22px rgba(255, 0, 61, 0.4);
+
+    transform: translateY(-1px);
+}
+
+
+/* HOVER ENTRAR */
+#join:hover {
+    background: #260a11 !important;
+
+    border-color: #ff3159 !important;
+
+    box-shadow:
+        0 5px 18px rgba(255, 0, 61, 0.18);
+
+    transform: translateY(-1px);
+}
+
+
+/* QUANDO CLICAR */
+#create:active,
+#join:active {
+    transform: translateY(1px);
+}
