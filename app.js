@@ -780,7 +780,32 @@ surfaceSwitching: "include"
 
     const audioTrack =
       stream.getAudioTracks()[0];
+console.log(
+  "🎵 Áudios capturados:",
+  stream.getAudioTracks()
+);
 
+console.log(
+  "🎵 audioTrack:",
+  audioTrack
+);
+
+if (audioTrack) {
+  console.log(
+    "🎵 AUDIO ATIVO:",
+    audioTrack.label,
+    "enabled:",
+    audioTrack.enabled,
+    "muted:",
+    audioTrack.muted,
+    "readyState:",
+    audioTrack.readyState
+  );
+} else {
+  console.error(
+    "❌ NENHUM ÁUDIO FOI CAPTURADO PELO NAVEGADOR"
+  );
+}
 
     if (!videoTrack) {
 
