@@ -2757,3 +2757,299 @@ body {
 
   transition: .2s ease;
 }
+/* =========================================================
+   MTR — TEXTURA FORTE NAS ÁREAS DA LATERAL
+========================================================= */
+
+/* LATERAL */
+.sidebar {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(55, 0, 15, .96),
+      rgba(8, 2, 6, .98)
+    ) !important;
+
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* textura da lateral */
+.sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 20px,
+      rgba(255, 20, 55, .055) 21px,
+      rgba(255, 20, 55, .055) 23px,
+      transparent 24px,
+      transparent 45px
+    ),
+
+    radial-gradient(
+      ellipse at 0% 10%,
+      rgba(255, 0, 45, .20),
+      transparent 32%
+    ),
+
+    radial-gradient(
+      ellipse at 100% 55%,
+      rgba(255, 0, 45, .13),
+      transparent 35%
+    );
+}
+
+
+/* =========================================================
+   TODOS OS CARDS
+========================================================= */
+
+.invite-card,
+.stream-side-section,
+.settings-section {
+  position: relative !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(50, 2, 14, .90),
+      rgba(8, 3, 7, .94)
+    ) !important;
+
+  border: 1px solid rgba(255, 35, 70, .50) !important;
+
+  box-shadow:
+    inset 0 0 30px rgba(255, 0, 40, .07),
+    0 0 16px rgba(0, 0, 0, .30) !important;
+}
+
+
+/* TEXTURA FORTE DENTRO DOS CARDS */
+
+.invite-card::before,
+.stream-side-section::before,
+.settings-section::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+
+    /* riscos diagonais */
+    repeating-linear-gradient(
+      125deg,
+      transparent 0px,
+      transparent 13px,
+      rgba(255, 255, 255, .025) 14px,
+      rgba(255, 20, 50, .055) 15px,
+      transparent 17px,
+      transparent 32px
+    ),
+
+    /* faixas maiores */
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 45px,
+      rgba(255, 0, 40, .035) 46px,
+      transparent 49px
+    ),
+
+    /* manchas vermelhas */
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(255, 0, 45, .18),
+      transparent 28%
+    ),
+
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(255, 0, 45, .12),
+      transparent 25%
+    );
+}
+
+
+/* brilho diagonal passando pelos cards */
+
+.invite-card::after,
+.stream-side-section::after,
+.settings-section::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150%;
+  height: 2px;
+
+  left: -25%;
+  top: 35%;
+
+  transform: rotate(-18deg);
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 35, 65, .16),
+      transparent
+    );
+
+  box-shadow:
+    0 35px 0 rgba(255, 0, 40, .05),
+    0 -35px 0 rgba(255, 0, 40, .035);
+
+  opacity: .9;
+}
+
+
+/* conteúdo sempre acima da textura */
+
+.invite-card > *,
+.stream-side-section > *,
+.settings-section > * {
+  position: relative;
+  z-index: 3;
+}
+
+
+/* =========================================================
+   NA SALA — TEXTURA NOS ESPAÇOS
+========================================================= */
+
+.side-section:not(.stream-side-section):not(.settings-section) {
+  position: relative !important;
+}
+
+
+/* pequenas linhas decorativas */
+.side-section:not(.stream-side-section):not(.settings-section)::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0px,
+      transparent 18px,
+      rgba(255, 20, 50, .035) 19px,
+      transparent 21px,
+      transparent 40px
+    );
+}
+
+
+/* =========================================================
+   VAGAS
+========================================================= */
+
+.empty-slot {
+  position: relative !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(60, 0, 18, .65),
+      rgba(10, 2, 7, .80)
+    ) !important;
+
+  border-color:
+    rgba(255, 35, 70, .28) !important;
+}
+
+.empty-slot::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(255, 30, 60, .045) 11px,
+      transparent 13px,
+      transparent 25px
+    );
+}
+
+
+/* =========================================================
+   TRANSMISSÕES — MAIS BRILHO
+========================================================= */
+
+.stream-side-section {
+  box-shadow:
+    inset 0 0 35px rgba(255, 0, 45, .10),
+    0 0 18px rgba(255, 0, 45, .08) !important;
+}
+
+
+/* =========================================================
+   CONFIGURAÇÕES
+========================================================= */
+
+.settings-section {
+  box-shadow:
+    inset 0 0 35px rgba(255, 0, 45, .075),
+    0 0 18px rgba(0, 0, 0, .30) !important;
+}
+
+
+/* =========================================================
+   EFEITO NOS SELECTS
+========================================================= */
+
+.settings-section select {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(50, 0, 15, .85),
+      rgba(5, 2, 6, .95)
+    ) !important;
+
+  border-color:
+    rgba(255, 40, 70, .42) !important;
+
+  box-shadow:
+    inset 0 0 14px rgba(255, 0, 40, .055) !important;
+}
+
+
+/* =========================================================
+   EFEITO HOVER
+========================================================= */
+
+.invite-card:hover,
+.stream-side-section:hover,
+.settings-section:hover {
+  border-color:
+    rgba(255, 60, 85, .70) !important;
+
+  box-shadow:
+    inset 0 0 35px rgba(255, 0, 45, .10),
+    0 0 22px rgba(255, 0, 45, .10) !important;
+}
