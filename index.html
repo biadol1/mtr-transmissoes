@@ -2,23 +2,30 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MTR Stream</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- TELA PARA COLOCAR O NOME -->
+  <!-- TELA DE ENTRADA -->
   <section id="landing" class="welcome-screen">
     <div class="welcome-overlay"></div>
 
     <div class="welcome-card">
-      <div class="mtr-logo">MTR <span>STREAM</span></div>
+
+      <!-- LOGO REAL -->
+      <img
+        src="mtr-logo.png"
+        class="welcome-logo"
+        alt="MTR Stream"
+      >
 
       <h1>Como você quer aparecer na sala?</h1>
 
       <label for="name">Seu nome</label>
+
       <input
         id="name"
         maxlength="24"
@@ -28,6 +35,7 @@
 
       <div class="room-entry">
         <label for="roomCode">Código da sala</label>
+
         <input
           id="roomCode"
           maxlength="32"
@@ -35,33 +43,45 @@
         >
       </div>
 
-      <button id="create">Criar nova sala</button>
-      <button id="join" class="secondary">Entrar na sala</button>
+      <div class="welcome-buttons">
+        <button id="create">
+          Criar nova sala
+        </button>
+
+        <button id="join" class="secondary">
+          Entrar na sala
+        </button>
+      </div>
 
       <p id="msg" class="message"></p>
+
     </div>
   </section>
 
 
-  <!-- SALA DE TRANSMISSÃO -->
+  <!-- SALA -->
   <main id="roomView" class="stream-app hidden">
 
     <!-- TOPO -->
     <header class="topbar">
 
-      <div class="mtr-logo top-logo">
-        MTR <span>STREAM</span>
-      </div>
+      <img
+        src="mtr-logo.png"
+        class="top-logo-img"
+        alt="MTR Stream"
+      >
 
       <div class="top-status">
+
         <div id="count" class="viewer-count">
-          👥 1/6 assistindo
+          👥 1 / 6 assistindo
         </div>
 
         <div class="offline-badge">
           <span class="status-dot"></span>
           <span id="status">ONLINE</span>
         </div>
+
       </div>
 
     </header>
@@ -69,7 +89,7 @@
 
     <div class="stream-layout">
 
-      <!-- BARRA LATERAL -->
+      <!-- MENU LATERAL -->
       <aside class="sidebar">
 
         <h2 id="roomTitle">Sala MTR</h2>
@@ -78,11 +98,16 @@
         <!-- CONVITE -->
         <div class="invite-card">
 
-          <div class="invite-icon">🔗</div>
+          <div class="invite-icon">
+            🔗
+          </div>
 
-          <div>
+          <div class="invite-text">
             <strong>Convide sua turma</strong>
-            <p>Copie o link da sala e mande para a galera.</p>
+
+            <p>
+              Copie o link da sala e mande para a galera.
+            </p>
           </div>
 
           <button id="invite" class="invite-button">
@@ -96,60 +121,107 @@
         <section class="side-section">
 
           <div class="section-title">
+
             <h3>Na sala</h3>
-            <span id="sideCount">1/6</span>
+
+            <span id="sideCount">
+              1/6
+            </span>
+
           </div>
 
           <div id="people" class="people"></div>
 
-          <div class="empty-slot">＋ Vaga disponível</div>
-          <div class="empty-slot">＋ Vaga disponível</div>
-          <div class="empty-slot">＋ Vaga disponível</div>
-          <div class="empty-slot">＋ Vaga disponível</div>
-          <div class="empty-slot">＋ Vaga disponível</div>
+          <div class="empty-slots">
+            <div class="empty-slot">＋ Vaga disponível</div>
+            <div class="empty-slot">＋ Vaga disponível</div>
+            <div class="empty-slot">＋ Vaga disponível</div>
+            <div class="empty-slot">＋ Vaga disponível</div>
+            <div class="empty-slot">＋ Vaga disponível</div>
+          </div>
 
         </section>
 
 
-        <!-- CONFIGURAÇÕES -->
+        <!-- CONFIGURAÇÃO -->
         <section class="side-section settings-section">
 
           <h3>Configurar transmissão</h3>
 
-          <label>O que compartilhar</label>
+
+          <label for="shareMode">
+            O que compartilhar
+          </label>
 
           <select id="shareMode">
-            <option>Janela - áudio separado quando disponível</option>
-            <option>Tela inteira</option>
+
+            <option value="window">
+              Janela - áudio separado quando disponível
+            </option>
+
+            <option value="screen">
+              Tela inteira
+            </option>
+
           </select>
 
+
           <p class="helper">
-            Escolha a janela do jogo e ative o áudio dela no seletor do navegador, se disponível.
+            Escolha a janela do jogo e ative o áudio dela
+            no seletor do navegador, se disponível.
           </p>
 
 
-          <label>Qualidade</label>
+          <label for="quality">
+            Qualidade
+          </label>
 
           <select id="quality">
-            <option value="720">720p - mais leve</option>
-            <option value="1080">1080p - melhor qualidade</option>
+
+            <option value="720">
+              720p - mais leve
+            </option>
+
+            <option value="1080">
+              1080p - melhor qualidade
+            </option>
+
           </select>
 
 
-          <label>Movimento</label>
+          <label for="fps">
+            Movimento
+          </label>
 
           <select id="fps">
-            <option value="30">30 FPS - recomendado</option>
-            <option value="60">60 FPS - mais fluido</option>
+
+            <option value="30">
+              30 FPS - recomendado
+            </option>
+
+            <option value="60">
+              60 FPS - mais fluido
+            </option>
+
           </select>
 
 
           <label class="check-option">
-            <input id="adaptive" type="checkbox" checked>
-            Reduzir qualidade se a conexão piorar
+
+            <input
+              id="adaptive"
+              type="checkbox"
+              checked
+            >
+
+            <span>
+              Reduzir qualidade se a conexão piorar
+            </span>
+
           </label>
 
 
+          <!-- INFORMAÇÕES DE ÁUDIO -->
           <div class="audio-info">
 
             <div>
@@ -179,7 +251,7 @@
       </aside>
 
 
-      <!-- CONTEÚDO PRINCIPAL -->
+      <!-- TRANSMISSÃO -->
       <section class="main-stream">
 
         <div class="selected-window">
@@ -189,11 +261,14 @@
 
         <div class="stage">
 
+          <!-- TELA QUANDO NINGUÉM TRANSMITE -->
           <div id="emptyStage" class="empty-stage">
 
-            <div class="stage-logo">
-              MTR <span>STREAM</span>
-            </div>
+            <img
+              src="mtr-logo.png"
+              class="stage-logo-img"
+              alt="MTR Stream"
+            >
 
             <strong>
               Ninguém está compartilhando ainda
@@ -210,16 +285,20 @@
           </div>
 
 
+          <!-- VÍDEOS -->
           <div id="videos" class="videos"></div>
 
         </div>
 
 
-        <!-- CONTROLES INFERIORES -->
+        <!-- CONTROLES -->
         <div class="bottom-controls">
 
           <div class="volume-control">
-            <span>Volume</span>
+
+            <span>
+              Volume
+            </span>
 
             <input
               id="volume"
@@ -229,7 +308,10 @@
               value="75"
             >
 
-            <span>⛶</span>
+            <span class="fullscreen-icon">
+              ⛶
+            </span>
+
           </div>
 
           <p>
@@ -239,7 +321,10 @@
         </div>
 
 
-        <p id="roomMsg" class="message center"></p>
+        <p
+          id="roomMsg"
+          class="message center"
+        ></p>
 
       </section>
 
@@ -248,7 +333,10 @@
   </main>
 
 
+  <!-- LIVEKIT -->
   <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+
+  <!-- NOSSO JS -->
   <script src="app.js"></script>
 
 </body>
