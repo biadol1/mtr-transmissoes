@@ -7,9 +7,7 @@
   --red2: #bd001f;
   --dark-red: #5e0011;
   --black: #050506;
-  --panel: rgba(15, 5, 8, 0.92);
-  --border: rgba(255, 35, 65, 0.5);
-  --muted: #d0b5bb;
+  --border: rgba(255, 35, 65, 0.55);
 }
 
 html,
@@ -22,7 +20,7 @@ body {
 body {
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
-  color: white;
+  color: #fff;
   background: #050506;
 }
 
@@ -41,13 +39,12 @@ button {
 }
 
 
-/* =========================================
+/* =========================
    TELA DE ENTRADA
-========================================= */
+========================= */
 
 .welcome-screen {
   position: relative;
-
   min-height: 100vh;
   width: 100%;
 
@@ -56,19 +53,15 @@ button {
 
   padding: 30px 20px;
 
-  background-image: url("./mtr-bg.png");
-  background-position: center center;
+  background-image: url("./mtr-background.png");
+  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
-
-/* leve escurecimento, sem esconder o fundo */
 .welcome-overlay {
   position: absolute;
   inset: 0;
-
   pointer-events: none;
 
   background:
@@ -80,9 +73,9 @@ button {
 }
 
 
-/* =========================================
-   CARD DA ENTRADA
-========================================= */
+/* =========================
+   CARD DE ENTRADA
+========================= */
 
 .welcome-card {
   position: relative;
@@ -90,53 +83,46 @@ button {
 
   width: min(470px, 94vw);
 
-  padding: 25px 32px 30px;
-
-  border-radius: 16px;
+  padding: 28px 32px 32px;
 
   border: 1px solid rgba(255, 45, 75, 0.65);
+  border-radius: 16px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(65, 5, 18, 0.88),
+      rgba(70, 5, 18, 0.88),
       rgba(8, 5, 7, 0.94)
     );
 
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(7px);
 
   box-shadow:
-    0 0 55px rgba(255, 0, 40, 0.28),
+    0 0 55px rgba(255, 0, 40, 0.30),
     inset 0 0 35px rgba(255, 0, 40, 0.05);
 }
-
-
-/* LOGO DA ENTRADA */
 
 .welcome-logo {
   display: block;
 
-  width: min(340px, 92%);
+  width: min(350px, 92%);
   height: auto;
 
-  margin: -5px auto 10px;
+  margin: -8px auto 12px;
 
   object-fit: contain;
 
   filter:
-    drop-shadow(0 0 10px rgba(255, 0, 40, 0.45));
+    drop-shadow(0 0 14px rgba(255, 0, 40, 0.55));
 }
 
-
 .welcome-card h1 {
-  margin: 0 0 23px;
+  margin: 0 0 24px;
 
   text-align: center;
 
   font-size: 22px;
-  line-height: 1.25;
 }
-
 
 .welcome-card label {
   display: block;
@@ -152,14 +138,13 @@ button {
   letter-spacing: 0.8px;
 }
 
-
 .welcome-card input {
   width: 100%;
   height: 50px;
 
   padding: 0 14px;
 
-  color: white;
+  color: #fff;
 
   outline: none;
 
@@ -169,7 +154,6 @@ button {
   background: rgba(3, 3, 4, 0.86);
 }
 
-
 .welcome-card input:focus {
   border-color: var(--red);
 
@@ -178,15 +162,12 @@ button {
     0 0 18px rgba(255, 0, 40, 0.20);
 }
 
-
 .room-entry {
   margin-top: 5px;
 }
 
-
 .welcome-buttons {
   display: grid;
-
   grid-template-columns: 1fr 1fr;
 
   gap: 10px;
@@ -194,13 +175,12 @@ button {
   margin-top: 19px;
 }
 
-
 .welcome-buttons button {
   min-height: 48px;
 
   padding: 10px;
 
-  color: white;
+  color: #fff;
 
   border: 1px solid rgba(255, 65, 90, 0.65);
   border-radius: 8px;
@@ -220,7 +200,6 @@ button {
   transition: 0.18s;
 }
 
-
 .welcome-buttons button:hover {
   transform: translateY(-2px);
 
@@ -228,20 +207,19 @@ button {
     0 0 28px rgba(255, 0, 40, 0.45);
 }
 
-
 .welcome-buttons .secondary {
   background:
     linear-gradient(
       135deg,
-      rgba(28, 8, 13, 0.95),
+      rgba(28, 8, 13, 0.96),
       rgba(7, 6, 7, 0.96)
     );
 }
 
 
-/* =========================================
+/* =========================
    SALA
-========================================= */
+========================= */
 
 .stream-app {
   position: relative;
@@ -249,17 +227,17 @@ button {
   min-height: 100vh;
   width: 100%;
 
-  background-image: url("./mtr-bg.png");
-  background-position: center center;
+  background-image: url("./mtr-background.png");
+  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
 
-/* =========================================
-   TOPO
-========================================= */
+/* =========================
+   CABEÇALHO
+========================= */
 
 .topbar {
   position: relative;
@@ -275,15 +253,14 @@ button {
 
   padding: 7px 24px;
 
-  border-bottom:
-    1px solid rgba(255, 35, 65, 0.55);
+  border-bottom: 1px solid rgba(255, 35, 65, 0.55);
 
   background:
     linear-gradient(
       90deg,
-      rgba(9, 3, 5, 0.92),
+      rgba(9, 3, 5, 0.93),
       rgba(50, 4, 14, 0.88),
-      rgba(9, 3, 5, 0.92)
+      rgba(9, 3, 5, 0.93)
     );
 
   backdrop-filter: blur(8px);
@@ -292,17 +269,15 @@ button {
     0 6px 25px rgba(0, 0, 0, 0.5);
 }
 
-
 .top-logo-img {
-  width: 165px;
+  width: 170px;
   max-height: 72px;
 
   object-fit: contain;
 
   filter:
-    drop-shadow(0 0 10px rgba(255, 0, 40, 0.50));
+    drop-shadow(0 0 10px rgba(255, 0, 40, 0.5));
 }
-
 
 .top-status {
   display: flex;
@@ -310,7 +285,6 @@ button {
 
   gap: 10px;
 }
-
 
 .viewer-count,
 .offline-badge {
@@ -321,23 +295,18 @@ button {
 
   padding: 0 14px;
 
+  border: 1px solid rgba(255, 50, 75, 0.42);
   border-radius: 7px;
 
-  border:
-    1px solid rgba(255, 50, 75, 0.42);
-
-  background:
-    rgba(8, 6, 7, 0.82);
+  background: rgba(8, 6, 7, 0.82);
 
   font-size: 12px;
   font-weight: 800;
 }
 
-
 .offline-badge {
   gap: 8px;
 }
-
 
 .status-dot {
   width: 9px;
@@ -352,9 +321,9 @@ button {
 }
 
 
-/* =========================================
-   LAYOUT PRINCIPAL
-========================================= */
+/* =========================
+   LAYOUT
+========================= */
 
 .stream-layout {
   position: relative;
@@ -362,16 +331,15 @@ button {
 
   display: grid;
 
-  grid-template-columns:
-    275px minmax(0, 1fr);
+  grid-template-columns: 275px minmax(0, 1fr);
 
   min-height: calc(100vh - 84px);
 }
 
 
-/* =========================================
+/* =========================
    MENU LATERAL
-========================================= */
+========================= */
 
 .sidebar {
   position: relative;
@@ -382,14 +350,13 @@ button {
 
   overflow-y: auto;
 
-  border-right:
-    1px solid rgba(255, 35, 65, 0.55);
+  border-right: 1px solid rgba(255, 35, 65, 0.55);
 
   background:
     linear-gradient(
       180deg,
-      rgba(111, 4, 27, 0.88),
-      rgba(35, 3, 11, 0.93)
+      rgba(111, 4, 27, 0.86),
+      rgba(35, 3, 11, 0.92)
     );
 
   backdrop-filter: blur(8px);
@@ -398,7 +365,6 @@ button {
     8px 0 30px rgba(0, 0, 0, 0.35);
 }
 
-
 .sidebar h2 {
   margin: 0 0 15px;
 
@@ -406,16 +372,14 @@ button {
 }
 
 
-/* =========================================
+/* =========================
    CONVITE
-========================================= */
+========================= */
 
 .invite-card {
   padding: 16px;
 
-  border:
-    1px solid rgba(255, 110, 130, 0.55);
-
+  border: 1px solid rgba(255, 110, 130, 0.55);
   border-radius: 10px;
 
   background:
@@ -424,11 +388,7 @@ button {
       rgba(255, 35, 65, 0.14),
       rgba(10, 4, 7, 0.30)
     );
-
-  box-shadow:
-    inset 0 0 22px rgba(255, 0, 40, 0.05);
 }
-
 
 .invite-icon {
   margin-bottom: 7px;
@@ -436,11 +396,9 @@ button {
   font-size: 22px;
 }
 
-
 .invite-text strong {
   font-size: 14px;
 }
-
 
 .invite-text p {
   margin: 6px 0 12px;
@@ -451,37 +409,31 @@ button {
   line-height: 1.45;
 }
 
-
 .invite-button {
   width: 100%;
 
   padding: 10px;
 
-  color: white;
+  color: #fff;
 
-  border:
-    1px solid rgba(255, 75, 100, 0.50);
-
+  border: 1px solid rgba(255, 75, 100, 0.50);
   border-radius: 7px;
 
-  background:
-    rgba(255, 25, 55, 0.15);
+  background: rgba(255, 25, 55, 0.15);
 
   font-weight: 800;
 }
 
 
-/* =========================================
-   SEÇÕES DO MENU
-========================================= */
+/* =========================
+   SEÇÕES
+========================= */
 
 .side-section {
   padding: 19px 0;
 
-  border-bottom:
-    1px solid rgba(255, 255, 255, 0.10);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
-
 
 .section-title {
   display: flex;
@@ -491,13 +443,11 @@ button {
   margin-bottom: 10px;
 }
 
-
 .side-section h3 {
   margin: 0;
 
   font-size: 14px;
 }
-
 
 #sideCount {
   color: #ff9cac;
@@ -507,9 +457,9 @@ button {
 }
 
 
-/* =========================================
+/* =========================
    PESSOAS
-========================================= */
+========================= */
 
 .people {
   display: grid;
@@ -517,23 +467,18 @@ button {
   gap: 6px;
 }
 
-
 .people span {
   display: block;
 
   padding: 9px 10px;
 
-  border:
-    1px solid rgba(255, 65, 90, 0.38);
-
+  border: 1px solid rgba(255, 65, 90, 0.38);
   border-radius: 6px;
 
-  background:
-    rgba(80, 7, 22, 0.74);
+  background: rgba(80, 7, 22, 0.74);
 
   font-size: 11px;
 }
-
 
 .empty-slots {
   display: grid;
@@ -543,60 +488,49 @@ button {
   margin-top: 6px;
 }
 
-
 .empty-slot {
   padding: 8px 10px;
 
-  border:
-    1px solid rgba(255, 255, 255, 0.10);
-
+  border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 6px;
 
-  color:
-    rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.45);
 
-  background:
-    rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.18);
 
   font-size: 10px;
 }
 
 
-/* =========================================
+/* =========================
    CONFIGURAÇÕES
-========================================= */
+========================= */
 
 .settings-section label {
   display: block;
 
   margin: 13px 0 6px;
 
-  color: white;
-
   font-size: 10px;
   font-weight: 800;
 }
-
 
 .settings-section select {
   width: 100%;
 
   padding: 10px;
 
-  color: white;
+  color: #fff;
 
   outline: none;
 
-  border:
-    1px solid rgba(255, 55, 80, 0.38);
-
+  border: 1px solid rgba(255, 55, 80, 0.38);
   border-radius: 6px;
 
   background: #250810;
 
   font-size: 10px;
 }
-
 
 .helper {
   margin: 7px 0 0;
@@ -606,7 +540,6 @@ button {
   font-size: 9px;
   line-height: 1.45;
 }
-
 
 .check-option {
   display: flex !important;
@@ -618,7 +551,6 @@ button {
   line-height: 1.35;
 }
 
-
 .check-option input {
   margin-top: 1px;
 
@@ -626,24 +558,20 @@ button {
 }
 
 
-/* =========================================
+/* =========================
    ÁUDIO
-========================================= */
+========================= */
 
 .audio-info {
   margin-top: 16px;
 
   padding: 11px;
 
-  border:
-    1px solid rgba(255, 55, 80, 0.30);
-
+  border: 1px solid rgba(255, 55, 80, 0.30);
   border-radius: 8px;
 
-  background:
-    rgba(17, 4, 8, 0.52);
+  background: rgba(17, 4, 8, 0.52);
 }
-
 
 .audio-info div {
   display: flex;
@@ -656,15 +584,14 @@ button {
   font-size: 10px;
 }
 
-
 .audio-info strong {
   color: #ff9eae;
 }
 
 
-/* =========================================
+/* =========================
    SAIR
-========================================= */
+========================= */
 
 .leave-button {
   width: 100%;
@@ -675,31 +602,26 @@ button {
 
   color: #ffb0bc;
 
-  border:
-    1px solid rgba(255, 65, 90, 0.42);
-
+  border: 1px solid rgba(255, 65, 90, 0.42);
   border-radius: 7px;
 
-  background:
-    rgba(20, 3, 7, 0.68);
+  background: rgba(20, 3, 7, 0.68);
 
   font-weight: 900;
 }
 
 
-/* =========================================
-   CONTEÚDO DA TRANSMISSÃO
-========================================= */
+/* =========================
+   ÁREA PRINCIPAL
+========================= */
 
 .main-stream {
   min-width: 0;
 
   padding: 17px;
 
-  background:
-    rgba(0, 0, 0, 0.10);
+  background: rgba(0, 0, 0, 0.10);
 }
-
 
 .selected-window {
   height: 24px;
@@ -710,9 +632,9 @@ button {
 }
 
 
-/* =========================================
+/* =========================
    PALCO
-========================================= */
+========================= */
 
 .stage {
   position: relative;
@@ -724,27 +646,19 @@ button {
 
   overflow: hidden;
 
-  border:
-    1px solid rgba(255, 35, 65, 0.52);
-
+  border: 1px solid rgba(255, 35, 65, 0.52);
   border-radius: 13px;
 
-  /*
-    Aqui também usamos diretamente
-    o novo fundo MTR.
-  */
-  background-image: url("./mtr-bg.png");
-  background-position: center center;
+  background-image: url("./mtr-background.png");
+  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 
   box-shadow:
     0 0 38px rgba(255, 0, 40, 0.12),
-    inset 0 0 60px rgba(0, 0, 0, 0.20);
+    inset 0 0 60px rgba(0, 0, 0, 0.15);
 }
 
-
-/* sombra apenas nas bordas */
 .stage::after {
   content: "";
 
@@ -756,13 +670,13 @@ button {
   pointer-events: none;
 
   box-shadow:
-    inset 0 0 80px rgba(0, 0, 0, 0.30);
+    inset 0 0 70px rgba(0, 0, 0, 0.22);
 }
 
 
-/* =========================================
-   QUANDO NÃO TEM TRANSMISSÃO
-========================================= */
+/* =========================
+   TELA VAZIA
+========================= */
 
 .empty-stage {
   position: absolute;
@@ -780,31 +694,24 @@ button {
   text-align: center;
 }
 
-
 .stage-logo-img {
-  width: min(470px, 65%);
+  width: min(480px, 65%);
   height: auto;
 
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 
   object-fit: contain;
 
   filter:
-    drop-shadow(
-      0 0 18px
-      rgba(255, 0, 40, 0.55)
-    );
+    drop-shadow(0 0 18px rgba(255, 0, 40, 0.55));
 }
-
 
 .empty-stage strong {
-  font-size:
-    clamp(20px, 2.2vw, 30px);
+  font-size: clamp(20px, 2.2vw, 30px);
 
   text-shadow:
-    0 3px 10px black;
+    0 3px 10px #000;
 }
-
 
 .empty-stage p {
   margin: 10px 0 22px;
@@ -814,24 +721,22 @@ button {
   font-size: 12px;
 
   text-shadow:
-    0 2px 7px black;
+    0 2px 7px #000;
 }
 
 
-/* =========================================
+/* =========================
    COMPARTILHAR
-========================================= */
+========================= */
 
 .share-button {
   min-width: 210px;
 
   padding: 13px 23px;
 
-  color: white;
+  color: #fff;
 
-  border:
-    1px solid #ff6078;
-
+  border: 1px solid #ff6078;
   border-radius: 8px;
 
   background:
@@ -849,19 +754,17 @@ button {
   transition: 0.18s;
 }
 
-
 .share-button:hover {
-  transform:
-    translateY(-2px);
+  transform: translateY(-2px);
 
   box-shadow:
     0 0 34px rgba(255, 0, 40, 0.55);
 }
 
 
-/* =========================================
+/* =========================
    VÍDEOS
-========================================= */
+========================= */
 
 .videos {
   position: relative;
@@ -872,10 +775,8 @@ button {
   height: 100%;
 
   display: grid;
-
   place-items: center;
 }
-
 
 .video-card {
   position: relative;
@@ -885,9 +786,8 @@ button {
 
   overflow: hidden;
 
-  background: black;
+  background: #000;
 }
-
 
 .video-card video {
   width: 100%;
@@ -895,9 +795,8 @@ button {
 
   object-fit: contain;
 
-  background: black;
+  background: #000;
 }
-
 
 .video-label {
   position: absolute;
@@ -907,23 +806,20 @@ button {
 
   padding: 7px 11px;
 
-  color: white;
+  color: #fff;
 
-  border:
-    1px solid rgba(255, 45, 70, 0.48);
-
+  border: 1px solid rgba(255, 45, 70, 0.48);
   border-radius: 6px;
 
-  background:
-    rgba(0, 0, 0, 0.78);
+  background: rgba(0, 0, 0, 0.78);
 
   font-size: 11px;
 }
 
 
-/* =========================================
-   CONTROLES INFERIORES
-========================================= */
+/* =========================
+   CONTROLES
+========================= */
 
 .bottom-controls {
   display: flex;
@@ -932,7 +828,6 @@ button {
 
   padding-top: 11px;
 }
-
 
 .volume-control {
   display: flex;
@@ -944,27 +839,21 @@ button {
 
   color: #ff9cac;
 
-  border:
-    1px solid rgba(255, 45, 70, 0.38);
-
+  border: 1px solid rgba(255, 45, 70, 0.38);
   border-radius: 999px;
 
-  background:
-    rgba(28, 4, 9, 0.82);
+  background: rgba(28, 4, 9, 0.82);
 
   font-size: 10px;
 }
-
 
 .volume-control input {
   accent-color: var(--red);
 }
 
-
 .fullscreen-icon {
   font-size: 16px;
 }
-
 
 .bottom-controls p {
   margin: 8px 0 0;
@@ -975,9 +864,9 @@ button {
 }
 
 
-/* =========================================
+/* =========================
    MENSAGENS
-========================================= */
+========================= */
 
 .message {
   min-height: 16px;
@@ -987,25 +876,22 @@ button {
   font-size: 11px;
 }
 
-
 .center {
   text-align: center;
 }
 
 
-/* =========================================
+/* =========================
    SCROLL
-========================================= */
+========================= */
 
 ::-webkit-scrollbar {
   width: 7px;
 }
 
-
 ::-webkit-scrollbar-track {
   background: #080305;
 }
-
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
@@ -1018,9 +904,9 @@ button {
 }
 
 
-/* =========================================
+/* =========================
    TABLET
-========================================= */
+========================= */
 
 @media (max-width: 900px) {
 
@@ -1056,9 +942,9 @@ button {
 }
 
 
-/* =========================================
+/* =========================
    CELULAR
-========================================= */
+========================= */
 
 @media (max-width: 560px) {
 
@@ -1100,9 +986,5 @@ button {
 
   .empty-stage strong {
     font-size: 18px;
-  }
-
-  .empty-stage p {
-    font-size: 11px;
   }
 }
