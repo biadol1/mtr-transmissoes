@@ -4489,3 +4489,42 @@ button#camera {
   align-items: center !important;
   justify-content: center !important;
 }
+/* =========================================
+   CORREÇÃO DOS BOTÕES TRANSMISSÃO + WEBCAM
+========================================= */
+
+.share-control-area {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+
+  margin: 12px 0 0 0 !important;
+  padding: 0 !important;
+}
+
+.share-control-area #share,
+.share-control-area #camera {
+  width: 100% !important;
+
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+
+  flex: 0 0 42px !important;
+
+  padding: 0 12px !important;
+  margin: 0 !important;
+
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 13px !important;
+  line-height: 1 !important;
+}
