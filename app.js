@@ -191,36 +191,60 @@ function bindRoomEvents(room) {
       participant
     ) => {
 
-     if (track.kind === LK.Track.Kind.Video) {
-  attachVideo(track, participant);
-}
+      if (
+        track.kind ===
+        LK.Track.Kind.Video
+      ) {
+        attachVideo(
+          track,
+          participant
+        );
+      }
 
-if (track.kind === LK.Track.Kind.Audio) {
-  const audio = track.attach();
+      if (
+        track.kind ===
+        LK.Track.Kind.Audio
+      ) {
 
-  audio.autoplay = true;
-  audio.controls = false;
-  audio.volume = Number($("volume")?.value || 75) / 100;
+        const audio =
+          track.attach();
 
-  document.body.appendChild(audio);
+        audio.autoplay = true;
+        audio.controls = false;
 
-  audio.play().catch(() => {
-    console.log("Áudio aguardando interação do usuário.");
+        audio.volume =
+          Number(
+            $("volume")?.value || 75
+          ) / 100;
 
-    document.addEventListener(
-      "click",
-      () => {
-        audio.play().catch(() => {});
-      },
-      { once: true }
-    );
-  });
+        document.body.appendChild(
+          audio
+        );
 
-  console.log("ÁUDIO DA TRANSMISSÃO RECEBIDO");
-}
+        audio.play().catch(() => {
 
-updatePeople();
-updateStage();
+          console.log(
+            "Áudio aguardando interação do usuário."
+          );
+
+          document.addEventListener(
+            "click",
+            () => {
+              audio
+                .play()
+                .catch(() => {});
+            },
+            { once: true }
+          );
+        });
+
+        console.log(
+          "ÁUDIO DA TRANSMISSÃO RECEBIDO"
+        );
+      }
+
+      updatePeople();
+      updateStage();
     }
   );
 
@@ -386,9 +410,7 @@ function attachVideo(
    PREVIEW LOCAL
 ===================================================== */
 
-function createLocalPreview(
-  stream
-) {
+function createLocalPreview(stream) {
 
   removeLocalPreview();
 
@@ -516,13 +538,11 @@ function updatePeople() {
     participants.length;
 
   if ($("count")) {
-
     $("count").textContent =
       `${total}/6 assistindo`;
   }
 
   if ($("sideCount")) {
-
     $("sideCount").textContent =
       `${total}/6`;
   }
@@ -626,7 +646,6 @@ async function startScreenShare() {
     return;
   }
 
-
   const quality =
     $("quality")?.value ||
     "720";
@@ -646,55 +665,40 @@ async function startScreenShare() {
     quality === "1080"
       ? 1080
       : 720;
-
-
-  try {
+     try {
 
     setMessage(
-      "Escolha a janela ou tela que deseja transmitir.",
+      "Escolha a tela ou janela que deseja compartilhar...",
       true
     );
 
-
-    /*
-       ESSA É A CHAMADA QUE JÁ
-       FUNCIONOU NO SEU EDGE.
-    */
-
     const stream =
-      await navigator
-        .mediaDevices
+      await navigator.mediaDevices
         .getDisplayMedia({
-
           video: {
-
             width: {
-              ideal: width,
+              ideal: width
             },
 
             height: {
-              ideal: height,
+              ideal: height
             },
 
             frameRate: {
               ideal: fps,
-              max: fps,
-            },
+              max: fps
+            }
           },
 
-          audio: true,
+          audio: true
         });
 
 
-    console.log(
-      "Tela selecionada:",
-      stream
-    );
-
-
     const videoTrack =
-      stream
-        .getVideoTracks()[0];
+      stream.getVideoTracks()[0];
+
+    const audioTrack =
+      stream.getAudioTracks()[0];
 
 
     if (!videoTrack) {
@@ -702,8 +706,7 @@ async function startScreenShare() {
       stream
         .getTracks()
         .forEach(
-          (track) =>
-            track.stop()
+          track => track.stop()
         );
 
       throw new Error(
@@ -717,29 +720,14 @@ async function startScreenShare() {
 
 
     /*
-       PRIMEIRO MOSTRAMOS
-       O PREVIEW
-    */
-
-    createLocalPreview(
-      stream
-    );
-
-
-    /*
-       TRANSFORMA O VÍDEO
-       EM TRACK LIVEKIT
-    */
+     * PUBLICAR VÍDEO
+     */
 
     localScreenTrack =
       new LK.LocalVideoTrack(
         videoTrack
       );
 
-
-    /*
-       PUBLICA A TELA
-    */
 
     await liveRoom
       .localParticipant
@@ -750,20 +738,14 @@ async function startScreenShare() {
             LK.Track.Source
               .ScreenShare,
 
-          name:
-            "MTR Screen",
+          simulcast: true
         }
       );
 
 
     /*
-       ÁUDIO DA TELA
-    */
-
-    const audioTrack =
-      stream
-        .getAudioTracks()[0];
-
+     * PUBLICAR ÁUDIO DA TELA/JANELA
+     */
 
     if (audioTrack) {
 
@@ -782,23 +764,40 @@ async function startScreenShare() {
             {
               source:
                 LK.Track.Source
-                  .ScreenShareAudio,
-
-              name:
-                "MTR Screen Audio",
+                  .ScreenShareAudio
             }
           );
 
-      } catch (
-        audioError
-      ) {
+
+        console.log(
+          "Áudio da tela publicado."
+        );
+
+      } catch (audioError) {
 
         console.warn(
-          "Não foi possível publicar o áudio da tela:",
+          "Não foi possível publicar o áudio:",
           audioError
         );
+
+        localScreenAudioTrack =
+          null;
       }
+
+    } else {
+
+      localScreenAudioTrack =
+        null;
+
+      console.log(
+        "A tela selecionada não forneceu áudio."
+      );
     }
+
+
+    createLocalPreview(
+      stream
+    );
 
 
     sharing = true;
@@ -806,36 +805,43 @@ async function startScreenShare() {
     updateShareButton();
 
 
+    const selectedWindow =
+      $("selectedWindow");
+
+    if (selectedWindow) {
+
+      selectedWindow.textContent =
+        videoTrack.label ||
+        "Tela compartilhada";
+    }
+
+
     setMessage(
-      "🔴 Sua transmissão começou!",
+      audioTrack
+        ? "Transmitindo tela e áudio."
+        : "Transmitindo tela. Para enviar o som, marque compartilhar áudio no seletor do navegador.",
       true
     );
 
 
     /*
-       QUANDO CLICAR EM
-       "PARAR COMPARTILHAMENTO"
-       NO PRÓPRIO EDGE
-    */
+     * SE A PESSOA CLICAR EM
+     * "PARAR COMPARTILHAMENTO"
+     * NO PRÓPRIO NAVEGADOR
+     */
 
     videoTrack.addEventListener(
       "ended",
-      async () => {
+      () => {
 
         if (sharing) {
-
-          await stopScreenShare();
+          stopScreenShare();
         }
+
       },
-
       {
-        once: true,
+        once: true
       }
-    );
-
-
-    console.log(
-      "Compartilhamento iniciado."
     );
 
 
@@ -847,64 +853,16 @@ async function startScreenShare() {
     );
 
 
-    /*
-       Se deu erro depois de
-       obter o stream, paramos tudo.
-    */
+    setMessage(
+      error?.message ||
+      "Não foi possível compartilhar a tela.",
+      true
+    );
 
-    if (localScreenStream) {
-
-      localScreenStream
-        .getTracks()
-        .forEach(
-          (track) => {
-
-            try {
-              track.stop();
-            } catch {}
-          }
-        );
-    }
-
-
-    localScreenStream =
-      null;
-
-    localScreenTrack =
-      null;
-
-    localScreenAudioTrack =
-      null;
 
     sharing = false;
 
-    removeLocalPreview();
-
     updateShareButton();
-
-
-    if (
-      error.name ===
-        "NotAllowedError" ||
-      error.name ===
-        "AbortError"
-    ) {
-
-      setMessage(
-        "Compartilhamento cancelado.",
-        true
-      );
-
-    } else {
-
-      setMessage(
-        `Erro ao compartilhar: ${
-          error.message ||
-          "não foi possível iniciar."
-        }`,
-        true
-      );
-    }
   }
 }
 
@@ -915,258 +873,135 @@ async function startScreenShare() {
 
 async function stopScreenShare() {
 
-  console.log(
-    "Parando compartilhamento..."
-  );
-
-  sharing = false;
+  if (!liveRoom) {
+    return;
+  }
 
 
   try {
 
-    if (
-      liveRoom &&
-      localScreenTrack
-    ) {
+    if (localScreenTrack) {
 
-      await liveRoom
-        .localParticipant
-        .unpublishTrack(
-          localScreenTrack
-        )
-        .catch(() => {});
-    }
+      try {
 
+        await liveRoom
+          .localParticipant
+          .unpublishTrack(
+            localScreenTrack
+          );
 
-    if (
-      liveRoom &&
-      localScreenAudioTrack
-    ) {
+      } catch (error) {
 
-      await liveRoom
-        .localParticipant
-        .unpublishTrack(
-          localScreenAudioTrack
-        )
-        .catch(() => {});
-    }
-
-
-  } catch (error) {
-
-    console.warn(
-      "Erro removendo tracks:",
-      error
-    );
-  }
-
-
-  if (
-    localScreenStream
-  ) {
-
-    localScreenStream
-      .getTracks()
-      .forEach(
-        (track) => {
-
-          try {
-
-            track.onended =
-              null;
-
-            track.stop();
-
-          } catch {}
-        }
-      );
-  }
-
-
-  localScreenStream =
-    null;
-
-  localScreenTrack =
-    null;
-
-  localScreenAudioTrack =
-    null;
-
-
-  removeLocalPreview();
-
-  updateShareButton();
-
-  updateStage();
-
-
-  setMessage(
-    "Transmissão encerrada.",
-    true
-  );
-}
-
-
-/* =====================================================
-   BOTÕES DE CRIAR / ENTRAR
-===================================================== */
-
-const createButton =
-  $("create");
-
-const joinButton =
-  $("join");
-
-
-if (createButton) {
-
-  createButton
-    .addEventListener(
-      "click",
-      () => {
-        enter(true);
+        console.warn(
+          "Erro ao remover vídeo:",
+          error
+        );
       }
-    );
-}
-
-
-if (joinButton) {
-
-  joinButton
-    .addEventListener(
-      "click",
-      () => {
-        enter(false);
-      }
-    );
-}
-
-
-/* =====================================================
-   BOTÃO COMPARTILHAR
-   CORREÇÃO PRINCIPAL
-===================================================== */
-
-const shareButton =
-  $("share");
-
-
-if (shareButton) {
-
-  /*
-     Remove qualquer onclick
-     que possa ter vindo do HTML.
-  */
-
-  shareButton.removeAttribute(
-    "onclick"
-  );
-
-
-  /*
-     Ligamos o clique diretamente
-     ao botão.
-  */
-
-  shareButton.addEventListener(
-    "click",
-    async function (event) {
-
-      event.preventDefault();
-
-      event.stopPropagation();
-
-
-      console.log(
-        "BOTÃO COMPARTILHAR CLICADO"
-      );
 
 
       try {
 
-        if (sharing) {
+        localScreenTrack.stop();
+      } catch (_) {}
 
-          await stopScreenShare();
+    }
 
-        } else {
 
-          /*
-             IMPORTANTE:
-             startScreenShare é chamada
-             diretamente durante o clique.
-          */
+    if (localScreenAudioTrack) {
 
-          await startScreenShare();
-        }
+      try {
+
+        await liveRoom
+          .localParticipant
+          .unpublishTrack(
+            localScreenAudioTrack
+          );
 
       } catch (error) {
 
-        console.error(
-          "Erro no botão Compartilhar:",
+        console.warn(
+          "Erro ao remover áudio:",
           error
         );
-
-        sharing = false;
-
-        updateShareButton();
-
-        setMessage(
-          `Erro ao compartilhar: ${
-            error?.message ||
-            "não foi possível iniciar."
-          }`,
-          true
-        );
       }
+
+
+      try {
+
+        localScreenAudioTrack.stop();
+      } catch (_) {}
+
     }
-  );
+
+
+    if (localScreenStream) {
+
+      localScreenStream
+        .getTracks()
+        .forEach(
+          track => {
+
+            try {
+              track.stop();
+            } catch (_) {}
+
+          }
+        );
+    }
+
+
+  } finally {
+
+    localScreenTrack = null;
+    localScreenAudioTrack = null;
+    localScreenStream = null;
+
+    sharing = false;
+
+    removeLocalPreview();
+
+    updateShareButton();
+
+
+    if ($("selectedWindow")) {
+
+      $("selectedWindow")
+        .textContent =
+          "Nenhuma janela selecionada";
+    }
+
+
+    setMessage(
+      "Transmissão encerrada.",
+      true
+    );
+  }
 }
 
 
 /* =====================================================
-   CONVITE
+   CLIQUE NO BOTÃO COMPARTILHAR
 ===================================================== */
 
-const inviteButton =
-  $("invite");
+async function handleShareClick() {
+
+  if (sharing) {
+
+    await stopScreenShare();
+
+  } else {
+
+    await startScreenShare();
+  }
+}
 
 
-if (inviteButton) {
+if ($("share")) {
 
-  inviteButton
+  $("share")
     .addEventListener(
       "click",
-      async () => {
-
-        const url =
-          `${location.origin}` +
-          `${location.pathname}` +
-          `?room=${encodeURIComponent(
-            currentCode
-          )}`;
-
-
-        try {
-
-          await navigator
-            .clipboard
-            .writeText(url);
-
-
-          setMessage(
-            "Link do convite copiado! Agora é só mandar para a pessoa.",
-            true
-          );
-
-
-        } catch {
-
-          setMessage(
-            `Convite: ${url}`,
-            true
-          );
-        }
-      }
+      handleShareClick
     );
 }
 
@@ -1175,149 +1010,284 @@ if (inviteButton) {
    VOLUME
 ===================================================== */
 
-const volumeSlider =
-  $("volume");
+function applyVolume() {
 
-if (volumeSlider) {
+  const volume =
+    Number(
+      $("volume")?.value ||
+      75
+    ) / 100;
 
-  volumeSlider.addEventListener(
-    "input",
-    (event) => {
 
-      const volume =
-        Number(event.target.value) / 100;
+  document
+    .querySelectorAll("audio")
+    .forEach(
+      audio => {
 
-      document
-        .querySelectorAll(
-          "#videos video, body > audio"
-        )
-        .forEach((media) => {
+        audio.volume =
+          Math.max(
+            0,
+            Math.min(
+              1,
+              volume
+            )
+          );
 
-          if (!media.muted) {
-            media.volume = volume;
-          }
+      }
+    );
 
-        });
-    }
-  );
+
+  document
+    .querySelectorAll(
+      "#videos video"
+    )
+    .forEach(
+      video => {
+
+        if (
+          video.closest(
+            '[data-local-preview="1"]'
+          )
+        ) {
+
+          video.muted = true;
+
+          return;
+        }
+
+
+        video.volume =
+          Math.max(
+            0,
+            Math.min(
+              1,
+              volume
+            )
+          );
+
+      }
+    );
+}
+
+
+if ($("volume")) {
+
+  $("volume")
+    .addEventListener(
+      "input",
+      applyVolume
+    );
 }
 
 
 /* =====================================================
-   SAIR
+   COPIAR CONVITE
 ===================================================== */
 
-const leaveButton =
-  $("leave");
+if ($("invite")) {
 
-
-if (leaveButton) {
-
-  leaveButton
+  $("invite")
     .addEventListener(
       "click",
       async () => {
 
+        const url =
+          `${location.origin}${location.pathname}?room=${encodeURIComponent(
+            currentCode
+          )}`;
+
+
         try {
 
-          await stopScreenShare();
+          await navigator.clipboard
+            .writeText(url);
 
-          if (liveRoom) {
 
-            await liveRoom
-              .disconnect();
-          }
+          setMessage(
+            "Link da sala copiado!",
+            true
+          );
 
-        } finally {
+        } catch (error) {
 
-          location.href =
-            location.pathname;
+          console.error(
+            "Erro copiando convite:",
+            error
+          );
+
+
+          setMessage(
+            url,
+            true
+          );
         }
+
       }
     );
 }
 
 
 /* =====================================================
-   FECHAR A PÁGINA
+   SAIR DA SALA
 ===================================================== */
 
-window.addEventListener(
-  "beforeunload",
-  () => {
+if ($("leave")) {
 
-    if (
-      localScreenStream
-    ) {
+  $("leave")
+    .addEventListener(
+      "click",
+      async () => {
 
-      localScreenStream
-        .getTracks()
-        .forEach(
-          (track) => {
+        try {
 
-            try {
-              track.stop();
-            } catch {}
+          if (sharing) {
+            await stopScreenShare();
           }
+
+
+          if (liveRoom) {
+            await liveRoom.disconnect();
+          }
+
+        } catch (error) {
+
+          console.warn(
+            "Erro ao sair:",
+            error
+          );
+        }
+
+
+        liveRoom = null;
+        currentCode = "";
+
+        $("roomView")
+          ?.classList
+          .add("hidden");
+
+        $("landing")
+          ?.classList
+          .remove("hidden");
+
+        history.replaceState(
+          {},
+          "",
+          location.pathname
         );
-    }
 
-
-    if (liveRoom) {
-
-      try {
-        liveRoom.disconnect();
-      } catch {}
-    }
-  }
-);
-
-
-/* =====================================================
-   NOME SALVO
-===================================================== */
-
-if ($("name")) {
-
-  $("name").value =
-    localStorage.getItem(
-      "mtrName"
-    ) || "";
+        setMessage(
+          "Você saiu da sala."
+        );
+      }
+    );
 }
 
 
 /* =====================================================
-   CONVITE RECEBIDO
+   CRIAR / ENTRAR
 ===================================================== */
 
-const invitedRoom =
-  new URLSearchParams(
-    location.search
-  ).get("room");
+if ($("create")) {
+
+  $("create")
+    .addEventListener(
+      "click",
+      () => enter(true)
+    );
+}
+
+
+if ($("join")) {
+
+  $("join")
+    .addEventListener(
+      "click",
+      () => enter(false)
+    );
+}
+
+
+/* =====================================================
+   ENTER NOS CAMPOS
+===================================================== */
+
+$("name")
+  ?.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter"
+      ) {
+        enter(false);
+      }
+    }
+  );
+
+
+$("roomCode")
+  ?.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter"
+      ) {
+        enter(false);
+      }
+    }
+  );
+
+
+/* =====================================================
+   PREENCHIMENTO INICIAL
+===================================================== */
+
+const savedName =
+  localStorage.getItem(
+    "mtrName"
+  );
 
 
 if (
-  invitedRoom &&
+  savedName &&
+  $("name")
+) {
+
+  $("name").value =
+    savedName;
+}
+
+
+const params =
+  new URLSearchParams(
+    location.search
+  );
+
+
+const roomFromUrl =
+  normalizeRoom(
+    params.get("room")
+  );
+
+
+if (
+  roomFromUrl &&
   $("roomCode")
 ) {
 
   $("roomCode").value =
-    normalizeRoom(
-      invitedRoom
-    );
-
-
-  setMessage(
-    'Convite carregado. Coloque seu nome e clique em "Entrar na sala".'
-  );
+    roomFromUrl;
 }
 
 
 /* =====================================================
-   INICIALIZAÇÃO
+   ESTADO INICIAL
 ===================================================== */
 
 updateShareButton();
+
+applyVolume();
 
 
 console.log(
@@ -1327,7 +1297,7 @@ console.log(
 
 /* =====================================================
    MTR — ESCOLHER QUAL TRANSMISSÃO ASSISTIR
-   VERSÃO 2 — NÃO BLOQUEIA SUA TRANSMISSÃO
+   CONTROLES NA LATERAL ESQUERDA
 ===================================================== */
 
 let mtrSelectedStream = null;
@@ -1355,7 +1325,7 @@ function mtrGetRemoteStreams() {
 
 
 /* =====================================================
-   CRIAR SELETOR
+   CRIAR CONTROLES NA LATERAL
 ===================================================== */
 
 function mtrCreateStreamSelector() {
@@ -1368,26 +1338,27 @@ function mtrCreateStreamSelector() {
     return;
   }
 
+
   const sideContainer =
     document.getElementById(
       "streamControlsSide"
     );
 
+
   if (!sideContainer) {
     return;
   }
 
+
   const selector =
     document.createElement("div");
+
 
   selector.id =
     "mtrStreamSelector";
 
-  selector.innerHTML = `
 
-    <div class="mtr-selector-title">
-      📺 TRANSMISSÕES DISPONÍVEIS
-    </div>
+  selector.innerHTML = `
 
     <div id="mtrStreamButtons"></div>
 
@@ -1400,15 +1371,11 @@ function mtrCreateStreamSelector() {
 
   `;
 
-  /*
-     IMPORTANTE:
-     o seletor fica antes do palco,
-     mas NÃO cobre os controles.
-  */
 
   sideContainer.appendChild(
     selector
   );
+
 
   document
     .getElementById(
@@ -1427,23 +1394,27 @@ function mtrCreateStreamSelector() {
 
 
 /* =====================================================
-   ATUALIZAR LISTA
+   ATUALIZAR TRANSMISSÕES
 ===================================================== */
 
 function mtrRefreshStreams() {
 
   mtrCreateStreamSelector();
 
+
   const container =
     document.getElementById(
       "mtrStreamButtons"
     );
 
+
   if (!container) {
     return;
   }
 
+
   container.innerHTML = "";
+
 
   const streams =
     mtrGetRemoteStreams();
@@ -1452,15 +1423,23 @@ function mtrRefreshStreams() {
   if (!streams.length) {
 
     const empty =
-      document.createElement("span");
+      document.createElement(
+        "span"
+      );
+
 
     empty.className =
       "mtr-no-stream";
 
+
     empty.textContent =
       "Ninguém está transmitindo agora.";
 
-    container.appendChild(empty);
+
+    container.appendChild(
+      empty
+    );
+
 
     mtrApplySelection();
 
@@ -1470,6 +1449,7 @@ function mtrRefreshStreams() {
 
   streams.forEach(
     (card, index) => {
+
 
       if (
         !card.dataset.mtrStreamId
@@ -1505,8 +1485,10 @@ function mtrRefreshStreams() {
           "button"
         );
 
+
       button.type =
         "button";
+
 
       button.className =
         "mtr-stream-button";
@@ -1520,6 +1502,7 @@ function mtrRefreshStreams() {
         button.classList.add(
           "active"
         );
+
 
         button.textContent =
           "▶ Assistindo: " +
@@ -1560,7 +1543,7 @@ function mtrRefreshStreams() {
 
 
 /* =====================================================
-   ASSISTIR
+   ASSISTIR TRANSMISSÃO
 ===================================================== */
 
 function mtrWatchStream(id) {
@@ -1586,6 +1569,7 @@ function mtrStopWatching() {
 
   mtrRefreshStreams();
 
+
   setMessage(
     "Você parou de assistir. Escolha outra transmissão quando quiser.",
     true
@@ -1595,7 +1579,7 @@ function mtrStopWatching() {
 
 
 /* =====================================================
-   MOSTRAR SOMENTE A TRANSMISSÃO ESCOLHIDA
+   MOSTRAR SOMENTE QUEM FOI ESCOLHIDO
 ===================================================== */
 
 function mtrApplySelection() {
@@ -1604,43 +1588,46 @@ function mtrApplySelection() {
     mtrGetRemoteStreams();
 
 
-  streams.forEach((card) => {
-
-    const selected =
-      mtrSelectedStream &&
-      card.dataset.mtrStreamId ===
-        mtrSelectedStream;
+  streams.forEach(
+    (card) => {
 
 
-    if (selected) {
+      const selected =
+        mtrSelectedStream &&
+        card.dataset.mtrStreamId ===
+          mtrSelectedStream;
 
-      card.style.display =
-        "block";
 
-      card.classList.add(
-        "mtr-watching"
-      );
+      if (selected) {
 
-    } else {
+        card.style.display =
+          "block";
 
-      card.style.display =
-        "none";
 
-      card.classList.remove(
-        "mtr-watching"
-      );
+        card.classList.add(
+          "mtr-watching"
+        );
+
+      } else {
+
+        card.style.display =
+          "none";
+
+
+        card.classList.remove(
+          "mtr-watching"
+        );
+
+      }
 
     }
-
-  });
+  );
 
 
   /*
-     O PREVIEW DA PRÓPRIA PESSOA
-     NÃO É ALTERADO AQUI.
-
-     Assim ela pode transmitir
-     enquanto assiste outra pessoa.
+     NÃO MEXE NO PREVIEW DA PRÓPRIA PESSOA.
+     ASSIM VOCÊ PODE ASSISTIR ALGUÉM
+     E TRANSMITIR AO MESMO TEMPO.
   */
 
 
@@ -1657,76 +1644,22 @@ function mtrApplySelection() {
 
   }
 
-
-  mtrFixShareControls();
-
 }
 
 
 /* =====================================================
-   GARANTIR QUE OS CONTROLES FIQUEM ACESSÍVEIS
-===================================================== */
-
-function mtrFixShareControls() {
-
-  const share =
-    document.getElementById("share");
-
-  if (share) {
-
-    share.style.position =
-      "relative";
-
-    share.style.zIndex =
-      "10002";
-
-    share.style.pointerEvents =
-      "auto";
-
-  }
-
-
-  /*
-     A lateral inteira fica acima
-     do vídeo recebido.
-  */
-
-  const shareParent =
-    share?.closest(
-      "aside, .sidebar, .side, .controls"
-    );
-
-  if (shareParent) {
-
-    shareParent.style.position =
-      "relative";
-
-    shareParent.style.zIndex =
-      "10001";
-
-    shareParent.style.pointerEvents =
-      "auto";
-
-  }
-
-}
-
-
-/* =====================================================
-   VISUAL
+   VISUAL DA LATERAL
 ===================================================== */
 
 const mtrSelectorStyle =
-  document.createElement("style");
+  document.createElement(
+    "style"
+  );
 
 
 mtrSelectorStyle.textContent = `
 
 #mtrStreamSelector {
-
-  position: relative;
-
-  z-index: 20;
 
   width: 100%;
 
@@ -1734,27 +1667,11 @@ mtrSelectorStyle.textContent = `
 
   padding: 0;
 
-  border: 0;
-
-  border-radius: 0;
-
   background: transparent;
 
-  box-sizing:
-    border-box;
+  border: 0;
 
-}
-
-
-.mtr-selector-title {
-
-  color: white;
-
-  font-size: 12px;
-
-  font-weight: 900;
-
-  margin-bottom: 9px;
+  box-sizing: border-box;
 
 }
 
@@ -1777,11 +1694,9 @@ mtrSelectorStyle.textContent = `
 
   width: 100%;
 
-  position: relative;
+  min-height: 40px;
 
-  z-index: 21;
-
-  padding: 9px 13px;
+  padding: 9px 12px;
 
   border-radius: 8px;
 
@@ -1797,7 +1712,7 @@ mtrSelectorStyle.textContent = `
 
   cursor: pointer;
 
-  pointer-events: auto;
+  box-sizing: border-box;
 
 }
 
@@ -1854,6 +1769,10 @@ mtrSelectorStyle.textContent = `
 
 .mtr-no-stream {
 
+  display: block;
+
+  padding: 6px 0;
+
   color:
     rgba(
       255,
@@ -1868,8 +1787,7 @@ mtrSelectorStyle.textContent = `
 
 
 /*
-   A TRANSMISSÃO FICA NO PALCO,
-   NÃO EM CIMA DA LATERAL.
+   A DIREITA FICA SÓ PARA O VÍDEO
 */
 
 #videos {
@@ -1893,16 +1811,27 @@ mtrSelectorStyle.textContent = `
 
 
 /*
-   CONTROLES SEMPRE CLICÁVEIS
+   COMPARTILHAR TELA NA LATERAL
 */
+
+.share-control-area {
+
+  width: 100%;
+
+  margin-top: 14px;
+
+}
+
 
 #share {
 
-  position: relative !important;
+  width: 100%;
 
-  z-index: 10002 !important;
+  position: relative;
 
-  pointer-events: auto !important;
+  z-index: 20;
+
+  pointer-events: auto;
 
 }
 
@@ -1915,7 +1844,8 @@ document.head.appendChild(
 
 
 /* =====================================================
-   OBSERVAR NOVAS TRANSMISSÕES
+   DETECTAR QUANDO ALGUÉM COMEÇA/PARA
+   DE TRANSMITIR
 ===================================================== */
 
 const mtrVideoObserver =
@@ -1923,13 +1853,7 @@ const mtrVideoObserver =
     () => {
 
       setTimeout(
-        () => {
-
-          mtrRefreshStreams();
-
-          mtrFixShareControls();
-
-        },
+        mtrRefreshStreams,
         100
       );
 
@@ -1962,5 +1886,3 @@ if (mtrVideos) {
 mtrCreateStreamSelector();
 
 mtrRefreshStreams();
-
-mtrFixShareControls();
