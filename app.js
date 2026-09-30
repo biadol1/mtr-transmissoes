@@ -557,35 +557,58 @@ function updatePeople() {
     (participant) => {
 
       const chip =
-        document.createElement(
-          "span"
-        );
+  document.createElement("span");
 
-      if (
-        participant ===
-        liveRoom.localParticipant
-      ) {
+chip.classList.add("person-chip");
 
-        chip.textContent =
-          `${
-            participant.name ||
-            "Você"
-          } (você)`;
 
-      } else {
+/* AVATAR MTR */
 
-        chip.textContent =
-          participant.name ||
-          "Participante";
-      }
+const avatar =
+  document.createElement("img");
 
-      $("people")
-        .appendChild(chip);
-    }
-  );
+avatar.src = "mtr-logo.png";
+avatar.alt = "MTR";
+avatar.classList.add("person-avatar");
+
+
+/* NOME */
+
+const name =
+  document.createElement("span");
+
+name.classList.add("person-name");
+
+
+if (
+  participant ===
+  liveRoom.localParticipant
+) {
+
+  name.textContent =
+    `${
+      participant.name ||
+      "Você"
+    } (você)`;
+
+} else {
+
+  name.textContent =
+    participant.name ||
+    "Participante";
+
 }
 
 
+chip.appendChild(avatar);
+chip.appendChild(name);
+
+$("people")
+  .appendChild(chip);
+
+    }
+  );
+}
 /* =====================================================
    BOTÃO COMPARTILHAR
 ===================================================== */
