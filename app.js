@@ -7,35 +7,46 @@ let sharing = false;
 let localScreenStream = null;
 let localScreenTrack = null;
 let localScreenAudioTrack = null;
+
 let localCameraStream = null;
 let localCameraTrack = null;
 let cameraOn = false;
+
 
 /* =====================================================
    UTILIDADES
 ===================================================== */
 
 function roomCode() {
+
   return "MTR-" + Math.random()
     .toString(36)
     .slice(2, 7)
     .toUpperCase();
+
 }
 
+
 function normalizeRoom(value) {
+
   return String(value || "")
     .trim()
     .toUpperCase()
     .replace(/[^A-Z0-9_-]/g, "")
     .slice(0, 32);
+
 }
 
+
 function setMessage(text, inRoom = false) {
-  const element = $(inRoom ? "roomMsg" : "msg");
+
+  const element =
+    $(inRoom ? "roomMsg" : "msg");
 
   if (element) {
     element.textContent = text || "";
   }
+
 }
 
 
@@ -45,82 +56,110 @@ function setMessage(text, inRoom = false) {
 
 async function enter(create) {
 
-  const name = $("name").value.trim();
+  const name =
+    $("name").value.trim();
 
-  let code = normalizeRoom(
-    $("roomCode").value
-  );
+  let code =
+    normalizeRoom(
+      $("roomCode").value
+    );
+
 
   if (!name) {
+
     setMessage(
       "Coloque seu nome para continuar."
     );
+
     return;
+
   }
+
 
   if (create && !code) {
     code = roomCode();
   }
 
+
   if (!code) {
+
     setMessage(
       "Digite o código da sala."
     );
+
     return;
+
   }
+
 
   setMessage("Conectando...");
 
   $("create").disabled = true;
   $("join").disabled = true;
 
+
   try {
 
-    const response = await fetch(
-      "/api/token",
-      {
-        method: "POST",
+    const response =
+      await fetch(
+        "/api/token",
+        {
+          method: "POST",
 
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
 
-        body: JSON.stringify({
-          name: name,
-          room: code,
-        }),
-      }
-    );
+          body: JSON.stringify({
+            name: name,
+            room: code,
+          }),
+        }
+      );
+
 
     const data =
       await response.json();
 
+
     if (!response.ok) {
+
       throw new Error(
         data.error ||
         "Não foi possível entrar."
       );
+
     }
 
-    liveRoom = new LK.Room({
-      adaptiveStream: true,
-      dynacast: true,
-    });
 
-    bindRoomEvents(liveRoom);
+    liveRoom =
+      new LK.Room({
+        adaptiveStream: true,
+        dynacast: true,
+      });
+
+
+    bindRoomEvents(
+      liveRoom
+    );
+
 
     await liveRoom.connect(
       data.url,
       data.token
     );
 
-    currentCode = data.room;
+
+    currentCode =
+      data.room;
+
 
     localStorage.setItem(
       "mtrName",
       name
     );
+
 
     history.replaceState(
       {},
@@ -130,34 +169,44 @@ async function enter(create) {
       )}`
     );
 
+
     $("roomCode").value =
       currentCode;
+
 
     $("roomTitle").textContent =
       `Sala ${currentCode}`;
 
-    $("landing").classList.add(
-      "hidden"
-    );
 
-    $("roomView").classList.remove(
-      "hidden"
-    );
+    $("landing")
+      .classList
+      .add("hidden");
+
+
+    $("roomView")
+      .classList
+      .remove("hidden");
+
 
     if ($("status")) {
+
       $("status").textContent =
         "ONLINE";
+
     }
+
 
     setMessage("");
 
     updatePeople();
     updateStage();
 
+
     console.log(
       "MTR Stream conectado:",
       currentCode
     );
+
 
   } catch (error) {
 
@@ -166,16 +215,20 @@ async function enter(create) {
       error
     );
 
+
     setMessage(
       error.message ||
       "Erro ao conectar."
     );
 
+
   } finally {
 
     $("create").disabled = false;
     $("join").disabled = false;
+
   }
+
 }
 
 
@@ -185,119 +238,157 @@ async function enter(create) {
 
 function bindRoomEvents(room) {
 
- room.on(
-  LK.RoomEvent.TrackSubscribed,
-  (
-    track,
-    publication,
-    participant
-  ) => {
-
-    /* =========================
-       VÍDEO
-    ========================= */
-
-    if (
-      track.kind ===
-      LK.Track.Kind.Video
-    ) {
-
-      attachVideo(
-        track,
-        participant
-      );
-
-    }
+  room.on(
+    LK.RoomEvent.TrackSubscribed,
+    (
+      track,
+      publication,
+      participant
+    ) => {
 
 
-    /* =========================
-       ÁUDIO
-    ========================= */
+      /* =========================
+         VÍDEO
+      ========================= */
 
-    if (
-      track.kind ===
-      LK.Track.Kind.Audio
-    ) {
-
-      const audio =
-        track.attach();
-
-      audio.autoplay = false;
-      audio.controls = false;
-
-      /* começa SEM som */
-      audio.muted = true;
-      audio.volume = 0;
-
-      audio.dataset.mtrParticipant =
-        participant.identity;
-
-      audio.dataset.mtrRemoteAudio =
-        "1";
-
-
-      /* procura o card da pessoa */
-
-      const participantId =
-        participant.identity
-          .replace(
-            /[^a-zA-Z0-9_-]/g,
-            ""
-          );
-
-      const participantCard =
-        Array.from(
-          document.querySelectorAll(
-            "#videos .video-card"
-          )
-        ).find(
-          (card) =>
-            card.id.includes(
-              participantId
-            )
-        );
-
-
-      if (participantCard) {
-
-        participantCard
-          .appendChild(audio);
-
-      } else {
+      if (
+        track.kind ===
+        LK.Track.Kind.Video
+      ) {
 
         /*
-          Se o áudio chegar antes
-          do vídeo, mantém escondido
-          e SILENCIADO.
+          IMPORTANTE:
+
+          Camera = webcam
+          ScreenShare = compartilhamento de tela
+
+          Assim webcam NÃO entra
+          no sistema "Assistir".
         */
 
-        audio.style.display =
-          "none";
+        const isCamera =
+          publication?.source ===
+          LK.Track.Source.Camera;
 
-        document.body
-          .appendChild(audio);
+
+        attachVideo(
+          track,
+          participant,
+          false,
+          isCamera
+            ? "camera"
+            : "screen"
+        );
 
       }
 
 
-      audio.pause();
-      audio.muted = true;
-      audio.volume = 0;
+      /* =========================
+         ÁUDIO
+      ========================= */
+
+      if (
+        track.kind ===
+        LK.Track.Kind.Audio
+      ) {
+
+        const audio =
+          track.attach();
 
 
-      console.log(
-        "Áudio remoto recebido e silenciado:",
-        participant.name
-      );
+        audio.autoplay = false;
+        audio.controls = false;
+
+
+        /*
+          Todo áudio remoto começa
+          completamente silenciado.
+
+          Ele só será liberado se
+          você clicar em Assistir.
+        */
+
+        audio.muted = true;
+        audio.volume = 0;
+
+
+        audio.dataset.mtrParticipant =
+          participant.identity;
+
+
+        audio.dataset.mtrRemoteAudio =
+          "1";
+
+
+        /*
+          PROCURA O CARD
+          DA PESSOA
+        */
+
+        const participantId =
+          participant.identity
+            .replace(
+              /[^a-zA-Z0-9_-]/g,
+              ""
+            );
+
+
+        const participantCard =
+          Array.from(
+            document.querySelectorAll(
+              "#videos .video-card"
+            )
+          ).find(
+            (card) =>
+              card.id.includes(
+                participantId
+              ) &&
+              card.dataset.mtrType ===
+                "screen"
+          );
+
+
+        if (participantCard) {
+
+          participantCard
+            .appendChild(audio);
+
+        } else {
+
+          /*
+            Se o áudio chegar antes
+            da tela, ele fica escondido
+            e silenciado.
+          */
+
+          audio.style.display =
+            "none";
+
+
+          document.body
+            .appendChild(audio);
+
+        }
+
+
+        audio.pause();
+        audio.muted = true;
+        audio.volume = 0;
+
+
+        console.log(
+          "Áudio remoto recebido e silenciado:",
+          participant.name
+        );
+
+      }
+
+
+      updatePeople();
+      updateStage();
 
     }
-
-
-    updatePeople();
-    updateStage();
-
-  }
-); 
+  );
 
 
   room.on(
@@ -308,9 +399,13 @@ function bindRoomEvents(room) {
 
         track
           .detach()
-          .forEach((element) => {
-            element.remove();
-          });
+          .forEach(
+            (element) => {
+
+              element.remove();
+
+            }
+          );
 
       } catch (error) {
 
@@ -318,7 +413,9 @@ function bindRoomEvents(room) {
           "Erro removendo vídeo:",
           error
         );
+
       }
+
 
       if (track.sid) {
 
@@ -330,9 +427,12 @@ function bindRoomEvents(room) {
             (element) =>
               element.remove()
           );
+
       }
 
+
       updateStage();
+
     }
   );
 
@@ -340,7 +440,9 @@ function bindRoomEvents(room) {
   room.on(
     LK.RoomEvent.ParticipantConnected,
     () => {
+
       updatePeople();
+
     }
   );
 
@@ -348,8 +450,10 @@ function bindRoomEvents(room) {
   room.on(
     LK.RoomEvent.ParticipantDisconnected,
     () => {
+
       updatePeople();
       updateStage();
+
     }
   );
 
@@ -359,15 +463,20 @@ function bindRoomEvents(room) {
     () => {
 
       if ($("status")) {
+
         $("status").textContent =
           "DESCONECTADO";
+
       }
+
 
       sharing = false;
 
       updateShareButton();
+
     }
   );
+
 }
 
 
@@ -378,17 +487,20 @@ function bindRoomEvents(room) {
 function attachVideo(
   track,
   participant,
-  local = false
+  local = false,
+  type = "screen"
 ) {
 
   const participantId =
     participant?.identity ||
     "participant";
 
+
   const trackId =
     track.sid ||
     track.mediaStreamTrack?.id ||
-    "screen";
+    "video";
+
 
   const id =
     `video-${participantId}-${trackId}`
@@ -397,43 +509,97 @@ function attachVideo(
         ""
       );
 
+
   if ($(id)) {
     return;
   }
 
+
   const wrap =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   wrap.className =
     "video-card";
 
-  wrap.id = id;
+
+  wrap.id =
+    id;
+
+
+  /*
+    IDENTIFICA SE É:
+
+    camera = WEBCAM
+    screen = TELA
+  */
+
+  wrap.dataset.mtrType =
+    type;
+
+
+  if (type === "camera") {
+
+    wrap.classList.add(
+      "mtr-camera-card"
+    );
+
+  }
+
 
   if (track.sid) {
+
     wrap.dataset.trackSid =
       track.sid;
+
   }
 
+
   if (local) {
+
     wrap.dataset.localPreview =
       "1";
+
   }
+
 
   const video =
     track.attach();
 
+
   video.autoplay = true;
   video.playsInline = true;
 
-  if (local) {
+
+  /*
+    WEBCAM NÃO TEM ÁUDIO.
+
+    Preview local também
+    permanece mutado.
+  */
+
+  if (
+    local ||
+    type === "camera"
+  ) {
+
     video.muted = true;
+    video.volume = 0;
+
   }
 
+
   const label =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   label.className =
     "video-label";
+
 
   label.textContent =
     `${
@@ -445,88 +611,139 @@ function attachVideo(
         : ""
     }`;
 
+
   wrap.append(
     video,
     label
   );
 
+
   $("videos")
-    .appendChild(wrap);
+    .appendChild(
+      wrap
+    );
 
-   
-/* =====================================================
-   COLOCAR O ÁUDIO DESTA PESSOA DENTRO DO CARD
-===================================================== */
 
-if (!local && participant?.identity) {
+  /*
+    SOMENTE COMPARTILHAMENTO
+    DE TELA RECEBE ÁUDIO.
 
-  document
-    .querySelectorAll(
-      'audio[data-mtr-remote-audio="1"]'
-    )
-    .forEach((audio) => {
+    A webcam nunca pega
+    o áudio remoto.
+  */
 
-      if (
-        audio.dataset.mtrParticipant ===
-        participant.identity
-      ) {
+  if (
+    !local &&
+    type === "screen" &&
+    participant?.identity
+  ) {
 
-        wrap.appendChild(audio);
+    document
+      .querySelectorAll(
+        'audio[data-mtr-remote-audio="1"]'
+      )
+      .forEach(
+        (audio) => {
 
-        /* Continua sem som até clicar em Assistir */
-        audio.muted = true;
-        audio.volume = 0;
+          if (
+            audio.dataset
+              .mtrParticipant ===
+            participant.identity
+          ) {
 
-      }
+            wrap.appendChild(
+              audio
+            );
 
-    });
 
-}
+            audio.muted = true;
+            audio.volume = 0;
+
+          }
+
+        }
+      );
+
+  }
+
+
   updateStage();
+
 }
 
 
 /* =====================================================
-   PREVIEW LOCAL
+   PREVIEW LOCAL DA TELA
 ===================================================== */
 
-function createLocalPreview(stream) {
+function createLocalPreview(
+  stream
+) {
+
+  /*
+    Remove somente preview
+    antigo da TELA.
+
+    NÃO remove a webcam.
+  */
 
   removeLocalPreview();
 
+
   const videoTrack =
-    stream.getVideoTracks()[0];
+    stream
+      .getVideoTracks()[0];
+
 
   if (!videoTrack) {
     return;
   }
 
+
   const wrap =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   wrap.className =
     "video-card";
 
+
   wrap.dataset.localPreview =
     "1";
 
+
+  wrap.dataset.mtrType =
+    "screen";
+
+
   const video =
-    document.createElement("video");
+    document.createElement(
+      "video"
+    );
+
 
   video.srcObject =
     new MediaStream([
-      videoTrack,
+      videoTrack
     ]);
+
 
   video.autoplay = true;
   video.playsInline = true;
   video.muted = true;
 
+
   const label =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   label.className =
     "video-label";
+
 
   label.textContent =
     `${
@@ -536,39 +753,59 @@ function createLocalPreview(stream) {
       "Você"
     } • você`;
 
+
   wrap.append(
     video,
     label
   );
 
+
   $("videos")
-    .appendChild(wrap);
+    .appendChild(
+      wrap
+    );
+
 
   updateStage();
+
 }
 
+
+/* =====================================================
+   REMOVER PREVIEW LOCAL DA TELA
+===================================================== */
 
 function removeLocalPreview() {
 
   document
     .querySelectorAll(
-      '[data-local-preview="1"]'
+      '[data-local-preview="1"][data-mtr-type="screen"]'
     )
-    .forEach((element) => {
+    .forEach(
+      (element) => {
 
-      const video =
-        element.querySelector(
-          "video"
-        );
+        const video =
+          element.querySelector(
+            "video"
+          );
 
-      if (video) {
-        video.srcObject = null;
+
+        if (video) {
+
+          video.srcObject =
+            null;
+
+        }
+
+
+        element.remove();
+
       }
+    );
 
-      element.remove();
-    });
 
   updateStage();
+
 }
 
 
@@ -582,11 +819,17 @@ function updateStage() {
     !$("emptyStage") ||
     !$("videos")
   ) {
+
     return;
+
   }
 
+
   const hasVideo =
-    $("videos").children.length > 0;
+    $("videos")
+      .children
+      .length > 0;
+
 
   $("emptyStage")
     .classList
@@ -594,6 +837,7 @@ function updateStage() {
       "hidden",
       hasVideo
     );
+
 }
 
 
@@ -607,88 +851,133 @@ function updatePeople() {
     return;
   }
 
+
   const participants = [
+
     liveRoom.localParticipant,
+
     ...liveRoom
       .remoteParticipants
       .values(),
+
   ];
+
 
   const total =
     participants.length;
 
+
   if ($("count")) {
+
     $("count").textContent =
       `${total}/6 assistindo`;
+
   }
 
+
   if ($("sideCount")) {
+
     $("sideCount").textContent =
       `${total}/6`;
+
   }
+
 
   if (!$("people")) {
     return;
   }
 
-  $("people").innerHTML = "";
+
+  $("people").innerHTML =
+    "";
+
 
   participants.forEach(
     (participant) => {
 
       const chip =
-  document.createElement("span");
-
-chip.classList.add("person-chip");
-
-
-/* AVATAR MTR */
-
-const avatar =
-  document.createElement("img");
-
-avatar.src = "mtr-logo.png";
-avatar.alt = "MTR";
-avatar.classList.add("person-avatar");
+        document.createElement(
+          "span"
+        );
 
 
-/* NOME */
-
-const name =
-  document.createElement("span");
-
-name.classList.add("person-name");
+      chip.classList.add(
+        "person-chip"
+      );
 
 
-if (
-  participant ===
-  liveRoom.localParticipant
-) {
+      /* AVATAR MTR */
 
-  name.textContent =
-    `${
-      participant.name ||
-      "Você"
-    } (você)`;
-
-} else {
-
-  name.textContent =
-    participant.name ||
-    "Participante";
-
-}
+      const avatar =
+        document.createElement(
+          "img"
+        );
 
 
-chip.appendChild(avatar);
-chip.appendChild(name);
+      avatar.src =
+        "mtr-logo.png";
 
-$("people")
-  .appendChild(chip);
+      avatar.alt =
+        "MTR";
+
+      avatar.classList.add(
+        "person-avatar"
+      );
+
+
+      /* NOME */
+
+      const name =
+        document.createElement(
+          "span"
+        );
+
+
+      name.classList.add(
+        "person-name"
+      );
+
+
+      if (
+        participant ===
+        liveRoom.localParticipant
+      ) {
+
+        name.textContent =
+          `${
+            participant.name ||
+            "Você"
+          } (você)`;
+
+      } else {
+
+        name.textContent =
+          participant.name ||
+          "Participante";
+
+      }
+
+
+      chip.appendChild(
+        avatar
+      );
+
+      chip.appendChild(
+        name
+      );
+
+
+      $("people")
+        .appendChild(
+          chip
+        );
 
     }
   );
+
 }
+
+
 /* =====================================================
    BOTÃO COMPARTILHAR
 ===================================================== */
@@ -698,9 +987,11 @@ function updateShareButton() {
   const button =
     $("share");
 
+
   if (!button) {
     return;
   }
+
 
   if (sharing) {
 
@@ -711,7 +1002,9 @@ function updateShareButton() {
 
     button.textContent =
       "🖥 Compartilhar tela";
+
   }
+
 }
 
 
@@ -725,6 +1018,7 @@ async function startScreenShare() {
     "startScreenShare chamada"
   );
 
+
   if (!liveRoom) {
 
     setMessage(
@@ -734,6 +1028,7 @@ async function startScreenShare() {
 
     return;
   }
+
 
   if (
     !navigator.mediaDevices ||
@@ -749,9 +1044,11 @@ async function startScreenShare() {
     return;
   }
 
+
   const quality =
     $("quality")?.value ||
     "720";
+
 
   const fps =
     Number(
@@ -759,26 +1056,41 @@ async function startScreenShare() {
       30
     );
 
+
   const width =
     quality === "1080"
       ? 1920
       : 1280;
 
+
   const height =
     quality === "1080"
       ? 1080
       : 720;
-     try {
+
+
+  try {
 
     setMessage(
       "Escolha a tela ou janela que deseja compartilhar...",
       true
     );
 
+
+    /*
+      COMPARTILHAMENTO DE TELA
+
+      audio: true permite capturar
+      o áudio quando o navegador
+      disponibilizar essa opção.
+    */
+
     const stream =
       await navigator.mediaDevices
         .getDisplayMedia({
+
           video: {
+
             width: {
               ideal: width
             },
@@ -791,55 +1103,72 @@ async function startScreenShare() {
               ideal: fps,
               max: fps
             }
+
           },
 
           audio: true
+
         });
 
 
     const videoTrack =
-      stream.getVideoTracks()[0];
+      stream
+        .getVideoTracks()[0];
+
 
     const audioTrack =
-      stream.getAudioTracks()[0];
-console.log(
-  "🎵 Áudios capturados:",
-  stream.getAudioTracks()
-);
+      stream
+        .getAudioTracks()[0];
 
-console.log(
-  "🎵 audioTrack:",
-  audioTrack
-);
 
-if (audioTrack) {
-  console.log(
-    "🎵 AUDIO ATIVO:",
-    audioTrack.label,
-    "enabled:",
-    audioTrack.enabled,
-    "muted:",
-    audioTrack.muted,
-    "readyState:",
-    audioTrack.readyState
-  );
-} else {
-  console.error(
-    "❌ NENHUM ÁUDIO FOI CAPTURADO PELO NAVEGADOR"
-  );
-}
+    console.log(
+      "🎵 Áudios capturados:",
+      stream.getAudioTracks()
+    );
+
+
+    console.log(
+      "🎵 audioTrack:",
+      audioTrack
+    );
+
+
+    if (audioTrack) {
+
+      console.log(
+        "🎵 AUDIO ATIVO:",
+        audioTrack.label,
+        "enabled:",
+        audioTrack.enabled,
+        "muted:",
+        audioTrack.muted,
+        "readyState:",
+        audioTrack.readyState
+      );
+
+    } else {
+
+      console.log(
+        "Nenhum áudio foi fornecido pelo navegador."
+      );
+
+    }
+
 
     if (!videoTrack) {
 
       stream
         .getTracks()
         .forEach(
-          track => track.stop()
+          (track) =>
+            track.stop()
         );
+
 
       throw new Error(
         "Nenhuma tela foi selecionada."
       );
+
     }
 
 
@@ -847,9 +1176,9 @@ if (audioTrack) {
       stream;
 
 
-    /*
-     * PUBLICAR VÍDEO
-     */
+    /* =================================================
+       PUBLICAR VÍDEO DA TELA
+    ================================================= */
 
     localScreenTrack =
       new LK.LocalVideoTrack(
@@ -862,18 +1191,20 @@ if (audioTrack) {
       .publishTrack(
         localScreenTrack,
         {
+
           source:
             LK.Track.Source
               .ScreenShare,
 
           simulcast: true
+
         }
       );
 
 
-    /*
-     * PUBLICAR ÁUDIO DA TELA/JANELA
-     */
+    /* =================================================
+       PUBLICAR ÁUDIO DA TELA
+    ================================================= */
 
     if (audioTrack) {
 
@@ -890,9 +1221,11 @@ if (audioTrack) {
           .publishTrack(
             localScreenAudioTrack,
             {
+
               source:
                 LK.Track.Source
                   .ScreenShareAudio
+
             }
           );
 
@@ -901,6 +1234,7 @@ if (audioTrack) {
           "Áudio da tela publicado."
         );
 
+
       } catch (audioError) {
 
         console.warn(
@@ -908,27 +1242,36 @@ if (audioTrack) {
           audioError
         );
 
+
         localScreenAudioTrack =
           null;
+
       }
+
 
     } else {
 
       localScreenAudioTrack =
         null;
 
-      console.log(
-        "A tela selecionada não forneceu áudio."
-      );
     }
 
+
+    /*
+      MOSTRA A PRÓPRIA TELA
+      LOCALMENTE.
+
+      Isso é separado da webcam.
+    */
 
     createLocalPreview(
       stream
     );
 
 
-    sharing = true;
+    sharing =
+      true;
+
 
     updateShareButton();
 
@@ -936,34 +1279,41 @@ if (audioTrack) {
     const selectedWindow =
       $("selectedWindow");
 
+
     if (selectedWindow) {
 
       selectedWindow.textContent =
         videoTrack.label ||
         "Tela compartilhada";
+
     }
 
 
     setMessage(
+
       audioTrack
         ? "Transmitindo tela e áudio."
         : "Transmitindo tela. Para enviar o som, marque compartilhar áudio no seletor do navegador.",
+
       true
+
     );
 
 
     /*
-     * SE A PESSOA CLICAR EM
-     * "PARAR COMPARTILHAMENTO"
-     * NO PRÓPRIO NAVEGADOR
-     */
+      SE CLICAR EM
+      "PARAR COMPARTILHAMENTO"
+      NA JANELA DO NAVEGADOR
+    */
 
     videoTrack.addEventListener(
       "ended",
       () => {
 
         if (sharing) {
+
           stopScreenShare();
+
         }
 
       },
@@ -988,10 +1338,14 @@ if (audioTrack) {
     );
 
 
-    sharing = false;
+    sharing =
+      false;
+
 
     updateShareButton();
+
   }
+
 }
 
 
@@ -1007,6 +1361,8 @@ async function stopScreenShare() {
 
 
   try {
+
+    /* VÍDEO */
 
     if (localScreenTrack) {
 
@@ -1024,18 +1380,24 @@ async function stopScreenShare() {
           "Erro ao remover vídeo:",
           error
         );
+
       }
 
 
       try {
 
         localScreenTrack.stop();
+
       } catch (_) {}
 
     }
 
 
-    if (localScreenAudioTrack) {
+    /* ÁUDIO */
+
+    if (
+      localScreenAudioTrack
+    ) {
 
       try {
 
@@ -1051,69 +1413,113 @@ async function stopScreenShare() {
           "Erro ao remover áudio:",
           error
         );
+
       }
 
 
       try {
 
-        localScreenAudioTrack.stop();
+        localScreenAudioTrack
+          .stop();
+
       } catch (_) {}
 
     }
 
+
+    /* STREAM ORIGINAL */
 
     if (localScreenStream) {
 
       localScreenStream
         .getTracks()
         .forEach(
-          track => {
+          (track) => {
 
             try {
+
               track.stop();
+
             } catch (_) {}
 
           }
         );
+
     }
 
 
   } finally {
 
-    localScreenTrack = null;
-    localScreenAudioTrack = null;
-    localScreenStream = null;
+    localScreenTrack =
+      null;
 
-    sharing = false;
+    localScreenAudioTrack =
+      null;
+
+    localScreenStream =
+      null;
+
+
+    sharing =
+      false;
+
+
+    /*
+      REMOVE SOMENTE
+      O PREVIEW DA TELA.
+
+      A WEBCAM CONTINUA.
+    */
 
     removeLocalPreview();
 
+
     updateShareButton();
-/* SE NÃO ESTIVER ASSISTINDO NINGUÉM,
-   GARANTE QUE NENHUM ÁUDIO REMOTO CONTINUE TOCANDO */
 
-if (!mtrSelectedStream) {
 
-  document
-    .querySelectorAll("#videos video, #videos audio")
-    .forEach((media) => {
+    /*
+      Se não estiver assistindo
+      uma transmissão, garante
+      que nenhum áudio de tela
+      remota continue tocando.
 
-      media.pause();
-      media.muted = true;
-      media.volume = 0;
+      NÃO pausa webcams.
+    */
 
-    });
+    if (!mtrSelectedStream) {
 
-}
+      document
+        .querySelectorAll(
+          '#videos .video-card[data-mtr-type="screen"] video, #videos .video-card[data-mtr-type="screen"] audio'
+        )
+        .forEach(
+          (media) => {
 
-/* REAPLICA QUEM ESTÁ SENDO ASSISTIDO */
-mtrApplySelection();
+            media.pause();
+            media.muted = true;
+            media.volume = 0;
+
+          }
+        );
+
+    }
+
+
+    /*
+      Reaplica:
+      - webcams visíveis
+      - transmissão escolhida
+    */
+
+    mtrApplySelection();
+
 
     if ($("selectedWindow")) {
 
       $("selectedWindow")
         .textContent =
           "Nenhuma janela selecionada";
+
     }
 
 
@@ -1121,7 +1527,9 @@ mtrApplySelection();
       "Transmissão encerrada.",
       true
     );
+
   }
+
 }
 
 
@@ -1138,7 +1546,9 @@ async function handleShareClick() {
   } else {
 
     await startScreenShare();
+
   }
+
 }
 
 
@@ -1149,7 +1559,9 @@ if ($("share")) {
       "click",
       handleShareClick
     );
+
 }
+
 
 /* =====================================================
    WEBCAM
@@ -1157,16 +1569,20 @@ if ($("share")) {
 
 function updateCameraButton() {
 
-  const button = $("camera");
+  const button =
+    $("camera");
+
 
   if (!button) {
     return;
   }
 
+
   button.textContent =
     cameraOn
       ? "📷 Desligar webcam"
       : "📷 Ligar webcam";
+
 }
 
 
@@ -1184,6 +1600,23 @@ async function startCamera() {
     );
 
     return;
+
+  }
+
+
+  if (
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices
+      .getUserMedia
+  ) {
+
+    setMessage(
+      "Seu navegador não permite usar a webcam.",
+      true
+    );
+
+    return;
+
   }
 
 
@@ -1195,12 +1628,18 @@ async function startCamera() {
     );
 
 
-    /* SOMENTE CÂMERA — SEM MICROFONE */
+    /*
+      SOMENTE CÂMERA.
+
+      NÃO captura microfone.
+    */
 
     localCameraStream =
       await navigator.mediaDevices
         .getUserMedia({
+
           video: {
+
             width: {
               ideal: 1280
             },
@@ -1212,9 +1651,11 @@ async function startCamera() {
             frameRate: {
               ideal: 30
             }
+
           },
 
           audio: false
+
         });
 
 
@@ -1228,6 +1669,7 @@ async function startCamera() {
       throw new Error(
         "Nenhuma webcam encontrada."
       );
+
     }
 
 
@@ -1237,37 +1679,60 @@ async function startCamera() {
       );
 
 
+    /*
+      PUBLICA COMO CAMERA.
+
+      Isso é o que permite
+      diferenciar webcam de
+      compartilhamento de tela.
+    */
+
     await liveRoom
       .localParticipant
       .publishTrack(
         localCameraTrack,
         {
+
           source:
             LK.Track.Source.Camera,
 
           simulcast: true
+
         }
       );
 
 
-    cameraOn = true;
-
-updateCameraButton();
-
-
-/* MOSTRA MINHA WEBCAM NA TELA */
-
-attachVideo(
-  localCameraTrack,
-  liveRoom.localParticipant,
-  true
-);
+    cameraOn =
+      true;
 
 
-setMessage(
-  "Webcam ligada.",
-  true
-);
+    updateCameraButton();
+
+
+    /*
+      MOSTRA SUA PRÓPRIA
+      WEBCAM NA GRADE.
+    */
+
+    attachVideo(
+      localCameraTrack,
+      liveRoom.localParticipant,
+      true,
+      "camera"
+    );
+
+
+    /*
+      Reorganiza a tela.
+    */
+
+    mtrApplySelection();
+
+
+    setMessage(
+      "Webcam ligada.",
+      true
+    );
 
 
   } catch (error) {
@@ -1283,14 +1748,29 @@ setMessage(
       localCameraStream
         .getTracks()
         .forEach(
-          track => track.stop()
+          (track) => {
+
+            try {
+
+              track.stop();
+
+            } catch (_) {}
+
+          }
         );
+
     }
 
 
-    localCameraStream = null;
-    localCameraTrack = null;
-    cameraOn = false;
+    localCameraStream =
+      null;
+
+    localCameraTrack =
+      null;
+
+    cameraOn =
+      false;
+
 
     updateCameraButton();
 
@@ -1299,7 +1779,9 @@ setMessage(
       "Não foi possível abrir a webcam.",
       true
     );
+
   }
+
 }
 
 
@@ -1316,18 +1798,33 @@ async function stopCamera() {
       localCameraTrack
     ) {
 
-      await liveRoom
-        .localParticipant
-        .unpublishTrack(
-          localCameraTrack
+      try {
+
+        await liveRoom
+          .localParticipant
+          .unpublishTrack(
+            localCameraTrack
+          );
+
+      } catch (error) {
+
+        console.warn(
+          "Erro ao remover webcam:",
+          error
         );
+
+      }
+
     }
 
 
     if (localCameraTrack) {
 
       try {
-        localCameraTrack.stop();
+
+        localCameraTrack
+          .stop();
+
       } catch (_) {}
 
     }
@@ -1338,37 +1835,67 @@ async function stopCamera() {
       localCameraStream
         .getTracks()
         .forEach(
-          track => {
+          (track) => {
 
             try {
+
               track.stop();
+
             } catch (_) {}
 
           }
         );
+
     }
 
 
-  } catch (error) {
-
-    console.warn(
-      "Erro ao desligar webcam:",
-      error
-    );
-
   } finally {
 
-    localCameraTrack = null;
-    localCameraStream = null;
-    cameraOn = false;
+    /*
+      REMOVE SOMENTE O CARD
+      DA WEBCAM LOCAL.
+
+      Não remove a transmissão
+      de tela.
+    */
+
+    document
+      .querySelectorAll(
+        '#videos .video-card[data-local-preview="1"][data-mtr-type="camera"]'
+      )
+      .forEach(
+        (card) => {
+
+          card.remove();
+
+        }
+      );
+
+
+    localCameraTrack =
+      null;
+
+    localCameraStream =
+      null;
+
+    cameraOn =
+      false;
+
+
+    updateStage();
 
     updateCameraButton();
+
+    mtrApplySelection();
+
 
     setMessage(
       "Webcam desligada.",
       true
     );
+
   }
+
 }
 
 
@@ -1387,6 +1914,7 @@ async function handleCameraClick() {
     await startCamera();
 
   }
+
 }
 
 
@@ -1397,10 +1925,13 @@ if ($("camera")) {
       "click",
       handleCameraClick
     );
+
 }
 
 
 updateCameraButton();
+
+
 /* =====================================================
    VOLUME
 ===================================================== */
@@ -1414,10 +1945,20 @@ function applyVolume() {
     ) / 100;
 
 
+  /*
+    ÁUDIOS REMOTOS.
+
+    Só alteramos volume.
+    Quem decide se pode tocar
+    é mtrApplySelection().
+  */
+
   document
-    .querySelectorAll("audio")
+    .querySelectorAll(
+      "audio"
+    )
     .forEach(
-      audio => {
+      (audio) => {
 
         audio.volume =
           Math.max(
@@ -1432,22 +1973,41 @@ function applyVolume() {
     );
 
 
+  /*
+    VÍDEOS.
+
+    Webcam continua mutada.
+    Preview local continua mutado.
+  */
+
   document
     .querySelectorAll(
       "#videos video"
     )
     .forEach(
-      video => {
+      (video) => {
+
+        const card =
+          video.closest(
+            ".video-card"
+          );
+
 
         if (
-          video.closest(
-            '[data-local-preview="1"]'
-          )
+          card?.dataset
+            .localPreview === "1" ||
+          card?.dataset
+            .mtrType === "camera"
         ) {
 
-          video.muted = true;
+          video.muted =
+            true;
+
+          video.volume =
+            0;
 
           return;
+
         }
 
 
@@ -1462,6 +2022,7 @@ function applyVolume() {
 
       }
     );
+
 }
 
 
@@ -1470,8 +2031,22 @@ if ($("volume")) {
   $("volume")
     .addEventListener(
       "input",
-      applyVolume
+      () => {
+
+        applyVolume();
+
+        /*
+          Reaplica a seleção
+          para não liberar áudio
+          de quem não está sendo
+          assistido.
+        */
+
+        mtrApplySelection();
+
+      }
     );
+
 }
 
 
@@ -1494,14 +2069,18 @@ if ($("invite")) {
 
         try {
 
-          await navigator.clipboard
-            .writeText(url);
+          await navigator
+            .clipboard
+            .writeText(
+              url
+            );
 
 
           setMessage(
             "Link da sala copiado!",
             true
           );
+
 
         } catch (error) {
 
@@ -1515,10 +2094,12 @@ if ($("invite")) {
             url,
             true
           );
+
         }
 
       }
     );
+
 }
 
 
@@ -1535,14 +2116,36 @@ if ($("leave")) {
 
         try {
 
+          /*
+            DESLIGA WEBCAM
+            ANTES DE SAIR.
+          */
+
+          if (cameraOn) {
+
+            await stopCamera();
+
+          }
+
+
+          /*
+            PARA TRANSMISSÃO.
+          */
+
           if (sharing) {
+
             await stopScreenShare();
+
           }
 
 
           if (liveRoom) {
-            await liveRoom.disconnect();
+
+            await liveRoom
+              .disconnect();
+
           }
+
 
         } catch (error) {
 
@@ -1550,19 +2153,30 @@ if ($("leave")) {
             "Erro ao sair:",
             error
           );
+
         }
 
 
-        liveRoom = null;
-        currentCode = "";
+        liveRoom =
+          null;
+
+        currentCode =
+          "";
+
 
         $("roomView")
           ?.classList
-          .add("hidden");
+          .add(
+            "hidden"
+          );
+
 
         $("landing")
           ?.classList
-          .remove("hidden");
+          .remove(
+            "hidden"
+          );
+
 
         history.replaceState(
           {},
@@ -1570,11 +2184,14 @@ if ($("leave")) {
           location.pathname
         );
 
+
         setMessage(
           "Você saiu da sala."
         );
+
       }
     );
+
 }
 
 
@@ -1589,6 +2206,7 @@ if ($("create")) {
       "click",
       () => enter(true)
     );
+
 }
 
 
@@ -1599,6 +2217,7 @@ if ($("join")) {
       "click",
       () => enter(false)
     );
+
 }
 
 
@@ -1609,13 +2228,16 @@ if ($("join")) {
 $("name")
   ?.addEventListener(
     "keydown",
-    event => {
+    (event) => {
 
       if (
         event.key === "Enter"
       ) {
+
         enter(false);
+
       }
+
     }
   );
 
@@ -1623,13 +2245,16 @@ $("name")
 $("roomCode")
   ?.addEventListener(
     "keydown",
-    event => {
+    (event) => {
 
       if (
         event.key === "Enter"
       ) {
+
         enter(false);
+
       }
+
     }
   );
 
@@ -1651,8 +2276,13 @@ if (
 
   $("name").value =
     savedName;
+
 }
 
+
+/* =====================================================
+   SALA PELO LINK
+===================================================== */
 
 const params =
   new URLSearchParams(
@@ -1673,27 +2303,49 @@ if (
 
   $("roomCode").value =
     roomFromUrl;
+
 }
 
 
-/* MODO CONVITE */
+/* =====================================================
+   MODO CONVITE
+
+   Se entrar pelo link da sala:
+   - esconde Criar sala
+   - deixa somente Entrar na sala
+===================================================== */
+
 if (roomFromUrl) {
 
   const createButton =
-    document.getElementById("create");
+    document.getElementById(
+      "create"
+    );
+
 
   if (createButton) {
-    createButton.style.display = "none";
+
+    createButton.style.display =
+      "none";
+
   }
 
+
   const joinButton =
-    document.getElementById("join");
+    document.getElementById(
+      "join"
+    );
+
 
   if (joinButton) {
-    joinButton.textContent = "Entrar na sala";
+
+    joinButton.textContent =
+      "Entrar na sala";
+
   }
 
 }
+
 
 /* =====================================================
    ESTADO INICIAL
@@ -1705,20 +2357,22 @@ applyVolume();
 
 
 console.log(
-  "MTR Stream carregado — botão de compartilhamento corrigido."
+  "MTR Stream carregado."
 );
 
 
 /* =====================================================
    MTR — ESCOLHER QUAL TRANSMISSÃO ASSISTIR
-   CONTROLES NA LATERAL ESQUERDA
 ===================================================== */
 
-let mtrSelectedStream = null;
+let mtrSelectedStream =
+  null;
 
 
 /* =====================================================
-   PEGAR TRANSMISSÕES DOS OUTROS
+   PEGAR SOMENTE COMPARTILHAMENTOS DE TELA
+
+   WEBCAM NÃO ENTRA NESTA LISTA
 ===================================================== */
 
 function mtrGetRemoteStreams() {
@@ -1727,13 +2381,21 @@ function mtrGetRemoteStreams() {
     document.querySelectorAll(
       "#videos .video-card"
     )
-  ).filter((card) => {
+  ).filter(
+    (card) => {
 
-    return (
-      card.dataset.localPreview !== "1"
-    );
+      return (
 
-  });
+        card.dataset
+          .localPreview !== "1" &&
+
+        card.dataset
+          .mtrType !== "camera"
+
+      );
+
+    }
+  );
 
 }
 
@@ -1744,12 +2406,19 @@ function mtrGetRemoteStreams() {
 
 function mtrCreateStreamSelector() {
 
+  /*
+    Se já existe,
+    não cria novamente.
+  */
+
   if (
     document.getElementById(
       "mtrStreamSelector"
     )
   ) {
+
     return;
+
   }
 
 
@@ -1760,12 +2429,16 @@ function mtrCreateStreamSelector() {
 
 
   if (!sideContainer) {
+
     return;
+
   }
 
 
   const selector =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
 
   selector.id =
@@ -1774,7 +2447,9 @@ function mtrCreateStreamSelector() {
 
   selector.innerHTML = `
 
-    <div id="mtrStreamButtons"></div>
+    <div
+      id="mtrStreamButtons"
+    ></div>
 
     <button
       id="mtrStopWatching"
@@ -1786,29 +2461,37 @@ function mtrCreateStreamSelector() {
   `;
 
 
-  sideContainer.appendChild(
-    selector
-  );
-
-
-  document
-    .getElementById(
-      "mtrStopWatching"
-    )
-    .addEventListener(
-      "click",
-      () => {
-
-        mtrStopWatching();
-
-      }
+  sideContainer
+    .appendChild(
+      selector
     );
+
+
+  const stopButton =
+    document.getElementById(
+      "mtrStopWatching"
+    );
+
+
+  if (stopButton) {
+
+    stopButton
+      .addEventListener(
+        "click",
+        () => {
+
+          mtrStopWatching();
+
+        }
+      );
+
+  }
 
 }
 
 
 /* =====================================================
-   ATUALIZAR TRANSMISSÕES
+   ATUALIZAR LISTA DE TRANSMISSÕES
 ===================================================== */
 
 function mtrRefreshStreams() {
@@ -1823,12 +2506,22 @@ function mtrRefreshStreams() {
 
 
   if (!container) {
+
     return;
+
   }
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
+
+  /*
+    Aqui entram somente
+    compartilhamentos de tela.
+
+    Webcams ficam fora.
+  */
 
   const streams =
     mtrGetRemoteStreams();
@@ -1858,22 +2551,29 @@ function mtrRefreshStreams() {
     mtrApplySelection();
 
     return;
+
   }
 
 
   streams.forEach(
     (card, index) => {
 
+      /*
+        Dá um ID próprio
+        para cada transmissão.
+      */
 
       if (
-        !card.dataset.mtrStreamId
+        !card.dataset
+          .mtrStreamId
       ) {
 
-        card.dataset.mtrStreamId =
-          "mtr-stream-" +
-          index +
-          "-" +
-          Date.now();
+        card.dataset
+          .mtrStreamId =
+            "mtr-stream-" +
+            index +
+            "-" +
+            Date.now();
 
       }
 
@@ -1908,9 +2608,15 @@ function mtrRefreshStreams() {
         "mtr-stream-button";
 
 
+      /*
+        DESTACA QUEM
+        ESTÁ SENDO ASSISTIDO.
+      */
+
       if (
         mtrSelectedStream ===
-        card.dataset.mtrStreamId
+        card.dataset
+          .mtrStreamId
       ) {
 
         button.classList.add(
@@ -1936,7 +2642,8 @@ function mtrRefreshStreams() {
         () => {
 
           mtrWatchStream(
-            card.dataset.mtrStreamId
+            card.dataset
+              .mtrStreamId
           );
 
         }
@@ -1962,7 +2669,9 @@ function mtrRefreshStreams() {
 
 function mtrWatchStream(id) {
 
-  mtrSelectedStream = id;
+  mtrSelectedStream =
+    id;
+
 
   mtrApplySelection();
 
@@ -1977,47 +2686,140 @@ function mtrWatchStream(id) {
 
 function mtrStopWatching() {
 
-  mtrSelectedStream = null;
+  mtrSelectedStream =
+    null;
 
-  /* PARA O ÁUDIO/VÍDEO QUE ESTAVA SENDO ASSISTIDO */
-  const videos = document.querySelectorAll("#videos video");
-  const audios = document.querySelectorAll("#videos audio");
 
-  videos.forEach((media) => {
-    media.pause();
-    media.muted = true;
-    media.volume = 0;
-  });
+  /*
+    Para SOMENTE os vídeos/áudios
+    de compartilhamento de tela.
 
-  audios.forEach((media) => {
-    media.pause();
-    media.muted = true;
-    media.volume = 0;
-  });
+    WEBCAMS CONTINUAM VISÍVEIS.
+  */
+
+  document
+    .querySelectorAll(
+      '#videos .video-card[data-mtr-type="screen"] video, #videos .video-card[data-mtr-type="screen"] audio'
+    )
+    .forEach(
+      (media) => {
+
+        media.pause();
+
+        media.muted =
+          true;
+
+        media.volume =
+          0;
+
+      }
+    );
+
 
   mtrApplySelection();
 
   mtrRefreshStreams();
 
+
   setMessage(
     "Você parou de assistir. Escolha outra transmissão quando quiser.",
     true
   );
+
 }
 
 
 /* =====================================================
-   MOSTRAR SOMENTE QUEM FOI ESCOLHIDO
+   MOSTRAR WEBCAMS + TRANSMISSÃO ESCOLHIDA
 ===================================================== */
 
 function mtrApplySelection() {
-/* SILENCIA TODAS AS TRANSMISSÕES PRIMEIRO */
-document
-  .querySelectorAll("#videos video, #videos audio")
-  .forEach((media) => {
-    media.muted = true;
-    media.volume = 0;
-  });
+
+  /*
+    ==========================================
+    1. WEBCAMS
+
+    Webcam fica SEMPRE visível.
+
+    Não precisa clicar em:
+    "Assistir Sakura"
+    "Assistir Iipe"
+
+    E webcam continua SEM áudio.
+    ==========================================
+  */
+
+  document
+    .querySelectorAll(
+      '#videos .video-card[data-mtr-type="camera"]'
+    )
+    .forEach(
+      (card) => {
+
+        card.style.display =
+          "block";
+
+
+        card.classList.remove(
+          "mtr-watching"
+        );
+
+
+        card
+          .querySelectorAll(
+            "video, audio"
+          )
+          .forEach(
+            (media) => {
+
+              /*
+                Webcam nunca libera
+                áudio.
+              */
+
+              media.muted =
+                true;
+
+              media.volume =
+                0;
+
+
+              /*
+                O vídeo da webcam
+                precisa continuar
+                reproduzindo.
+              */
+
+              if (
+                media.tagName ===
+                "VIDEO"
+              ) {
+
+                media
+                  .play()
+                  .catch(
+                    () => {}
+                  );
+
+              } else {
+
+                media.pause();
+
+              }
+
+            }
+          );
+
+      }
+    );
+
+
+  /*
+    ==========================================
+    2. COMPARTILHAMENTOS DE TELA
+    ==========================================
+  */
+
   const streams =
     mtrGetRemoteStreams();
 
@@ -2025,73 +2827,112 @@ document
   streams.forEach(
     (card) => {
 
-
       const selected =
         mtrSelectedStream &&
-        card.dataset.mtrStreamId ===
+        card.dataset
+          .mtrStreamId ===
           mtrSelectedStream;
 
 
-     if (selected) {
+      /*
+        TRANSMISSÃO ESCOLHIDA
+      */
 
-  card.style.display =
-    "block";
+      if (selected) {
 
-  card.classList.add(
-    "mtr-watching"
-  );
+        card.style.display =
+          "block";
 
-  /* LIBERA O SOM SOMENTE DE QUEM VOCÊ ESTÁ ASSISTINDO */
-  card
-    .querySelectorAll("video, audio")
-    .forEach((media) => {
 
-      media.muted = false;
+        card.classList.add(
+          "mtr-watching"
+        );
 
-      const volume =
-        document.getElementById("volume");
 
-      media.volume =
-        volume
-          ? Number(volume.value) / 100
-          : 0.75;
+        /*
+          Só aqui libera o áudio
+          da transmissão escolhida.
+        */
 
-      media.play().catch(() => {});
+        card
+          .querySelectorAll(
+            "video, audio"
+          )
+          .forEach(
+            (media) => {
 
-    });
+              media.muted =
+                false;
 
-} else {
 
-  card.style.display =
-    "none";
+              const volume =
+                document
+                  .getElementById(
+                    "volume"
+                  );
 
-  card.classList.remove(
-    "mtr-watching"
-  );
 
-  /* DESLIGA O SOM DE QUEM VOCÊ NÃO ESTÁ ASSISTINDO */
-  card
-    .querySelectorAll("video, audio")
-    .forEach((media) => {
+              media.volume =
+                volume
+                  ? Number(
+                      volume.value
+                    ) / 100
+                  : 0.75;
 
-      media.pause();
-      media.muted = true;
-      media.volume = 0;
 
-    });
+              media
+                .play()
+                .catch(
+                  () => {}
+                );
 
-}
+            }
+          );
+
+
+      /*
+        TRANSMISSÕES QUE NÃO
+        ESTÃO SENDO ASSISTIDAS
+      */
+
+      } else {
+
+        card.style.display =
+          "none";
+
+
+        card.classList.remove(
+          "mtr-watching"
+        );
+
+
+        card
+          .querySelectorAll(
+            "video, audio"
+          )
+          .forEach(
+            (media) => {
+
+              media.pause();
+
+              media.muted =
+                true;
+
+              media.volume =
+                0;
+
+            }
+          );
+
+      }
 
     }
   );
 
 
   /*
-     NÃO MEXE NO PREVIEW DA PRÓPRIA PESSOA.
-     ASSIM VOCÊ PODE ASSISTIR ALGUÉM
-     E TRANSMITIR AO MESMO TEMPO.
+    BOTÃO PARAR DE ASSISTIR
   */
-
 
   const stopButton =
     document.getElementById(
@@ -2110,7 +2951,7 @@ document
 
 
 /* =====================================================
-   VISUAL DA LATERAL
+   VISUAL DA LATERAL + WEBCAMS
 ===================================================== */
 
 const mtrSelectorStyle =
@@ -2120,6 +2961,10 @@ const mtrSelectorStyle =
 
 
 mtrSelectorStyle.textContent = `
+
+/* =====================================================
+   CONTROLE DAS TRANSMISSÕES
+===================================================== */
 
 #mtrStreamSelector {
 
@@ -2248,9 +3093,9 @@ mtrSelectorStyle.textContent = `
 }
 
 
-/*
-   A DIREITA FICA SÓ PARA O VÍDEO
-*/
+/* =====================================================
+   ÁREA DOS VÍDEOS
+===================================================== */
 
 #videos {
 
@@ -2272,33 +3117,293 @@ mtrSelectorStyle.textContent = `
 }
 
 
-/*
-   COMPARTILHAR TELA NA LATERAL
-*/
+/* =====================================================
+   WEBCAMS
 
-.share-control-area {
+   1 webcam = grande e centralizada
+   2 webcams = lado a lado
+   3/4 webcams = grade
+   5/6 webcams = grade automática
+===================================================== */
+
+#videos:has(.mtr-camera-card) {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 12px;
 
   width: 100%;
 
-  margin-top: 14px;
+  height: 100%;
+
+  padding: 12px;
+
+  box-sizing: border-box;
+
+  align-content: center;
+
+}
+
+
+#videos .mtr-camera-card {
+
+  display: block;
+
+  position: relative;
+
+  width: 100%;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background:
+    #050505;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      35,
+      75,
+      .35
+    );
+
+  box-shadow:
+    0 10px 30px
+    rgba(
+      0,
+      0,
+      0,
+      .35
+    );
+
+}
+
+
+#videos .mtr-camera-card video {
+
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  min-height: 230px;
+
+  max-height: 70vh;
+
+  object-fit: cover;
+
+  background:
+    #050505;
+
+}
+
+
+/* NOME EM CIMA DA WEBCAM */
+
+#videos
+.mtr-camera-card
+.video-label {
+
+  position: absolute;
+
+  left: 12px;
+
+  bottom: 12px;
+
+  z-index: 5;
+
+  padding:
+    7px 11px;
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      .72
+    );
+
+  color:
+    #ffffff;
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+
+  pointer-events:
+    none;
+
+}
+
+
+/* =====================================================
+   QUANDO EXISTIR UMA ÚNICA WEBCAM
+===================================================== */
+
+#videos
+.mtr-camera-card:only-child {
+
+  grid-column:
+    1 / -1;
+
+  width:
+    min(
+      760px,
+      100%
+    );
+
+  justify-self:
+    center;
+
+}
+
+
+/* =====================================================
+   CELULAR
+
+   No celular as webcams ficam
+   uma embaixo da outra.
+===================================================== */
+
+@media
+(max-width: 700px) {
+
+  #videos:has(.mtr-camera-card) {
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      10px;
+
+    padding:
+      8px;
+
+  }
+
+
+  #videos
+  .mtr-camera-card
+  video {
+
+    min-height:
+      200px;
+
+    max-height:
+      55vh;
+
+  }
+
+}
+
+
+/* =====================================================
+   TRANSMISSÃO QUE ESTÁ SENDO ASSISTIDA
+===================================================== */
+
+#videos
+.video-card.mtr-watching {
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+}
+
+
+#videos
+.video-card.mtr-watching
+video {
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  object-fit:
+    contain;
+
+}
+
+
+/* =====================================================
+   BOTÃO COMPARTILHAR
+===================================================== */
+
+.share-control-area {
+
+  width:
+    100%;
+
+  margin-top:
+    14px;
 
 }
 
 
 #share {
 
-  width: 100%;
+  width:
+    100%;
 
-  position: relative;
+  position:
+    relative;
 
-  z-index: 20;
+  z-index:
+    20;
 
-  pointer-events: auto;
+  pointer-events:
+    auto;
+
+}
+
+
+/* =====================================================
+   BOTÃO WEBCAM
+===================================================== */
+
+#camera {
+
+  width:
+    100%;
+
+  position:
+    relative;
+
+  z-index:
+    20;
+
+  pointer-events:
+    auto;
+
+  margin-top:
+    8px;
 
 }
 
 `;
 
+
+/* COLOCA O CSS NA PÁGINA */
 
 document.head.appendChild(
   mtrSelectorStyle
@@ -2307,15 +3412,29 @@ document.head.appendChild(
 
 /* =====================================================
    DETECTAR QUANDO ALGUÉM COMEÇA/PARA
-   DE TRANSMITIR
+   DE TRANSMITIR OU LIGA/DESLIGA WEBCAM
 ===================================================== */
 
 const mtrVideoObserver =
   new MutationObserver(
     () => {
 
+      /*
+        Dá um pequeno tempo
+        para o LiveKit terminar
+        de criar/remover o card.
+      */
+
       setTimeout(
-        mtrRefreshStreams,
+        () => {
+
+          mtrRefreshStreams();
+
+          mtrApplySelection();
+
+          updateStage();
+
+        },
         100
       );
 
@@ -2334,7 +3453,10 @@ if (mtrVideos) {
   mtrVideoObserver.observe(
     mtrVideos,
     {
-      childList: true
+
+      childList:
+        true
+
     }
   );
 
@@ -2342,9 +3464,30 @@ if (mtrVideos) {
 
 
 /* =====================================================
-   INICIAR
+   ATUALIZAR QUANDO A JANELA MUDA DE TAMANHO
+===================================================== */
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    updateStage();
+
+  }
+);
+
+
+/* =====================================================
+   INICIAR CONTROLES MTR
 ===================================================== */
 
 mtrCreateStreamSelector();
 
 mtrRefreshStreams();
+
+mtrApplySelection();
+
+
+console.log(
+  "MTR Stream pronto — tela e webcams separadas."
+);
