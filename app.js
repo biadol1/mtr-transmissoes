@@ -2831,11 +2831,7 @@ function mtrApplySelection() {
   videos.dataset.cameraCount =
     String(cameras.length);
 
-  /*
-    Se existe uma transmissão selecionada,
-    ativa o modo TELA + WEBCAMS.
-  */
-
+  // Ativa tela + webcams
   if (mtrSelectedStream) {
 
     videos.classList.add(
@@ -2851,7 +2847,6 @@ function mtrApplySelection() {
   }
 
 }
-
   /* ==========================================
      COMPARTILHAMENTOS DE TELA
   ========================================== */
@@ -3423,6 +3418,160 @@ video {
 
   margin-top:
     8px;
+
+}
+/* =====================================================
+   TELA COMPARTILHADA + WEBCAMS
+===================================================== */
+
+#videos.mtr-screen-active {
+
+  display: block !important;
+
+  position: relative !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  padding: 12px !important;
+
+  box-sizing: border-box !important;
+
+  overflow: hidden !important;
+}
+
+
+/* =====================================================
+   TELA COMPARTILHADA GRANDE
+===================================================== */
+
+#videos.mtr-screen-active
+.video-card.mtr-watching:not(.mtr-camera-card) {
+
+  display: block !important;
+
+  position: absolute !important;
+
+  top: 12px !important;
+  left: 12px !important;
+  right: 12px !important;
+  bottom: 12px !important;
+
+  width: auto !important;
+  height: auto !important;
+
+  margin: 0 !important;
+
+  z-index: 1 !important;
+
+  overflow: hidden !important;
+
+  border-radius: 14px !important;
+
+  background: #050505 !important;
+}
+
+
+#videos.mtr-screen-active
+.video-card.mtr-watching:not(.mtr-camera-card)
+video {
+
+  display: block !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: contain !important;
+
+  background: #050505 !important;
+}
+
+
+/* =====================================================
+   WEBCAMS PEQUENAS SOBRE A TRANSMISSÃO
+===================================================== */
+
+#videos.mtr-screen-active
+.mtr-camera-card {
+
+  display: block !important;
+
+  position: relative !important;
+
+  float: right !important;
+
+  width: 180px !important;
+  height: 105px !important;
+
+  min-width: 180px !important;
+  min-height: 105px !important;
+
+  margin:
+    10px 10px 0 0 !important;
+
+  z-index: 20 !important;
+
+  overflow: hidden !important;
+
+  border-radius: 12px !important;
+
+  background: #050505 !important;
+
+  border:
+    1px solid
+    rgba(255, 35, 75, .8) !important;
+
+  box-shadow:
+    0 8px 25px
+    rgba(0, 0, 0, .7) !important;
+}
+
+
+#videos.mtr-screen-active
+.mtr-camera-card video {
+
+  display: block !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+}
+
+
+/* NOME DA PESSOA */
+
+#videos.mtr-screen-active
+.mtr-camera-card
+.video-label {
+
+  left: 7px !important;
+  bottom: 7px !important;
+
+  padding:
+    4px 7px !important;
+
+  font-size:
+    10px !important;
+}
+
+
+/* =====================================================
+   CELULAR
+===================================================== */
+
+@media (max-width: 700px) {
+
+  #videos.mtr-screen-active
+  .mtr-camera-card {
+
+    width: 120px !important;
+    height: 72px !important;
+
+    min-width: 120px !important;
+    min-height: 72px !important;
+
+  }
 
 }
 
