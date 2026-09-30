@@ -1327,43 +1327,85 @@ console.log(
 
 /* =====================================================
    MTR — ESCOLHER QUAL TRANSMISSÃO ASSISTIR
+   VERSÃO 2 — NÃO BLOQUEIA SUA TRANSMISSÃO
 ===================================================== */
 
 let mtrSelectedStream = null;
 
+
+/* =====================================================
+   PEGAR TRANSMISSÕES DOS OUTROS
+===================================================== */
+
 function mtrGetRemoteStreams() {
+
   return Array.from(
-    document.querySelectorAll("#videos .video-card")
+    document.querySelectorAll(
+      "#videos .video-card"
+    )
   ).filter((card) => {
-    return card.dataset.localPreview !== "1";
+
+    return (
+      card.dataset.localPreview !== "1"
+    );
+
   });
+
 }
 
+
+/* =====================================================
+   CRIAR SELETOR
+===================================================== */
+
 function mtrCreateStreamSelector() {
-  if (document.getElementById("mtrStreamSelector")) {
+
+  if (
+    document.getElementById(
+      "mtrStreamSelector"
+    )
+  ) {
     return;
   }
 
-  const videos = document.getElementById("videos");
+  const videos =
+    document.getElementById("videos");
 
-  if (!videos || !videos.parentElement) {
+  if (
+    !videos ||
+    !videos.parentElement
+  ) {
     return;
   }
 
-  const selector = document.createElement("div");
-  selector.id = "mtrStreamSelector";
+  const selector =
+    document.createElement("div");
+
+  selector.id =
+    "mtrStreamSelector";
 
   selector.innerHTML = `
+
     <div class="mtr-selector-title">
       📺 TRANSMISSÕES DISPONÍVEIS
     </div>
 
     <div id="mtrStreamButtons"></div>
 
-    <button id="mtrStopWatching" type="button">
+    <button
+      id="mtrStopWatching"
+      type="button"
+    >
       ✕ Parar de assistir
     </button>
+
   `;
+
+  /*
+     IMPORTANTE:
+     o seletor fica antes do palco,
+     mas NÃO cobre os controles.
+  */
 
   videos.parentElement.insertBefore(
     selector,
@@ -1371,17 +1413,33 @@ function mtrCreateStreamSelector() {
   );
 
   document
-    .getElementById("mtrStopWatching")
-    .addEventListener("click", () => {
-      mtrStopWatching();
-    });
+    .getElementById(
+      "mtrStopWatching"
+    )
+    .addEventListener(
+      "click",
+      () => {
+
+        mtrStopWatching();
+
+      }
+    );
+
 }
 
+
+/* =====================================================
+   ATUALIZAR LISTA
+===================================================== */
+
 function mtrRefreshStreams() {
+
   mtrCreateStreamSelector();
 
   const container =
-    document.getElementById("mtrStreamButtons");
+    document.getElementById(
+      "mtrStreamButtons"
+    );
 
   if (!container) {
     return;
@@ -1389,107 +1447,270 @@ function mtrRefreshStreams() {
 
   container.innerHTML = "";
 
-  const streams = mtrGetRemoteStreams();
+  const streams =
+    mtrGetRemoteStreams();
+
 
   if (!streams.length) {
-    const empty = document.createElement("span");
 
-    empty.className = "mtr-no-stream";
+    const empty =
+      document.createElement("span");
+
+    empty.className =
+      "mtr-no-stream";
+
     empty.textContent =
       "Ninguém está transmitindo agora.";
 
     container.appendChild(empty);
+
+    mtrApplySelection();
+
     return;
   }
 
-  streams.forEach((card, index) => {
-    if (!card.dataset.mtrStreamId) {
-      card.dataset.mtrStreamId =
-        "mtr-stream-" + index + "-" + Date.now();
-    }
 
-    const label =
-      card.querySelector(".video-label");
+  streams.forEach(
+    (card, index) => {
 
-    const name =
-      label?.textContent?.replace(" • você", "") ||
-      "Participante";
+      if (
+        !card.dataset.mtrStreamId
+      ) {
 
-    const button =
-      document.createElement("button");
+        card.dataset.mtrStreamId =
+          "mtr-stream-" +
+          index +
+          "-" +
+          Date.now();
 
-    button.type = "button";
-    button.className = "mtr-stream-button";
+      }
 
-    if (
-      mtrSelectedStream ===
-      card.dataset.mtrStreamId
-    ) {
-      button.classList.add("active");
-      button.textContent =
-        "▶ Assistindo: " + name;
-    } else {
-      button.textContent =
-        "Assistir " + name;
-    }
 
-    button.addEventListener("click", () => {
-      mtrWatchStream(
+      const label =
+        card.querySelector(
+          ".video-label"
+        );
+
+
+      const name =
+        label
+          ?.textContent
+          ?.replace(
+            " • você",
+            ""
+          ) ||
+        "Participante";
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.type =
+        "button";
+
+      button.className =
+        "mtr-stream-button";
+
+
+      if (
+        mtrSelectedStream ===
         card.dataset.mtrStreamId
-      );
-    });
+      ) {
 
-    container.appendChild(button);
-  });
+        button.classList.add(
+          "active"
+        );
+
+        button.textContent =
+          "▶ Assistindo: " +
+          name;
+
+      } else {
+
+        button.textContent =
+          "Assistir " +
+          name;
+
+      }
+
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          mtrWatchStream(
+            card.dataset.mtrStreamId
+          );
+
+        }
+      );
+
+
+      container.appendChild(
+        button
+      );
+
+    }
+  );
+
 
   mtrApplySelection();
+
 }
 
+
+/* =====================================================
+   ASSISTIR
+===================================================== */
+
 function mtrWatchStream(id) {
+
   mtrSelectedStream = id;
 
   mtrApplySelection();
+
   mtrRefreshStreams();
+
 }
 
+
+/* =====================================================
+   PARAR DE ASSISTIR
+===================================================== */
+
 function mtrStopWatching() {
+
   mtrSelectedStream = null;
 
   mtrApplySelection();
+
   mtrRefreshStreams();
 
   setMessage(
     "Você parou de assistir. Escolha outra transmissão quando quiser.",
     true
   );
+
 }
 
+
+/* =====================================================
+   MOSTRAR SOMENTE A TRANSMISSÃO ESCOLHIDA
+===================================================== */
+
 function mtrApplySelection() {
-  const streams = mtrGetRemoteStreams();
+
+  const streams =
+    mtrGetRemoteStreams();
+
 
   streams.forEach((card) => {
-    if (!mtrSelectedStream) {
-      card.style.display = "none";
-      return;
+
+    const selected =
+      mtrSelectedStream &&
+      card.dataset.mtrStreamId ===
+        mtrSelectedStream;
+
+
+    if (selected) {
+
+      card.style.display =
+        "block";
+
+      card.classList.add(
+        "mtr-watching"
+      );
+
+    } else {
+
+      card.style.display =
+        "none";
+
+      card.classList.remove(
+        "mtr-watching"
+      );
+
     }
 
-    if (
-      card.dataset.mtrStreamId ===
-      mtrSelectedStream
-    ) {
-      card.style.display = "";
-    } else {
-      card.style.display = "none";
-    }
   });
 
+
+  /*
+     O PREVIEW DA PRÓPRIA PESSOA
+     NÃO É ALTERADO AQUI.
+
+     Assim ela pode transmitir
+     enquanto assiste outra pessoa.
+  */
+
+
   const stopButton =
-    document.getElementById("mtrStopWatching");
+    document.getElementById(
+      "mtrStopWatching"
+    );
+
 
   if (stopButton) {
+
     stopButton.disabled =
       !mtrSelectedStream;
+
   }
+
+
+  mtrFixShareControls();
+
+}
+
+
+/* =====================================================
+   GARANTIR QUE OS CONTROLES FIQUEM ACESSÍVEIS
+===================================================== */
+
+function mtrFixShareControls() {
+
+  const share =
+    document.getElementById("share");
+
+  if (share) {
+
+    share.style.position =
+      "relative";
+
+    share.style.zIndex =
+      "10002";
+
+    share.style.pointerEvents =
+      "auto";
+
+  }
+
+
+  /*
+     A lateral inteira fica acima
+     do vídeo recebido.
+  */
+
+  const shareParent =
+    share?.closest(
+      "aside, .sidebar, .side, .controls"
+    );
+
+  if (shareParent) {
+
+    shareParent.style.position =
+      "relative";
+
+    shareParent.style.zIndex =
+      "10001";
+
+    shareParent.style.pointerEvents =
+      "auto";
+
+  }
+
 }
 
 
@@ -1500,53 +1721,99 @@ function mtrApplySelection() {
 const mtrSelectorStyle =
   document.createElement("style");
 
+
 mtrSelectorStyle.textContent = `
 
 #mtrStreamSelector {
-  position: relative;
-  z-index: 9999;
 
-  margin-bottom: 12px;
+  position: relative;
+
+  z-index: 20;
+
+  width: auto;
+
+  margin:
+    0 12px 12px 12px;
+
   padding: 12px;
 
-  border: 1px solid rgba(255,35,70,.45);
+  border:
+    1px solid
+    rgba(255,35,70,.45);
+
   border-radius: 12px;
 
-  background: rgba(10,3,6,.94);
+  background:
+    rgba(10,3,6,.94);
+
+  box-sizing:
+    border-box;
+
 }
+
 
 .mtr-selector-title {
+
   color: white;
+
   font-size: 12px;
+
   font-weight: 900;
+
   margin-bottom: 9px;
+
 }
 
+
 #mtrStreamButtons {
+
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 8px;
+
 }
+
 
 .mtr-stream-button,
 #mtrStopWatching {
+
+  position: relative;
+
+  z-index: 21;
+
   padding: 9px 13px;
 
   border-radius: 8px;
-  border: 1px solid #b51637;
 
-  background: #16060a;
+  border:
+    1px solid #b51637;
+
+  background:
+    #16060a;
+
   color: white;
 
   font-weight: 800;
+
   cursor: pointer;
+
+  pointer-events: auto;
+
 }
+
 
 .mtr-stream-button:hover {
-  background: #2b0911;
+
+  background:
+    #2b0911;
+
 }
 
+
 .mtr-stream-button.active {
+
   background:
     linear-gradient(
       135deg,
@@ -1554,29 +1821,95 @@ mtrSelectorStyle.textContent = `
       #a40028
     );
 
-  border-color: #ff3159;
+  border-color:
+    #ff3159;
+
 }
+
 
 #mtrStopWatching {
+
   margin-top: 9px;
-  background: #090909;
+
+  background:
+    #090909;
+
 }
+
 
 #mtrStopWatching:hover {
-  background: #26070e;
+
+  background:
+    #26070e;
+
 }
+
 
 #mtrStopWatching:disabled {
+
   opacity: .4;
+
   cursor: default;
+
 }
 
+
 .mtr-no-stream {
-  color: rgba(255,255,255,.55);
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      .55
+    );
+
   font-size: 12px;
+
+}
+
+
+/*
+   A TRANSMISSÃO FICA NO PALCO,
+   NÃO EM CIMA DA LATERAL.
+*/
+
+#videos {
+
+  position: relative;
+
+  z-index: 1;
+
+  overflow: hidden;
+
+}
+
+
+#videos .video-card {
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
+
+/*
+   CONTROLES SEMPRE CLICÁVEIS
+*/
+
+#share {
+
+  position: relative !important;
+
+  z-index: 10002 !important;
+
+  pointer-events: auto !important;
+
 }
 
 `;
+
 
 document.head.appendChild(
   mtrSelectorStyle
@@ -1584,30 +1917,52 @@ document.head.appendChild(
 
 
 /* =====================================================
-   ATUALIZA AUTOMATICAMENTE
+   OBSERVAR NOVAS TRANSMISSÕES
 ===================================================== */
 
 const mtrVideoObserver =
-  new MutationObserver(() => {
+  new MutationObserver(
+    () => {
 
-    setTimeout(
-      mtrRefreshStreams,
-      100
-    );
+      setTimeout(
+        () => {
 
-  });
+          mtrRefreshStreams();
+
+          mtrFixShareControls();
+
+        },
+        100
+      );
+
+    }
+  );
+
 
 const mtrVideos =
-  document.getElementById("videos");
+  document.getElementById(
+    "videos"
+  );
+
 
 if (mtrVideos) {
+
   mtrVideoObserver.observe(
     mtrVideos,
     {
       childList: true
     }
   );
+
 }
 
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
 mtrCreateStreamSelector();
+
 mtrRefreshStreams();
+
+mtrFixShareControls();
