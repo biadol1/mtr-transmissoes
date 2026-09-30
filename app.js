@@ -3113,8 +3113,10 @@ mtrSelectorStyle.textContent = `
 
 
 /* =====================================================
-   WEBCAMS
+   WEBCAMS — GRADE AUTOMÁTICA ATÉ 6
 ===================================================== */
+
+/* CONFIGURAÇÃO GERAL */
 
 #videos[data-camera-count="1"],
 #videos[data-camera-count="2"],
@@ -3125,148 +3127,83 @@ mtrSelectorStyle.textContent = `
 
   display: grid !important;
 
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  height: 100% !important;
 
-  gap: 12px;
+  gap: 10px !important;
 
-  width: 100%;
+  padding: 10px !important;
 
-  height: 100%;
+  box-sizing: border-box !important;
 
-  padding: 12px;
-
-  box-sizing: border-box;
-
-  align-items: center;
-
-  align-content: center;
-
-}
-
-
-/* =====================================================
-   UMA WEBCAM
-===================================================== */
-
-#videos[data-camera-count="1"] {
-
-  grid-template-columns:
-    minmax(0, 1fr) !important;
-
-}
-
-
-#videos[data-camera-count="1"]
-.mtr-camera-card {
-
-  width: min(760px, 100%) !important;
-
-  justify-self: center;
-
-}
-
-
-/* =====================================================
-   DUAS WEBCAMS — LADO A LADO
-===================================================== */
-
-#videos[data-camera-count="2"] {
-
-  display: grid !important;
-
-  grid-template-columns:
-    minmax(0, 1fr)
-    minmax(0, 1fr) !important;
-
-  grid-template-rows:
-    minmax(0, 1fr) !important;
-
-  gap: 12px !important;
+  overflow: hidden !important;
 
   align-items: stretch !important;
-
   align-content: stretch !important;
 
 }
 
 
-/* PRIMEIRA WEBCAM */
+/* =====================================================
+   1 WEBCAM
+===================================================== */
 
-#videos[data-camera-count="2"]
-.mtr-camera-card:nth-of-type(1) {
+#videos[data-camera-count="1"] {
 
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-
-}
-
-
-/* SEGUNDA WEBCAM */
-
-#videos[data-camera-count="2"]
-.mtr-camera-card:nth-of-type(2) {
-
-  grid-column: 2 !important;
-  grid-row: 1 !important;
+  grid-template-columns: 1fr !important;
+  grid-template-rows: 1fr !important;
 
 }
 
 
-/* AS DUAS WEBCAMS */
+/* =====================================================
+   2 WEBCAMS
+===================================================== */
 
-#videos[data-camera-count="2"]
-.mtr-camera-card {
+#videos[data-camera-count="2"] {
 
-  display: block !important;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr)) !important;
 
-  position: relative !important;
-
-  width: 100% !important;
-
-  height: 420px !important;
-
-  min-width: 0 !important;
-
-  min-height: 0 !important;
-
-  max-height: 420px !important;
-
-  margin: 0 !important;
-
-  align-self: center !important;
-
-  inset: auto !important;
-
-  transform: none !important;
-
-  border-radius: 16px !important;
-
-  overflow: hidden !important;
+  grid-template-rows:
+    1fr !important;
 
 }
 
-/* VÍDEO DAS DUAS WEBCAMS */
 
-#videos[data-camera-count="2"]
-.mtr-camera-card video {
+/* =====================================================
+   3 E 4 WEBCAMS
+   2 COLUNAS
+===================================================== */
 
-  display: block !important;
+#videos[data-camera-count="3"],
+#videos[data-camera-count="4"] {
 
-  width: 100% !important;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr)) !important;
 
-  height: 100% !important;
-
-  min-width: 0 !important;
-
-  min-height: 0 !important;
-
-  max-width: 100% !important;
-max-height: 100% !important;
-
-  object-fit: cover !important;
+  grid-template-rows:
+    repeat(2, minmax(0, 1fr)) !important;
 
 }
+
+
+/* =====================================================
+   5 E 6 WEBCAMS
+   3 COLUNAS × 2 LINHAS
+===================================================== */
+
+#videos[data-camera-count="5"],
+#videos[data-camera-count="6"] {
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr)) !important;
+
+  grid-template-rows:
+    repeat(2, minmax(0, 1fr)) !important;
+
+}
+
 
 /* =====================================================
    CARD DA WEBCAM
@@ -3276,35 +3213,30 @@ max-height: 100% !important;
 
   display: block !important;
 
-  position: relative;
+  position: relative !important;
 
-  width: 100%;
+  width: 100% !important;
+  height: 100% !important;
 
-  min-width: 0;
+  min-width: 0 !important;
+  min-height: 0 !important;
 
-  overflow: hidden;
+  max-width: none !important;
+  max-height: none !important;
 
-  border-radius: 16px;
+  margin: 0 !important;
 
-  background: #050505;
+  overflow: hidden !important;
+
+  border-radius: 14px !important;
+
+  background: #050505 !important;
 
   border:
     1px solid
-    rgba(
-      255,
-      35,
-      75,
-      .35
-    );
+    rgba(255, 35, 75, .45) !important;
 
-  box-shadow:
-    0 10px 30px
-    rgba(
-      0,
-      0,
-      0,
-      .35
-    );
+  box-sizing: border-box !important;
 
 }
 
@@ -3313,10 +3245,28 @@ max-height: 100% !important;
    VÍDEO DA WEBCAM
 ===================================================== */
 
+#videos .mtr-camera-card video {
+
+  display: block !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  min-width: 0 !important;
+  min-height: 0 !important;
+
+  max-width: 100% !important;
+  max-height: 100% !important;
+
+  object-fit: cover !important;
+
+  background: #050505 !important;
+
+}
 
 
 /* =====================================================
-   NOME NA WEBCAM
+   NOME DA PESSOA
 ===================================================== */
 
 #videos
@@ -3326,7 +3276,6 @@ max-height: 100% !important;
   position: absolute;
 
   left: 12px;
-
   bottom: 12px;
 
   z-index: 5;
@@ -3336,12 +3285,7 @@ max-height: 100% !important;
   border-radius: 999px;
 
   background:
-    rgba(
-      0,
-      0,
-      0,
-      .72
-    );
+    rgba(0, 0, 0, .72);
 
   color: #ffffff;
 
@@ -3370,9 +3314,14 @@ max-height: 100% !important;
     grid-template-columns:
       1fr !important;
 
-    gap: 10px;
+    grid-template-rows:
+      none !important;
 
-    padding: 8px;
+    grid-auto-rows:
+      240px !important;
+
+    overflow-y:
+      auto !important;
 
   }
 
