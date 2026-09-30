@@ -3932,3 +3932,29 @@ body {
 
   box-sizing: border-box !important;
 }
+.empty-stage p::after {
+  content: "●━  MTR  ━●" !important;
+
+  display: block !important;
+  width: 280px !important;
+
+  margin: 12px auto 0 !important;
+
+  color: #ff1748 !important;
+
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  font-style: italic !important;
+
+  letter-spacing: 4px !important;
+  text-align: center !important;
+
+  text-shadow:
+    0 0 4px #ff1748,
+    0 0 9px #ff1748,
+    0 0 18px rgba(255, 0, 55, .85),
+    0 0 30px rgba(255, 0, 55, .45) !important;
+
+  filter:
+    drop-shadow(0 0 4px rgba(255, 0, 55, .8));
+}
