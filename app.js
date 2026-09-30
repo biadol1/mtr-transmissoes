@@ -763,15 +763,15 @@ async function startScreenShare() {
           },
 
           audio: {
-  echoCancellation: true,
-  noiseSuppression: true,
+  echoCancellation: false,
+  noiseSuppression: false,
   autoGainControl: false,
   suppressLocalAudioPlayback: false
 },
 
-systemAudio: "exclude",
+systemAudio: "include",
 selfBrowserSurface: "exclude",
-surfaceSwitching: "exclude"
+surfaceSwitching: "include"
         });
 
 
