@@ -3,389 +3,984 @@
 }
 
 :root {
-  --red: #ff1738;
-  --red2: #a90020;
-  --dark: #050506;
-  --panel: rgba(15, 5, 8, .88);
-  --border: rgba(255, 23, 56, .55);
+  --red: #ff1238;
+  --red2: #b00020;
+  --red3: #700014;
+  --black: #030304;
+  --panel: rgba(16, 4, 8, .94);
+  --border: rgba(255, 25, 55, .55);
+  --text2: #d6c8cb;
 }
 
-html, body {
+html,
+body {
   margin: 0;
+  width: 100%;
   min-height: 100%;
 }
 
 body {
   min-height: 100vh;
+  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
-  color: #fff;
+  color: white;
+
   background:
-    linear-gradient(rgba(5,0,2,.72), rgba(5,0,2,.82)),
-    url("mtr-bg.png") center center / cover fixed no-repeat;
+    linear-gradient(rgba(2,0,1,.58), rgba(2,0,1,.78)),
+    url("mtr-bg.png") center / cover fixed no-repeat;
 }
 
-/* brilho vermelho */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 15% 45%, rgba(255,0,45,.18), transparent 30%),
-    radial-gradient(circle at 85% 20%, rgba(255,0,35,.16), transparent 28%);
   z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 15% 30%, rgba(255,0,45,.25), transparent 30%),
+    radial-gradient(circle at 85% 15%, rgba(255,0,35,.20), transparent 32%),
+    radial-gradient(circle at 50% 100%, rgba(130,0,20,.22), transparent 35%);
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
-/* CONTAINER */
-.shell {
-  width: 100%;
-  min-height: 100vh;
-}
-
-/* TELA INICIAL */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 35px 20px;
-  position: relative;
-}
-
-.hero::before {
-  content: "MTR STREAM";
-  font-size: clamp(42px, 7vw, 95px);
-  font-weight: 1000;
-  font-style: italic;
-  letter-spacing: -5px;
-  color: white;
-  text-shadow:
-    4px 4px 0 #e00025,
-    0 0 25px rgba(255,0,45,.7);
-  margin-bottom: 10px;
-}
-
-.hero > .badge {
-  display: none;
-}
-
-.hero h1 {
-  font-size: clamp(34px, 5vw, 65px);
-  line-height: .95;
-  margin: 10px 0 16px;
-  max-width: 850px;
-  text-transform: uppercase;
-}
-
-.hero h1 span {
-  color: var(--red);
-  text-shadow: 0 0 25px rgba(255,23,56,.45);
-}
-
-.hero > p {
-  color: #c8c8c8;
-  font-size: 16px;
-}
-
-/* CARD ENTRADA */
-.card {
-  width: min(500px, 94vw);
-  margin-top: 20px;
-  padding: 28px;
-  text-align: left;
-  border-radius: 18px;
-  background:
-    linear-gradient(145deg, rgba(54,8,18,.94), rgba(10,7,9,.96));
-  border: 1px solid var(--border);
-  box-shadow:
-    0 0 35px rgba(255,0,45,.18),
-    inset 0 0 30px rgba(255,0,45,.05);
-}
-
-.card label {
-  display: block;
-  color: #ff6578;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 1.4px;
-  margin: 13px 0 7px;
-}
-
-.card input {
-  width: 100%;
-  height: 52px;
-  padding: 0 15px;
-  color: white;
-  background: rgba(5,5,6,.85);
-  border: 1px solid rgba(255,55,80,.38);
-  border-radius: 10px;
-  outline: none;
-}
-
-.card input:focus {
-  border-color: var(--red);
-  box-shadow: 0 0 0 3px rgba(255,23,56,.12);
-}
-
-.buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 18px;
-}
-
 button {
-  border: 1px solid rgba(255,70,90,.4);
-  border-radius: 9px;
-  padding: 14px 18px;
   cursor: pointer;
-  color: white;
-  background: linear-gradient(135deg, #e90029, #ff3850);
-  font-weight: 800;
-  transition: .2s;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 20px rgba(255,23,56,.4);
-}
-
-button.secondary {
-  background: rgba(15,15,17,.9);
-}
-
-button.danger {
-  background: rgba(90,5,15,.55);
-}
-
-/* BENEFÍCIOS */
-.features {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 9px;
-  margin-top: 20px;
-}
-
-.features span {
-  padding: 10px 14px;
-  border-radius: 8px;
-  background: rgba(12,9,10,.82);
-  border: 1px solid rgba(255,30,60,.25);
-  font-size: 13px;
-}
-
-/* SALA */
-.room-view {
-  width: min(1500px, 100%);
-  min-height: 100vh;
-  margin: auto;
-  padding: 22px;
-  background:
-    linear-gradient(90deg, rgba(25,0,6,.78), rgba(0,0,0,.35));
 }
 
 .hidden {
   display: none !important;
 }
 
-.room-header {
+
+/* =========================================
+   LOGO MTR
+========================================= */
+
+.mtr-logo {
+  font-size: 46px;
+  font-weight: 1000;
+  font-style: italic;
+  letter-spacing: -4px;
+
+  color: white;
+
+  text-shadow:
+    3px 3px 0 #111,
+    5px 5px 0 #8d0017,
+    0 0 18px rgba(255, 20, 55, .55);
+}
+
+.mtr-logo span {
+  color: #ff1538;
+
+  text-shadow:
+    3px 3px 0 #54000e,
+    0 0 22px rgba(255, 0, 40, .85);
+}
+
+
+/* =========================================
+   TELA DE ENTRADA
+========================================= */
+
+.welcome-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+
+  position: relative;
+  padding: 25px;
+
+  background:
+    linear-gradient(rgba(3,0,2,.62), rgba(3,0,2,.78)),
+    url("mtr-bg.png") center / cover no-repeat;
+}
+
+.welcome-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(circle at center, rgba(255,0,45,.10), transparent 40%),
+    linear-gradient(90deg, rgba(0,0,0,.55), transparent, rgba(0,0,0,.55));
+
+  backdrop-filter: blur(2px);
+}
+
+.welcome-card {
+  position: relative;
+  z-index: 2;
+
+  width: min(470px, 94vw);
+
+  padding: 35px;
+
+  border-radius: 18px;
+
+  border: 1px solid rgba(255, 45, 75, .75);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(55, 8, 20, .94),
+      rgba(13, 5, 8, .98)
+    );
+
+  box-shadow:
+    0 0 60px rgba(255,0,45,.25),
+    inset 0 0 40px rgba(255,0,45,.05);
+}
+
+.welcome-card .mtr-logo {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.welcome-card h1 {
+  font-size: 24px;
+  margin: 0 0 25px;
+  text-align: center;
+}
+
+.welcome-card label {
+  display: block;
+
+  margin: 14px 0 7px;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  color: #ff9cab;
+}
+
+.welcome-card input {
+  width: 100%;
+  height: 52px;
+
+  padding: 0 15px;
+
+  color: white;
+
+  border-radius: 9px;
+
+  border: 1px solid rgba(255, 45, 75, .55);
+
+  outline: none;
+
+  background: rgba(4, 4, 5, .78);
+}
+
+.welcome-card input:focus {
+  border-color: #ff294b;
+
+  box-shadow:
+    0 0 0 3px rgba(255,20,55,.12),
+    0 0 20px rgba(255,0,40,.18);
+}
+
+.welcome-card button {
+  width: 100%;
+
+  margin-top: 18px;
+
+  padding: 15px;
+
+  border: 1px solid #ff4864;
+  border-radius: 9px;
+
+  color: white;
+  font-weight: 900;
+
+  background:
+    linear-gradient(135deg, #e9002c, #ff3852);
+
+  box-shadow:
+    0 0 20px rgba(255,0,40,.18);
+
+  transition: .2s;
+}
+
+.welcome-card button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 0 25px rgba(255,0,45,.4);
+}
+
+.welcome-card button.secondary {
+  background: rgba(10, 8, 9, .9);
+}
+
+.room-entry {
+  margin-top: 5px;
+}
+
+
+/* =========================================
+   APLICAÇÃO
+========================================= */
+
+.stream-app {
+  min-height: 100vh;
+  width: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(75,0,16,.30),
+      rgba(0,0,0,.35)
+    );
+}
+
+
+/* =========================================
+   TOPO
+========================================= */
+
+.topbar {
+  height: 92px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 28px;
+
+  border-bottom: 1px solid rgba(255,30,60,.65);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(13,4,7,.98),
+      rgba(34,5,12,.96)
+    );
+
+  box-shadow:
+    0 5px 25px rgba(255,0,40,.12);
+}
+
+.top-logo {
+  font-size: 34px;
+}
+
+.top-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.viewer-count,
+.offline-badge {
+  padding: 10px 15px;
+
+  border-radius: 8px;
+
+  border: 1px solid rgba(255,40,70,.45);
+
+  background: rgba(8,6,7,.78);
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.offline-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #ff1238;
+
+  box-shadow:
+    0 0 12px #ff1238;
+}
+
+
+/* =========================================
+   LAYOUT
+========================================= */
+
+.stream-layout {
+  display: grid;
+
+  grid-template-columns: 270px 1fr;
+
+  min-height: calc(100vh - 92px);
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.sidebar {
+  position: relative;
+
+  padding: 20px;
+
+  overflow-y: auto;
+
+  border-right: 1px solid rgba(255,35,65,.6);
+
+  background:
+    linear-gradient(
+      rgba(118, 6, 29, .82),
+      rgba(38, 3, 11, .92)
+    ),
+    url("mtr-bg.png") left center / cover;
+
+  box-shadow:
+    8px 0 35px rgba(255,0,35,.10);
+}
+
+.sidebar::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.035),
+      transparent 35%
+    );
+}
+
+.sidebar > * {
+  position: relative;
+}
+
+.sidebar h2 {
+  margin: 0 0 16px;
+
+  font-size: 17px;
+}
+
+
+/* =========================================
+   CONVITE
+========================================= */
+
+.invite-card {
+  position: relative;
+
+  padding: 18px;
+
+  border-radius: 12px;
+
+  border: 1px solid rgba(255,100,120,.65);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,40,70,.15),
+      rgba(20,5,9,.35)
+    );
+
+  box-shadow:
+    inset 0 0 20px rgba(255,0,40,.06);
+}
+
+.invite-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.invite-card strong {
+  font-size: 16px;
+}
+
+.invite-card p {
+  margin: 8px 0 12px;
+
+  color: #d9b8be;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.invite-button {
+  width: 100%;
+
+  padding: 10px;
+
+  color: white;
+
+  border: 1px solid rgba(255,70,95,.5);
+
+  border-radius: 7px;
+
+  background: rgba(255,20,55,.14);
+
+  font-weight: 800;
+}
+
+
+/* =========================================
+   SEÇÕES SIDEBAR
+========================================= */
+
+.side-section {
+  padding: 20px 0;
+
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.section-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  padding: 15px 18px;
-  margin-bottom: 14px;
-  border-bottom: 1px solid rgba(255,30,60,.4);
-  background: rgba(10,5,7,.78);
-  border-radius: 12px;
 }
 
-.badge {
-  display: inline-block;
-  color: #ff435b;
-  border: 1px solid #a61c32;
-  border-radius: 999px;
-  padding: 7px 13px;
-  font-weight: 900;
+.side-section h3 {
+  margin: 0 0 13px;
+
+  font-size: 15px;
+}
+
+.people {
+  display: grid;
+  gap: 7px;
+}
+
+.people span {
+  display: block;
+
+  padding: 10px 11px;
+
+  border-radius: 7px;
+
+  border: 1px solid rgba(255,60,85,.42);
+
+  background:
+    rgba(73,7,20,.72);
+
   font-size: 12px;
-  letter-spacing: 1px;
 }
 
-.room-header h2 {
-  margin: 9px 0 0;
-  font-size: 27px;
+.empty-slot {
+  margin-top: 7px;
+
+  padding: 9px 10px;
+
+  border-radius: 7px;
+
+  color: rgba(255,255,255,.48);
+
+  border: 1px solid rgba(255,255,255,.10);
+
+  background:
+    rgba(0,0,0,.18);
+
+  font-size: 11px;
 }
 
-.room-actions {
+
+/* =========================================
+   CONFIGURAÇÕES
+========================================= */
+
+.settings-section label {
+  display: block;
+
+  margin: 14px 0 7px;
+
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.settings-section select {
+  width: 100%;
+
+  padding: 11px 10px;
+
+  border-radius: 7px;
+
+  color: white;
+
+  outline: none;
+
+  border: 1px solid rgba(255,55,80,.4);
+
+  background: #260811;
+}
+
+.helper {
+  color: #d3aeb6;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.check-option {
+  display: flex !important;
+
+  align-items: flex-start;
+
+  gap: 8px;
+
+  line-height: 1.4;
+}
+
+.check-option input {
+  accent-color: #ff1738;
+}
+
+
+/* =========================================
+   INFORMAÇÕES DE ÁUDIO
+========================================= */
+
+.audio-info {
+  margin-top: 18px;
+
+  padding: 12px;
+
+  border-radius: 9px;
+
+  border: 1px solid rgba(255,55,80,.35);
+
+  background: rgba(20,4,8,.5);
+}
+
+.audio-info div {
   display: flex;
+  justify-content: space-between;
+
   gap: 10px;
-  flex-wrap: wrap;
+
+  padding: 5px 0;
+
+  font-size: 11px;
 }
 
-/* ÁREA DA TRANSMISSÃO */
+.audio-info strong {
+  color: #ff9aaa;
+}
+
+
+/* =========================================
+   BOTÃO SAIR
+========================================= */
+
+.leave-button {
+  width: 100%;
+
+  margin-top: 18px;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  border: 1px solid rgba(255,60,80,.45);
+
+  color: #ffb2be;
+
+  background: rgba(30,3,8,.6);
+
+  font-weight: 900;
+}
+
+
+/* =========================================
+   ÁREA PRINCIPAL
+========================================= */
+
+.main-stream {
+  min-width: 0;
+
+  padding: 20px;
+
+  background:
+    linear-gradient(
+      rgba(3,3,4,.62),
+      rgba(3,3,4,.82)
+    );
+}
+
+.selected-window {
+  margin-bottom: 12px;
+
+  color: #ff8798;
+
+  font-size: 12px;
+}
+
+
+/* =========================================
+   PALCO
+========================================= */
+
 .stage {
   position: relative;
-  min-height: 65vh;
+
+  width: 100%;
+
+  min-height: calc(100vh - 190px);
+
   overflow: hidden;
+
   border-radius: 15px;
-  border: 1px solid rgba(255,23,56,.55);
+
+  border: 1px solid rgba(255,30,60,.55);
+
   background:
-    linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.48)),
+    linear-gradient(
+      rgba(4,0,2,.35),
+      rgba(4,0,2,.52)
+    ),
     url("mtr-bg.png") center / cover no-repeat;
+
   box-shadow:
-    0 0 35px rgba(255,0,40,.12),
-    inset 0 0 60px rgba(0,0,0,.55);
+    0 0 35px rgba(255,0,40,.10),
+    inset 0 0 80px rgba(0,0,0,.35);
 }
 
+.stage::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  box-shadow:
+    inset 0 0 100px rgba(0,0,0,.45);
+}
+
+
+/* =========================================
+   SEM TRANSMISSÃO
+========================================= */
+
 .empty-stage {
-  min-height: 65vh;
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+
   padding: 30px;
+
+  text-align: center;
 }
 
-.empty-stage::before {
-  content: "MTR STREAM";
-  font-size: clamp(45px, 8vw, 105px);
+.stage-logo {
+  margin-bottom: 35px;
+
+  font-size: clamp(55px, 8vw, 115px);
+
   font-weight: 1000;
   font-style: italic;
-  letter-spacing: -6px;
+
+  letter-spacing: -7px;
+
   color: white;
+
+  transform: skew(-6deg);
+
   text-shadow:
-    5px 5px 0 #e00025,
-    0 0 35px rgba(255,0,40,.8);
-  margin-bottom: 30px;
+    5px 5px 0 #b40020,
+    0 0 30px rgba(255,0,40,.85);
+}
+
+.stage-logo span {
+  color: #ff1238;
+
+  text-shadow:
+    4px 4px 0 #55000e,
+    0 0 30px rgba(255,0,40,.85);
 }
 
 .empty-stage strong {
-  font-size: clamp(20px, 3vw, 32px);
-  text-shadow: 0 2px 10px #000;
+  font-size: clamp(20px, 2.5vw, 30px);
+
+  text-shadow:
+    0 3px 10px #000;
 }
 
-.empty-stage span {
-  margin-top: 10px;
-  color: #d0c4c6;
+.empty-stage p {
+  margin: 12px 0 25px;
+
+  color: #d8cdd0;
+
+  font-size: 14px;
 }
 
-/* VÍDEOS */
+
+/* =========================================
+   COMPARTILHAR
+========================================= */
+
+.share-button {
+  min-width: 220px;
+
+  padding: 15px 25px;
+
+  border-radius: 9px;
+
+  border: 1px solid #ff5b73;
+
+  color: white;
+
+  font-weight: 900;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e9002d,
+      #ff3953
+    );
+
+  box-shadow:
+    0 0 25px rgba(255,0,40,.35);
+
+  transition: .2s;
+}
+
+.share-button:hover {
+  transform: translateY(-2px) scale(1.02);
+
+  box-shadow:
+    0 0 35px rgba(255,0,40,.55);
+}
+
+
+/* =========================================
+   VÍDEO
+========================================= */
+
 .videos {
+  position: relative;
+
+  z-index: 3;
+
   width: 100%;
-  height: 100%;
-  min-height: 65vh;
+  min-height: calc(100vh - 190px);
+
   display: grid;
+
   place-items: center;
 }
 
 .video-card {
   position: relative;
+
   width: 100%;
-  height: 65vh;
+  height: calc(100vh - 190px);
+
   overflow: hidden;
+
   background: #000;
 }
 
 .video-card video {
   width: 100%;
   height: 100%;
+
   object-fit: contain;
+
   background: #000;
 }
 
 .video-label {
   position: absolute;
+
   left: 15px;
   bottom: 15px;
+
   padding: 8px 12px;
-  border-radius: 8px;
-  background: rgba(0,0,0,.72);
-  border: 1px solid rgba(255,23,56,.5);
+
+  border-radius: 7px;
+
+  border: 1px solid rgba(255,40,65,.5);
+
+  background: rgba(0,0,0,.78);
+
+  font-size: 12px;
 }
 
-/* RODAPÉ DA SALA */
-.room-footer {
+
+/* =========================================
+   CONTROLES INFERIORES
+========================================= */
+
+.bottom-controls {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 15px 5px 8px;
-  color: #eee;
+
+  padding-top: 14px;
 }
 
-.live-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-right: 8px;
-  border-radius: 50%;
-  background: var(--red);
-  box-shadow: 0 0 12px var(--red);
-}
-
-.people {
+.volume-control {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding-top: 5px;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  border: 1px solid rgba(255,45,70,.45);
+
+  background:
+    rgba(30,5,10,.82);
+
+  color: #ff9eac;
+
+  font-size: 11px;
 }
 
-.people span {
-  padding: 9px 13px;
-  background: rgba(25,8,12,.9);
-  border: 1px solid rgba(255,35,60,.3);
-  border-radius: 8px;
+.volume-control input {
+  accent-color: #ff1738;
 }
+
+.bottom-controls p {
+  margin: 10px 0 0;
+
+  color: #bd8c96;
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   MENSAGENS
+========================================= */
 
 .message {
-  color: #ff6175;
-  font-size: 13px;
+  color: #ff7890;
+
+  font-size: 12px;
 }
 
 .center {
   text-align: center;
 }
 
-/* CELULAR */
-@media (max-width: 750px) {
-  .room-view {
-    padding: 10px;
+
+/* =========================================
+   SCROLLBAR MTR
+========================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090305;
+}
+
+::-webkit-scrollbar-thumb {
+  background:
+    linear-gradient(#ff1738, #850019);
+
+  border-radius: 10px;
+}
+
+
+/* =========================================
+   CELULAR / TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .topbar {
+    height: auto;
+
+    padding: 15px;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
   }
 
-  .room-header {
-    align-items: flex-start;
-    flex-direction: column;
+  .top-logo {
+    font-size: 27px;
   }
 
-  .room-actions {
-    width: 100%;
-  }
-
-  .room-actions button {
-    flex: 1;
-  }
-
-  .buttons {
+  .stream-layout {
     grid-template-columns: 1fr;
   }
 
-  .stage,
-  .empty-stage,
-  .videos,
-  .video-card {
-    min-height: 55vh;
-    height: auto;
+  .sidebar {
+    border-right: 0;
+
+    border-bottom:
+      1px solid rgba(255,35,60,.5);
   }
 
-  .empty-stage::before {
-    letter-spacing: -3px;
+  .main-stream {
+    padding: 10px;
   }
+
+  .stage {
+    min-height: 60vh;
+  }
+
+  .videos {
+    min-height: 60vh;
+  }
+
+  .video-card {
+    height: 60vh;
+  }
+
+  .stage-logo {
+    letter-spacing: -4px;
+  }
+
+}
+
+
+@media (max-width: 520px) {
+
+  .welcome-card {
+    padding: 24px 18px;
+  }
+
+  .mtr-logo {
+    font-size: 37px;
+  }
+
+  .top-status {
+    width: 100%;
+  }
+
+  .viewer-count,
+  .offline-badge {
+    flex: 1;
+    text-align: center;
+  }
+
+  .stage-logo {
+    font-size: 48px;
+    letter-spacing: -4px;
+  }
+
+  .empty-stage strong {
+    font-size: 19px;
+  }
+
 }
