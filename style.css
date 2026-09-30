@@ -3885,3 +3885,50 @@ body {
 
   z-index: 5 !important;
 }
+/* =========================================
+   ORNAMENTO MTR IGUAL À PRIMEIRA IMAGEM
+========================================= */
+
+.empty-stage p::after {
+  content: "•• 〽 ••" !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 260px !important;
+  height: 30px !important;
+
+  margin: 12px auto 0 !important;
+
+  color: #ff1748 !important;
+
+  font-size: 18px !important;
+  font-weight: 900 !important;
+
+  letter-spacing: 5px !important;
+
+  /* linha dos dois lados */
+  border-left: 75px solid transparent;
+  border-right: 75px solid transparent;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      #ff1748 20%,
+      #ff1748 34%,
+      transparent 34%,
+      transparent 66%,
+      #ff1748 66%,
+      #ff1748 80%,
+      transparent 100%
+    ) center / 100% 1px no-repeat !important;
+
+  text-shadow:
+    0 0 5px #ff1748,
+    0 0 10px #ff1748,
+    0 0 20px rgba(255, 0, 55, .65) !important;
+
+  box-sizing: border-box !important;
+}
