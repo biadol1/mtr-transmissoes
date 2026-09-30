@@ -7,7 +7,9 @@ let sharing = false;
 let localScreenStream = null;
 let localScreenTrack = null;
 let localScreenAudioTrack = null;
-
+let localCameraStream = null;
+let localCameraTrack = null;
+let cameraOn = false;
 
 /* =====================================================
    UTILIDADES
@@ -1149,7 +1151,247 @@ if ($("share")) {
     );
 }
 
+/* =====================================================
+   WEBCAM
+===================================================== */
 
+function updateCameraButton() {
+
+  const button = $("camera");
+
+  if (!button) {
+    return;
+  }
+
+  button.textContent =
+    cameraOn
+      ? "📷 Desligar webcam"
+      : "📷 Ligar webcam";
+}
+
+
+/* =====================================================
+   LIGAR WEBCAM
+===================================================== */
+
+async function startCamera() {
+
+  if (!liveRoom) {
+
+    setMessage(
+      "Entre em uma sala primeiro.",
+      true
+    );
+
+    return;
+  }
+
+
+  try {
+
+    setMessage(
+      "Abrindo webcam...",
+      true
+    );
+
+
+    /* SOMENTE CÂMERA — SEM MICROFONE */
+
+    localCameraStream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          video: {
+            width: {
+              ideal: 1280
+            },
+
+            height: {
+              ideal: 720
+            },
+
+            frameRate: {
+              ideal: 30
+            }
+          },
+
+          audio: false
+        });
+
+
+    const videoTrack =
+      localCameraStream
+        .getVideoTracks()[0];
+
+
+    if (!videoTrack) {
+
+      throw new Error(
+        "Nenhuma webcam encontrada."
+      );
+    }
+
+
+    localCameraTrack =
+      new LK.LocalVideoTrack(
+        videoTrack
+      );
+
+
+    await liveRoom
+      .localParticipant
+      .publishTrack(
+        localCameraTrack,
+        {
+          source:
+            LK.Track.Source.Camera,
+
+          simulcast: true
+        }
+      );
+
+
+    cameraOn = true;
+
+    updateCameraButton();
+
+
+    setMessage(
+      "Webcam ligada.",
+      true
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao ligar webcam:",
+      error
+    );
+
+
+    if (localCameraStream) {
+
+      localCameraStream
+        .getTracks()
+        .forEach(
+          track => track.stop()
+        );
+    }
+
+
+    localCameraStream = null;
+    localCameraTrack = null;
+    cameraOn = false;
+
+    updateCameraButton();
+
+
+    setMessage(
+      "Não foi possível abrir a webcam.",
+      true
+    );
+  }
+}
+
+
+/* =====================================================
+   DESLIGAR WEBCAM
+===================================================== */
+
+async function stopCamera() {
+
+  try {
+
+    if (
+      liveRoom &&
+      localCameraTrack
+    ) {
+
+      await liveRoom
+        .localParticipant
+        .unpublishTrack(
+          localCameraTrack
+        );
+    }
+
+
+    if (localCameraTrack) {
+
+      try {
+        localCameraTrack.stop();
+      } catch (_) {}
+
+    }
+
+
+    if (localCameraStream) {
+
+      localCameraStream
+        .getTracks()
+        .forEach(
+          track => {
+
+            try {
+              track.stop();
+            } catch (_) {}
+
+          }
+        );
+    }
+
+
+  } catch (error) {
+
+    console.warn(
+      "Erro ao desligar webcam:",
+      error
+    );
+
+  } finally {
+
+    localCameraTrack = null;
+    localCameraStream = null;
+    cameraOn = false;
+
+    updateCameraButton();
+
+    setMessage(
+      "Webcam desligada.",
+      true
+    );
+  }
+}
+
+
+/* =====================================================
+   BOTÃO WEBCAM
+===================================================== */
+
+async function handleCameraClick() {
+
+  if (cameraOn) {
+
+    await stopCamera();
+
+  } else {
+
+    await startCamera();
+
+  }
+}
+
+
+if ($("camera")) {
+
+  $("camera")
+    .addEventListener(
+      "click",
+      handleCameraClick
+    );
+}
+
+
+updateCameraButton();
 /* =====================================================
    VOLUME
 ===================================================== */
