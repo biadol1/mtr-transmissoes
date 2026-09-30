@@ -4450,3 +4450,22 @@ body {
   font-size: 13px !important;
   line-height: 1 !important;
 }
+/* CORREÇÃO FINAL - BOTÃO WEBCAM */
+
+button#camera {
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+
+  padding: 0 10px !important;
+  margin: 0 !important;
+
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 13px !important;
+  line-height: 13px !important;
+}
