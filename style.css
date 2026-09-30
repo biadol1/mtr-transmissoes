@@ -4,24 +4,25 @@
 
 :root {
   --red: #ff1738;
-  --red-dark: #8f0019;
-  --red-deep: #41000c;
+  --red2: #bd001f;
+  --dark-red: #5e0011;
   --black: #050506;
-  --panel: rgba(13, 4, 7, 0.94);
-  --line: rgba(255, 35, 65, 0.45);
-  --muted: #c9aeb4;
+  --panel: rgba(15, 5, 8, 0.92);
+  --border: rgba(255, 35, 65, 0.5);
+  --muted: #d0b5bb;
 }
 
 html,
 body {
   margin: 0;
+  width: 100%;
   min-height: 100%;
 }
 
 body {
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
-  color: #fff;
+  color: white;
   background: #050506;
 }
 
@@ -40,41 +41,48 @@ button {
 }
 
 
-/* ==============================
-   ENTRADA
-============================== */
+/* =========================================
+   TELA DE ENTRADA
+========================================= */
 
 .welcome-screen {
-  min-height: 100vh;
   position: relative;
+
+  min-height: 100vh;
+  width: 100%;
 
   display: grid;
   place-items: center;
 
   padding: 30px 20px;
 
-  background:
-    linear-gradient(rgba(0,0,0,.40), rgba(0,0,0,.66)),
-    url("mtr-bg.png") center center / cover no-repeat;
+  background-image: url("./mtr-bg.png");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
+
+/* leve escurecimento, sem esconder o fundo */
 .welcome-overlay {
   position: absolute;
   inset: 0;
 
+  pointer-events: none;
+
   background:
     radial-gradient(
       circle at center,
-      rgba(255, 0, 45, .08),
-      transparent 42%
-    ),
-    linear-gradient(
-      90deg,
-      rgba(0,0,0,.55),
-      transparent 50%,
-      rgba(0,0,0,.55)
+      transparent 20%,
+      rgba(0, 0, 0, 0.25) 100%
     );
 }
+
+
+/* =========================================
+   CARD DA ENTRADA
+========================================= */
 
 .welcome-card {
   position: relative;
@@ -82,41 +90,46 @@ button {
 
   width: min(470px, 94vw);
 
-  padding: 28px 32px 32px;
+  padding: 25px 32px 30px;
 
-  border: 1px solid rgba(255, 50, 75, .58);
   border-radius: 16px;
+
+  border: 1px solid rgba(255, 45, 75, 0.65);
 
   background:
     linear-gradient(
       145deg,
-      rgba(69, 5, 18, .91),
-      rgba(9, 5, 7, .97)
+      rgba(65, 5, 18, 0.88),
+      rgba(8, 5, 7, 0.94)
     );
 
-  box-shadow:
-    0 0 50px rgba(255, 0, 40, .22),
-    inset 0 0 35px rgba(255, 20, 50, .04);
+  backdrop-filter: blur(8px);
 
-  backdrop-filter: blur(7px);
+  box-shadow:
+    0 0 55px rgba(255, 0, 40, 0.28),
+    inset 0 0 35px rgba(255, 0, 40, 0.05);
 }
+
+
+/* LOGO DA ENTRADA */
 
 .welcome-logo {
   display: block;
 
-  width: min(330px, 90%);
+  width: min(340px, 92%);
   height: auto;
 
-  margin: -8px auto 10px;
+  margin: -5px auto 10px;
 
   object-fit: contain;
 
   filter:
-    drop-shadow(0 0 12px rgba(255, 0, 35, .45));
+    drop-shadow(0 0 10px rgba(255, 0, 40, 0.45));
 }
 
+
 .welcome-card h1 {
-  margin: 0 0 24px;
+  margin: 0 0 23px;
 
   text-align: center;
 
@@ -124,19 +137,21 @@ button {
   line-height: 1.25;
 }
 
+
 .welcome-card label {
   display: block;
 
   margin: 14px 0 7px;
 
-  color: #ff9cab;
+  color: #ff9eae;
 
   font-size: 11px;
   font-weight: 900;
 
   text-transform: uppercase;
-  letter-spacing: .8px;
+  letter-spacing: 0.8px;
 }
+
 
 .welcome-card input {
   width: 100%;
@@ -144,26 +159,34 @@ button {
 
   padding: 0 14px;
 
-  color: #fff;
+  color: white;
 
   outline: none;
 
-  border: 1px solid rgba(255, 55, 80, .38);
+  border: 1px solid rgba(255, 55, 80, 0.42);
   border-radius: 8px;
 
-  background: rgba(3, 3, 4, .82);
+  background: rgba(3, 3, 4, 0.86);
 }
+
 
 .welcome-card input:focus {
   border-color: var(--red);
 
   box-shadow:
-    0 0 0 3px rgba(255, 23, 56, .10),
-    0 0 18px rgba(255, 0, 40, .16);
+    0 0 0 3px rgba(255, 23, 56, 0.10),
+    0 0 18px rgba(255, 0, 40, 0.20);
 }
+
+
+.room-entry {
+  margin-top: 5px;
+}
+
 
 .welcome-buttons {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
 
   gap: 10px;
@@ -171,67 +194,77 @@ button {
   margin-top: 19px;
 }
 
+
 .welcome-buttons button {
   min-height: 48px;
 
-  border: 1px solid rgba(255, 65, 90, .62);
+  padding: 10px;
+
+  color: white;
+
+  border: 1px solid rgba(255, 65, 90, 0.65);
   border-radius: 8px;
-
-  color: #fff;
-
-  font-weight: 900;
 
   background:
     linear-gradient(
       135deg,
-      #d80028,
-      #ff2d4c
+      #d50028,
+      #ff3150
     );
 
-  box-shadow:
-    0 0 18px rgba(255, 0, 40, .18);
+  font-weight: 900;
 
-  transition: .18s;
+  box-shadow:
+    0 0 18px rgba(255, 0, 40, 0.20);
+
+  transition: 0.18s;
 }
+
 
 .welcome-buttons button:hover {
   transform: translateY(-2px);
 
   box-shadow:
-    0 0 25px rgba(255, 0, 40, .40);
+    0 0 28px rgba(255, 0, 40, 0.45);
 }
+
 
 .welcome-buttons .secondary {
   background:
     linear-gradient(
       135deg,
-      rgba(27, 10, 14, .95),
-      rgba(8, 7, 8, .95)
+      rgba(28, 8, 13, 0.95),
+      rgba(7, 6, 7, 0.96)
     );
 }
 
 
-/* ==============================
+/* =========================================
    SALA
-============================== */
+========================================= */
 
 .stream-app {
-  min-height: 100vh;
+  position: relative;
 
-  background:
-    linear-gradient(
-      rgba(0,0,0,.48),
-      rgba(0,0,0,.68)
-    ),
-    url("mtr-bg.png") center / cover fixed no-repeat;
+  min-height: 100vh;
+  width: 100%;
+
+  background-image: url("./mtr-bg.png");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 
-/* ==============================
+/* =========================================
    TOPO
-============================== */
+========================================= */
 
 .topbar {
+  position: relative;
+  z-index: 10;
+
   height: 84px;
 
   display: flex;
@@ -240,22 +273,25 @@ button {
 
   gap: 20px;
 
-  padding: 8px 24px;
+  padding: 7px 24px;
 
   border-bottom:
-    1px solid rgba(255, 35, 65, .50);
+    1px solid rgba(255, 35, 65, 0.55);
 
   background:
     linear-gradient(
       90deg,
-      rgba(10, 4, 6, .97),
-      rgba(42, 4, 12, .94),
-      rgba(9, 4, 6, .97)
+      rgba(9, 3, 5, 0.92),
+      rgba(50, 4, 14, 0.88),
+      rgba(9, 3, 5, 0.92)
     );
 
+  backdrop-filter: blur(8px);
+
   box-shadow:
-    0 7px 25px rgba(0,0,0,.45);
+    0 6px 25px rgba(0, 0, 0, 0.5);
 }
+
 
 .top-logo-img {
   width: 165px;
@@ -264,8 +300,9 @@ button {
   object-fit: contain;
 
   filter:
-    drop-shadow(0 0 9px rgba(255,0,40,.45));
+    drop-shadow(0 0 10px rgba(255, 0, 40, 0.50));
 }
+
 
 .top-status {
   display: flex;
@@ -273,6 +310,7 @@ button {
 
   gap: 10px;
 }
+
 
 .viewer-count,
 .offline-badge {
@@ -283,18 +321,23 @@ button {
 
   padding: 0 14px;
 
-  border: 1px solid rgba(255, 50, 75, .38);
   border-radius: 7px;
 
-  background: rgba(8, 6, 7, .78);
+  border:
+    1px solid rgba(255, 50, 75, 0.42);
+
+  background:
+    rgba(8, 6, 7, 0.82);
 
   font-size: 12px;
   font-weight: 800;
 }
 
+
 .offline-badge {
   gap: 8px;
 }
+
 
 .status-dot {
   width: 9px;
@@ -302,29 +345,33 @@ button {
 
   border-radius: 50%;
 
-  background: #ff1738;
+  background: var(--red);
 
   box-shadow:
-    0 0 10px #ff1738;
+    0 0 12px var(--red);
 }
 
 
-/* ==============================
-   LAYOUT
-============================== */
+/* =========================================
+   LAYOUT PRINCIPAL
+========================================= */
 
 .stream-layout {
+  position: relative;
+  z-index: 2;
+
   display: grid;
 
-  grid-template-columns: 270px minmax(0, 1fr);
+  grid-template-columns:
+    275px minmax(0, 1fr);
 
   min-height: calc(100vh - 84px);
 }
 
 
-/* ==============================
+/* =========================================
    MENU LATERAL
-============================== */
+========================================= */
 
 .sidebar {
   position: relative;
@@ -336,36 +383,21 @@ button {
   overflow-y: auto;
 
   border-right:
-    1px solid rgba(255, 35, 65, .52);
+    1px solid rgba(255, 35, 65, 0.55);
 
   background:
     linear-gradient(
-      rgba(90, 3, 22, .80),
-      rgba(31, 3, 10, .93)
+      180deg,
+      rgba(111, 4, 27, 0.88),
+      rgba(35, 3, 11, 0.93)
     );
 
+  backdrop-filter: blur(8px);
+
   box-shadow:
-    8px 0 30px rgba(0,0,0,.32);
+    8px 0 30px rgba(0, 0, 0, 0.35);
 }
 
-.sidebar::before {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  opacity: .18;
-
-  background:
-    url("mtr-bg.png") left center / auto 100% no-repeat;
-}
-
-.sidebar > * {
-  position: relative;
-  z-index: 1;
-}
 
 .sidebar h2 {
   margin: 0 0 15px;
@@ -374,23 +406,29 @@ button {
 }
 
 
-/* ==============================
+/* =========================================
    CONVITE
-============================== */
+========================================= */
 
 .invite-card {
   padding: 16px;
 
-  border: 1px solid rgba(255, 110, 130, .52);
+  border:
+    1px solid rgba(255, 110, 130, 0.55);
+
   border-radius: 10px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(255, 35, 65, .12),
-      rgba(12, 5, 7, .28)
+      rgba(255, 35, 65, 0.14),
+      rgba(10, 4, 7, 0.30)
     );
+
+  box-shadow:
+    inset 0 0 22px rgba(255, 0, 40, 0.05);
 }
+
 
 .invite-icon {
   margin-bottom: 7px;
@@ -398,9 +436,11 @@ button {
   font-size: 22px;
 }
 
+
 .invite-text strong {
   font-size: 14px;
 }
+
 
 .invite-text p {
   margin: 6px 0 12px;
@@ -411,33 +451,37 @@ button {
   line-height: 1.45;
 }
 
+
 .invite-button {
   width: 100%;
 
   padding: 10px;
 
-  color: #fff;
+  color: white;
 
-  border: 1px solid rgba(255, 75, 100, .45);
+  border:
+    1px solid rgba(255, 75, 100, 0.50);
+
   border-radius: 7px;
 
   background:
-    rgba(255, 25, 55, .13);
+    rgba(255, 25, 55, 0.15);
 
   font-weight: 800;
 }
 
 
-/* ==============================
-   PESSOAS
-============================== */
+/* =========================================
+   SEÇÕES DO MENU
+========================================= */
 
 .side-section {
   padding: 19px 0;
 
   border-bottom:
-    1px solid rgba(255,255,255,.10);
+    1px solid rgba(255, 255, 255, 0.10);
 }
+
 
 .section-title {
   display: flex;
@@ -447,11 +491,13 @@ button {
   margin-bottom: 10px;
 }
 
+
 .side-section h3 {
   margin: 0;
 
   font-size: 14px;
 }
+
 
 #sideCount {
   color: #ff9cac;
@@ -460,25 +506,34 @@ button {
   font-weight: 900;
 }
 
+
+/* =========================================
+   PESSOAS
+========================================= */
+
 .people {
   display: grid;
 
   gap: 6px;
 }
 
+
 .people span {
   display: block;
 
   padding: 9px 10px;
 
-  border: 1px solid rgba(255, 65, 90, .36);
+  border:
+    1px solid rgba(255, 65, 90, 0.38);
+
   border-radius: 6px;
 
   background:
-    rgba(80, 7, 22, .70);
+    rgba(80, 7, 22, 0.74);
 
   font-size: 11px;
 }
+
 
 .empty-slots {
   display: grid;
@@ -488,52 +543,60 @@ button {
   margin-top: 6px;
 }
 
+
 .empty-slot {
   padding: 8px 10px;
 
-  border: 1px solid rgba(255,255,255,.09);
+  border:
+    1px solid rgba(255, 255, 255, 0.10);
+
   border-radius: 6px;
 
-  color: rgba(255,255,255,.42);
+  color:
+    rgba(255, 255, 255, 0.45);
 
   background:
-    rgba(0,0,0,.15);
+    rgba(0, 0, 0, 0.18);
 
   font-size: 10px;
 }
 
 
-/* ==============================
+/* =========================================
    CONFIGURAÇÕES
-============================== */
+========================================= */
 
 .settings-section label {
   display: block;
 
   margin: 13px 0 6px;
 
-  color: #fff;
+  color: white;
 
   font-size: 10px;
   font-weight: 800;
 }
+
 
 .settings-section select {
   width: 100%;
 
   padding: 10px;
 
-  color: #fff;
+  color: white;
 
   outline: none;
 
-  border: 1px solid rgba(255, 55, 80, .35);
+  border:
+    1px solid rgba(255, 55, 80, 0.38);
+
   border-radius: 6px;
 
   background: #250810;
 
   font-size: 10px;
 }
+
 
 .helper {
   margin: 7px 0 0;
@@ -544,8 +607,10 @@ button {
   line-height: 1.45;
 }
 
+
 .check-option {
   display: flex !important;
+
   align-items: flex-start;
 
   gap: 7px;
@@ -553,28 +618,32 @@ button {
   line-height: 1.35;
 }
 
+
 .check-option input {
   margin-top: 1px;
 
-  accent-color: #ff1738;
+  accent-color: var(--red);
 }
 
 
-/* ==============================
+/* =========================================
    ÁUDIO
-============================== */
+========================================= */
 
 .audio-info {
   margin-top: 16px;
 
   padding: 11px;
 
-  border: 1px solid rgba(255, 55, 80, .28);
+  border:
+    1px solid rgba(255, 55, 80, 0.30);
+
   border-radius: 8px;
 
   background:
-    rgba(17, 4, 8, .48);
+    rgba(17, 4, 8, 0.52);
 }
+
 
 .audio-info div {
   display: flex;
@@ -587,14 +656,15 @@ button {
   font-size: 10px;
 }
 
+
 .audio-info strong {
   color: #ff9eae;
 }
 
 
-/* ==============================
+/* =========================================
    SAIR
-============================== */
+========================================= */
 
 .leave-button {
   width: 100%;
@@ -605,19 +675,21 @@ button {
 
   color: #ffb0bc;
 
-  border: 1px solid rgba(255, 65, 90, .38);
+  border:
+    1px solid rgba(255, 65, 90, 0.42);
+
   border-radius: 7px;
 
   background:
-    rgba(20, 3, 7, .58);
+    rgba(20, 3, 7, 0.68);
 
   font-weight: 900;
 }
 
 
-/* ==============================
-   TRANSMISSÃO
-============================== */
+/* =========================================
+   CONTEÚDO DA TRANSMISSÃO
+========================================= */
 
 .main-stream {
   min-width: 0;
@@ -625,11 +697,9 @@ button {
   padding: 17px;
 
   background:
-    linear-gradient(
-      rgba(0,0,0,.18),
-      rgba(0,0,0,.40)
-    );
+    rgba(0, 0, 0, 0.10);
 }
+
 
 .selected-window {
   height: 24px;
@@ -640,35 +710,41 @@ button {
 }
 
 
-/* ==============================
+/* =========================================
    PALCO
-============================== */
+========================================= */
 
 .stage {
   position: relative;
 
   width: 100%;
-  height: calc(100vh - 175px);
 
+  height: calc(100vh - 175px);
   min-height: 520px;
 
   overflow: hidden;
 
-  border: 1px solid rgba(255, 35, 65, .50);
+  border:
+    1px solid rgba(255, 35, 65, 0.52);
+
   border-radius: 13px;
 
-  background:
-    linear-gradient(
-      rgba(0,0,0,.18),
-      rgba(0,0,0,.42)
-    ),
-    url("mtr-bg.png") center / cover no-repeat;
+  /*
+    Aqui também usamos diretamente
+    o novo fundo MTR.
+  */
+  background-image: url("./mtr-bg.png");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 
   box-shadow:
-    0 0 35px rgba(255, 0, 40, .08),
-    inset 0 0 80px rgba(0,0,0,.28);
+    0 0 38px rgba(255, 0, 40, 0.12),
+    inset 0 0 60px rgba(0, 0, 0, 0.20);
 }
 
+
+/* sombra apenas nas bordas */
 .stage::after {
   content: "";
 
@@ -680,13 +756,13 @@ button {
   pointer-events: none;
 
   box-shadow:
-    inset 0 0 100px rgba(0,0,0,.48);
+    inset 0 0 80px rgba(0, 0, 0, 0.30);
 }
 
 
-/* ==============================
-   TELA VAZIA
-============================== */
+/* =========================================
+   QUANDO NÃO TEM TRANSMISSÃO
+========================================= */
 
 .empty-stage {
   position: absolute;
@@ -704,46 +780,58 @@ button {
   text-align: center;
 }
 
+
 .stage-logo-img {
-  width: min(480px, 65%);
+  width: min(470px, 65%);
   height: auto;
 
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 
   object-fit: contain;
 
   filter:
-    drop-shadow(0 0 18px rgba(255,0,40,.48));
+    drop-shadow(
+      0 0 18px
+      rgba(255, 0, 40, 0.55)
+    );
 }
+
 
 .empty-stage strong {
-  font-size: clamp(20px, 2.2vw, 30px);
+  font-size:
+    clamp(20px, 2.2vw, 30px);
 
   text-shadow:
-    0 3px 10px #000;
+    0 3px 10px black;
 }
+
 
 .empty-stage p {
   margin: 10px 0 22px;
 
-  color: #d7c7ca;
+  color: #e0d1d4;
 
   font-size: 12px;
+
+  text-shadow:
+    0 2px 7px black;
 }
 
 
-/* ==============================
-   BOTÃO COMPARTILHAR
-============================== */
+/* =========================================
+   COMPARTILHAR
+========================================= */
 
 .share-button {
   min-width: 210px;
 
   padding: 13px 23px;
 
-  color: #fff;
+  color: white;
 
-  border: 1px solid #ff6078;
+  border:
+    1px solid #ff6078;
+
   border-radius: 8px;
 
   background:
@@ -754,24 +842,26 @@ button {
     );
 
   box-shadow:
-    0 0 23px rgba(255,0,40,.30);
+    0 0 25px rgba(255, 0, 40, 0.36);
 
   font-weight: 900;
 
-  transition: .18s;
+  transition: 0.18s;
 }
+
 
 .share-button:hover {
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
   box-shadow:
-    0 0 32px rgba(255,0,40,.50);
+    0 0 34px rgba(255, 0, 40, 0.55);
 }
 
 
-/* ==============================
+/* =========================================
    VÍDEOS
-============================== */
+========================================= */
 
 .videos {
   position: relative;
@@ -782,8 +872,10 @@ button {
   height: 100%;
 
   display: grid;
+
   place-items: center;
 }
+
 
 .video-card {
   position: relative;
@@ -793,8 +885,9 @@ button {
 
   overflow: hidden;
 
-  background: #000;
+  background: black;
 }
+
 
 .video-card video {
   width: 100%;
@@ -802,8 +895,9 @@ button {
 
   object-fit: contain;
 
-  background: #000;
+  background: black;
 }
+
 
 .video-label {
   position: absolute;
@@ -813,21 +907,23 @@ button {
 
   padding: 7px 11px;
 
-  color: #fff;
+  color: white;
 
-  border: 1px solid rgba(255, 45, 70, .45);
+  border:
+    1px solid rgba(255, 45, 70, 0.48);
+
   border-radius: 6px;
 
   background:
-    rgba(0,0,0,.76);
+    rgba(0, 0, 0, 0.78);
 
   font-size: 11px;
 }
 
 
-/* ==============================
+/* =========================================
    CONTROLES INFERIORES
-============================== */
+========================================= */
 
 .bottom-controls {
   display: flex;
@@ -836,6 +932,7 @@ button {
 
   padding-top: 11px;
 }
+
 
 .volume-control {
   display: flex;
@@ -847,22 +944,27 @@ button {
 
   color: #ff9cac;
 
-  border: 1px solid rgba(255, 45, 70, .35);
+  border:
+    1px solid rgba(255, 45, 70, 0.38);
+
   border-radius: 999px;
 
   background:
-    rgba(28, 4, 9, .78);
+    rgba(28, 4, 9, 0.82);
 
   font-size: 10px;
 }
 
+
 .volume-control input {
-  accent-color: #ff1738;
+  accent-color: var(--red);
 }
+
 
 .fullscreen-icon {
   font-size: 16px;
 }
+
 
 .bottom-controls p {
   margin: 8px 0 0;
@@ -873,9 +975,9 @@ button {
 }
 
 
-/* ==============================
+/* =========================================
    MENSAGENS
-============================== */
+========================================= */
 
 .message {
   min-height: 16px;
@@ -885,22 +987,25 @@ button {
   font-size: 11px;
 }
 
+
 .center {
   text-align: center;
 }
 
 
-/* ==============================
+/* =========================================
    SCROLL
-============================== */
+========================================= */
 
 ::-webkit-scrollbar {
   width: 7px;
 }
 
+
 ::-webkit-scrollbar-track {
   background: #080305;
 }
+
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
@@ -913,9 +1018,9 @@ button {
 }
 
 
-/* ==============================
+/* =========================================
    TABLET
-============================== */
+========================================= */
 
 @media (max-width: 900px) {
 
@@ -941,7 +1046,7 @@ button {
     border-right: 0;
 
     border-bottom:
-      1px solid rgba(255, 35, 65, .5);
+      1px solid rgba(255, 35, 65, 0.5);
   }
 
   .stage {
@@ -951,9 +1056,9 @@ button {
 }
 
 
-/* ==============================
+/* =========================================
    CELULAR
-============================== */
+========================================= */
 
 @media (max-width: 560px) {
 
