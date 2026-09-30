@@ -2313,28 +2313,33 @@ body,
     min-width: 185px !important;
   }
 }
-/* CORREÇÃO - BOTÃO COMPARTILHAR DENTRO DO CARD */
-.stream-side-section #share,
-.stream-side-section .share-button,
-#share.share-button {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  margin: 7px 0 0 0 !important;
-  padding: 7px 8px !important;
-}
+/* CORREÇÃO FINAL - BOTÃO COMPARTILHAR */
 
-/* evita qualquer elemento ultrapassar o card */
-.stream-side-section,
-.stream-side-section .share-control-area {
+.stream-side-section {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
 }
 
-/* espaço interno certinho */
-.stream-side-section {
-  padding: 10px !important;
+.stream-side-section .share-control-area {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 8px 0 0 0 !important;
+  padding: 0 !important;
+}
+
+.stream-side-section #share {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 7px 4px !important;
+  border-radius: 8px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
