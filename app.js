@@ -717,7 +717,7 @@ async function startScreenShare() {
   echoCancellation: true,
   noiseSuppression: true,
   autoGainControl: false,
-  suppressLocalAudioPlayback: true
+  suppressLocalAudioPlayback: false
 },
 
 systemAudio: "exclude",
