@@ -1162,3 +1162,54 @@ button {
 #joinScreen button + button {
     margin-left: 8px;
 }
+/* ===== BOTÕES CRIAR / ENTRAR - MTR ===== */
+
+button {
+    font-family: inherit;
+}
+
+/* botão Criar nova sala */
+#createRoom,
+#create-room,
+.btn-create {
+    width: 48%;
+    height: 48px;
+    border: 1px solid #ff3157 !important;
+    border-radius: 8px !important;
+    background: linear-gradient(135deg, #ff1748, #e4003b) !important;
+    color: white !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(255, 23, 72, 0.25);
+}
+
+/* botão Entrar na sala */
+#joinRoom,
+#join-room,
+.btn-join {
+    width: 48%;
+    height: 48px;
+    border: 1px solid #e52248 !important;
+    border-radius: 8px !important;
+    background: #16070b !important;
+    color: white !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    cursor: pointer;
+}
+
+/* efeitos */
+#createRoom:hover,
+#create-room:hover,
+.btn-create:hover {
+    background: #ff3157 !important;
+    box-shadow: 0 0 22px rgba(255, 23, 72, 0.45);
+}
+
+#joinRoom:hover,
+#join-room:hover,
+.btn-join:hover {
+    background: #290810 !important;
+    border-color: #ff3157 !important;
+}
