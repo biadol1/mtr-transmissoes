@@ -1620,7 +1620,13 @@ function mtrStopWatching() {
 ===================================================== */
 
 function mtrApplySelection() {
-
+/* SILENCIA TODAS AS TRANSMISSÕES PRIMEIRO */
+document
+  .querySelectorAll("#videos video, #videos audio")
+  .forEach((media) => {
+    media.muted = true;
+    media.volume = 0;
+  });
   const streams =
     mtrGetRemoteStreams();
 
@@ -1635,27 +1641,55 @@ function mtrApplySelection() {
           mtrSelectedStream;
 
 
-      if (selected) {
+     if (selected) {
 
-        card.style.display =
-          "block";
+  card.style.display =
+    "block";
 
+  card.classList.add(
+    "mtr-watching"
+  );
 
-        card.classList.add(
-          "mtr-watching"
-        );
+  /* LIBERA O SOM SOMENTE DE QUEM VOCÊ ESTÁ ASSISTINDO */
+  card
+    .querySelectorAll("video, audio")
+    .forEach((media) => {
 
-      } else {
+      media.muted = false;
 
-        card.style.display =
-          "none";
+      const volume =
+        document.getElementById("volume");
 
+      media.volume =
+        volume
+          ? Number(volume.value) / 100
+          : 0.75;
 
-        card.classList.remove(
-          "mtr-watching"
-        );
+      media.play().catch(() => {});
 
-      }
+    });
+
+} else {
+
+  card.style.display =
+    "none";
+
+  card.classList.remove(
+    "mtr-watching"
+  );
+
+  /* DESLIGA O SOM DE QUEM VOCÊ NÃO ESTÁ ASSISTINDO */
+  card
+    .querySelectorAll("video, audio")
+    .forEach((media) => {
+
+      media.pause();
+      media.muted = true;
+      media.volume = 0;
+
+    });
+
+}
 
     }
   );
