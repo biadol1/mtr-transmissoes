@@ -1588,16 +1588,30 @@ function mtrStopWatching() {
 
   mtrSelectedStream = null;
 
+  /* PARA O ÁUDIO/VÍDEO QUE ESTAVA SENDO ASSISTIDO */
+  const videos = document.querySelectorAll("#videos video");
+  const audios = document.querySelectorAll("#videos audio");
+
+  videos.forEach((media) => {
+    media.pause();
+    media.muted = true;
+    media.volume = 0;
+  });
+
+  audios.forEach((media) => {
+    media.pause();
+    media.muted = true;
+    media.volume = 0;
+  });
+
   mtrApplySelection();
 
   mtrRefreshStreams();
-
 
   setMessage(
     "Você parou de assistir. Escolha outra transmissão quando quiser.",
     true
   );
-
 }
 
 
