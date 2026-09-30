@@ -3168,28 +3168,99 @@ mtrSelectorStyle.textContent = `
 
 
 /* =====================================================
-   DUAS WEBCAMS
+   DUAS WEBCAMS — LADO A LADO
 ===================================================== */
 
 #videos[data-camera-count="2"] {
 
+  display: grid !important;
+
   grid-template-columns:
-    repeat(2, minmax(0, 1fr)) !important;
+    minmax(0, 1fr)
+    minmax(0, 1fr) !important;
+
+  grid-template-rows:
+    minmax(0, 1fr) !important;
+
+  gap: 12px !important;
+
+  align-items: stretch !important;
+
+  align-content: stretch !important;
 
 }
 
+
+/* PRIMEIRA WEBCAM */
+
+#videos[data-camera-count="2"]
+.mtr-camera-card:nth-of-type(1) {
+
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+
+}
+
+
+/* SEGUNDA WEBCAM */
+
+#videos[data-camera-count="2"]
+.mtr-camera-card:nth-of-type(2) {
+
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+
+}
+
+
+/* AS DUAS WEBCAMS */
 
 #videos[data-camera-count="2"]
 .mtr-camera-card {
 
+  display: block !important;
+
+  position: relative !important;
+
   width: 100% !important;
 
-  height: auto !important;
+  height: 100% !important;
 
-  grid-column: auto !important;
+  min-width: 0 !important;
+
+  min-height: 0 !important;
+
+  margin: 0 !important;
+
+  inset: auto !important;
+
+  transform: none !important;
 
 }
 
+
+/* VÍDEO DAS DUAS WEBCAMS */
+
+#videos[data-camera-count="2"]
+.mtr-camera-card video {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  min-width: 0 !important;
+
+  min-height: 0 !important;
+
+  max-width: none !important;
+
+  max-height: none !important;
+
+  object-fit: cover !important;
+
+}
 
 /* =====================================================
    CARD DA WEBCAM
@@ -3236,23 +3307,6 @@ mtrSelectorStyle.textContent = `
    VÍDEO DA WEBCAM
 ===================================================== */
 
-#videos
-.mtr-camera-card
-video {
-
-  display: block;
-
-  width: 100% !important;
-
-  height: auto !important;
-
-  aspect-ratio: 16 / 9;
-
-  object-fit: cover;
-
-  background: #050505;
-
-}
 
 
 /* =====================================================
