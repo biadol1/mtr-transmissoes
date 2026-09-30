@@ -160,7 +160,9 @@
         </h2>
 
 
-        <!-- CONVITE -->
+        <!-- =========================
+             CONVITE
+        ========================== -->
 
         <div class="invite-card">
 
@@ -191,7 +193,9 @@
         </div>
 
 
-        <!-- PESSOAS -->
+        <!-- =========================
+             PESSOAS
+        ========================== -->
 
         <section class="side-section">
 
@@ -233,6 +237,38 @@
           <div class="empty-slot">
             ＋ Vaga disponível
           </div>
+
+        </section>
+
+
+        <!-- =========================
+             TRANSMISSÕES
+        ========================== -->
+
+        <section
+          class="side-section stream-side-section"
+        >
+
+          <div class="section-title">
+
+            <h3>
+              📺 Transmissões
+            </h3>
+
+          </div>
+
+
+          <!--
+            O app.js coloca aqui automaticamente:
+
+            Assistir Sakura
+            Assistir Ipe
+            Parar de assistir
+          -->
+
+          <div
+            id="streamControlsSide"
+          ></div>
 
         </section>
 
@@ -362,8 +398,30 @@
 
           </div>
 
+
+          <!-- =========================
+               COMPARTILHAR TELA
+               AGORA NA LATERAL
+          ========================== -->
+
+          <div class="share-control-area">
+
+            <button
+              id="share"
+              type="button"
+              class="share-button"
+            >
+              🖥 Compartilhar tela
+            </button>
+
+          </div>
+
         </section>
 
+
+        <!-- =========================
+             SAIR
+        ========================== -->
 
         <button
           id="leave"
@@ -372,6 +430,7 @@
         >
           Sair da sala
         </button>
+
 
       </aside>
 
@@ -416,37 +475,18 @@
 
 
             <p>
-              Escolha uma janela ou tela inteira para
-              começar sua transmissão.
+              Escolha uma transmissão na lateral
+              ou compartilhe sua própria tela.
             </p>
 
           </div>
 
 
           <!-- =========================
-               BOTÃO DE COMPARTILHAMENTO
+               VÍDEOS
 
-               IMPORTANTE:
-               ELE FICA FORA DO EMPTY-STAGE.
-               ASSIM NÃO SOME QUANDO OUTRA
-               PESSOA ESTIVER TRANSMITINDO.
-          ========================== -->
-
-          <div class="share-control-area">
-
-            <button
-              id="share"
-              type="button"
-              class="share-button"
-            >
-              🖥 Compartilhar tela
-            </button>
-
-          </div>
-
-
-          <!-- =========================
-               TRANSMISSÕES
+               AQUI AGORA FICA SOMENTE
+               A TRANSMISSÃO.
           ========================== -->
 
           <div
@@ -519,97 +559,6 @@
   ========================== -->
 
   <script src="app.js"></script>
-
-
-  <!-- =========================
-       FALLBACK DO BOTÃO
-  ========================== -->
-
-  <script>
-
-    window.startMTRShare = async function () {
-
-      console.log(
-        "BOTÃO HTML COMPARTILHAR CLICADO"
-      );
-
-
-      /*
-       * O app.js é responsável pelo
-       * compartilhamento real através
-       * do LiveKit.
-       *
-       * Este fallback serve apenas caso
-       * o botão não tenha recebido
-       * corretamente o evento.
-       */
-
-
-      try {
-
-        const shareButton =
-          document.getElementById("share");
-
-
-        /*
-         * Se o app.js já colocou um
-         * listener no botão, não fazemos
-         * nada aqui.
-         */
-
-        if (
-          shareButton &&
-          shareButton.dataset.appReady === "1"
-        ) {
-
-          return;
-
-        }
-
-
-        console.log(
-          "Testando seletor de compartilhamento..."
-        );
-
-
-        const stream =
-          await navigator.mediaDevices.getDisplayMedia({
-            video: true,
-            audio: true
-          });
-
-
-        console.log(
-          "Tela selecionada com sucesso.",
-          stream
-        );
-
-
-        /*
-         * O fallback NÃO publica a tela.
-         * Apenas confirma que o navegador
-         * consegue abrir o seletor.
-         */
-
-        stream
-          .getTracks()
-          .forEach(
-            track => track.stop()
-          );
-
-
-      } catch (error) {
-
-        console.error(
-          "Erro ao abrir compartilhamento:",
-          error
-        );
-
-      }
-
-    };
-
-  </script>
 
 
 </body>
