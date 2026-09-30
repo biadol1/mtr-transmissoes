@@ -3527,71 +3527,59 @@ video {
 }
 
 
-/* WEBCAM 1 */
+/* =====================================================
+   POSIÇÃO DAS WEBCAMS DURANTE COMPARTILHAMENTO
+===================================================== */
 
 #videos.mtr-screen-active
-.mtr-camera-card:nth-of-type(1) {
+.mtr-camera-card {
 
-  top: 25px !important;
-  right: 25px !important;
+  position: relative !important;
 
+  display: inline-block !important;
+
+  float: right !important;
+
+  width: 150px !important;
+  height: 90px !important;
+
+  min-width: 150px !important;
+  min-height: 90px !important;
+
+  max-width: 150px !important;
+  max-height: 90px !important;
+
+  margin: 20px 12px 0 0 !important;
+
+  z-index: 100 !important;
+
+  inset: auto !important;
+
+  transform: none !important;
+
+  flex: none !important;
+
+  grid-column: auto !important;
+  grid-row: auto !important;
 }
 
 
-/* WEBCAM 2 */
+/* FORÇA O VÍDEO A CABER NO CARD PEQUENO */
 
 #videos.mtr-screen-active
-.mtr-camera-card:nth-of-type(2) {
+.mtr-camera-card video {
 
-  top: 125px !important;
-  right: 25px !important;
+  width: 150px !important;
+  height: 90px !important;
 
+  min-width: 150px !important;
+  min-height: 90px !important;
+
+  max-width: 150px !important;
+  max-height: 90px !important;
+
+  object-fit: cover !important;
 }
-
-
-/* WEBCAM 3 */
-
-#videos.mtr-screen-active
-.mtr-camera-card:nth-of-type(3) {
-
-  top: 225px !important;
-  right: 25px !important;
-
-}
-
-
-/* WEBCAM 4 */
-
-#videos.mtr-screen-active
-.mtr-camera-card:nth-of-type(4) {
-
-  top: 325px !important;
-  right: 25px !important;
-
-}
-
-
-/* WEBCAM 5 */
-
-#videos.mtr-screen-active
-.mtr-camera-card:nth-of-type(5) {
-
-  top: 425px !important;
-  right: 25px !important;
-
-}
-
-
-/* WEBCAM 6 */
-
-#videos.mtr-screen-active
-.mtr-camera-card:nth-of-type(6) {
-
-  top: 525px !important;
-  right: 25px !important;
-
-}
-
 
 /* VÍDEO DENTRO DA WEBCAM */
 
