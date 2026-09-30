@@ -4,26 +4,14 @@ const LK = window.LivekitClient;
 let liveRoom = null;
 let currentCode = "";
 let sharing = false;
-
-const MAX_PARTICIPANTS = 6;
-
-
-/* =====================================================
-   UTILIDADES
-===================================================== */
+let screenTracks = [];
 
 function roomCode() {
-  return (
-    "MTR-" +
-    Math.random()
-      .toString(36)
-      .slice(2, 7)
-      .toUpperCase()
-  );
+  return "MTR-" + Math.random().toString(36).slice(2, 7).toUpperCase();
 }
 
 function normalizeRoom(value) {
-  return String(value || "")
+  return value
     .trim()
     .toUpperCase()
     .replace(/[^A-Z0-9_-]/g, "")
@@ -31,29 +19,16 @@ function normalizeRoom(value) {
 }
 
 function setMessage(text, inRoom = false) {
-  const element = $(inRoom ? "roomMsg" : "msg");
-
-  if (element) {
-    element.textContent = text || "";
-  }
+  const el = $(inRoom ? "roomMsg" : "msg");
+  if (el) el.textContent = text || "";
 }
-
-
-/* =====================================================
-   ENTRAR / CRIAR SALA
-===================================================== */
 
 async function enter(create) {
   const name = $("name").value.trim();
-
-  let code = normalizeRoom(
-    $("roomCode").value
-  );
+  let code = normalizeRoom($("roomCode").value);
 
   if (!name) {
-    return setMessage(
-      "Coloque seu nome para continuar."
-    );
+    return setMessage("Coloque seu nome para continuar.");
   }
 
   if (create && !code) {
@@ -61,9 +36,7 @@ async function enter(create) {
   }
 
   if (!code) {
-    return setMessage(
-      "Digite o código da sala."
-    );
+    return setMessage("Digite o código da sala.");
   }
 
   setMessage("Conectando...");
@@ -72,31 +45,21 @@ async function enter(create) {
   $("join").disabled = true;
 
   try {
-    const response = await fetch(
-      "/api/token",
-      {
-        method: "POST",
+    const response = await fetch("/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        room: code,
+      }),
+    });
 
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
-
-        body: JSON.stringify({
-          name: name,
-          room: code,
-        }),
-      }
-    );
-
-    const data =
-      await response.json();
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(
-        data.error ||
-          "Não foi possível entrar na sala."
-      );
+      throw new Error(data.error || "Não foi possível entrar.");
     }
 
     liveRoom = new LK.Room({
@@ -106,61 +69,36 @@ async function enter(create) {
 
     bindRoomEvents(liveRoom);
 
-    await liveRoom.connect(
-      data.url,
-      data.token
-    );
+    await liveRoom.connect(data.url, data.token);
 
     currentCode = data.room;
 
-    localStorage.setItem(
-      "mtrName",
-      name
-    );
+    localStorage.setItem("mtrName", name);
 
     history.replaceState(
       {},
       "",
-      `?room=${encodeURIComponent(
-        currentCode
-      )}`
+      `?room=${encodeURIComponent(currentCode)}`
     );
 
-    $("roomCode").value =
-      currentCode;
+    $("roomCode").value = currentCode;
+    $("roomTitle").textContent = `Sala ${currentCode}`;
 
-    if ($("roomTitle")) {
-      $("roomTitle").textContent =
-        `Sala ${currentCode}`;
-    }
+    $("landing").classList.add("hidden");
+    $("roomView").classList.remove("hidden");
 
-    $("landing").classList.add(
-      "hidden"
-    );
-
-    $("roomView").classList.remove(
-      "hidden"
-    );
-
-    if ($("status")) {
-      $("status").textContent =
-        "ONLINE";
-    }
+    $("status").textContent = "ONLINE";
 
     setMessage("");
 
     updatePeople();
     updateStage();
 
-  } catch (error) {
-    console.error(
-      "ERRO AO ENTRAR:",
-      error
-    );
+  } catch (err) {
+    console.error(err);
 
     setMessage(
-      error.message ||
-        "Erro ao conectar à sala."
+      err.message || "Erro ao conectar."
     );
 
   } finally {
@@ -170,50 +108,32 @@ async function enter(create) {
 }
 
 
-/* =====================================================
+/* ===============================
    EVENTOS LIVEKIT
-===================================================== */
+================================ */
 
 function bindRoomEvents(room) {
 
-  /* RECEBER VÍDEO DE OUTRA PESSOA */
-
   room.on(
     LK.RoomEvent.TrackSubscribed,
-    (
-      track,
-      publication,
-      participant
-    ) => {
+    (track, publication, participant) => {
 
-      if (
-        track.kind ===
-        LK.Track.Kind.Video
-      ) {
-        attachVideo(
-          track,
-          participant,
-          false
-        );
+      if (track.kind === LK.Track.Kind.Video) {
+        attachVideo(track, participant);
       }
 
       updatePeople();
-      updateStage();
     }
   );
 
-
-  /* VÍDEO REMOVIDO */
 
   room.on(
     LK.RoomEvent.TrackUnsubscribed,
     (track) => {
 
-      track
-        .detach()
-        .forEach((element) => {
-          element.remove();
-        });
+      track.detach().forEach((el) => {
+        el.remove();
+      });
 
       removeEmptyVideoCards();
 
@@ -221,8 +141,6 @@ function bindRoomEvents(room) {
     }
   );
 
-
-  /* PESSOA ENTROU */
 
   room.on(
     LK.RoomEvent.ParticipantConnected,
@@ -232,170 +150,88 @@ function bindRoomEvents(room) {
   );
 
 
-  /* PESSOA SAIU */
-
   room.on(
     LK.RoomEvent.ParticipantDisconnected,
     () => {
       updatePeople();
-
-      removeEmptyVideoCards();
-
       updateStage();
     }
   );
 
-
-  /* MINHA TELA COMEÇOU A SER TRANSMITIDA */
-
-  room.on(
-    LK.RoomEvent.LocalTrackPublished,
-    (publication) => {
-
-      if (
-        publication.source ===
-        LK.Track.Source.ScreenShare
-      ) {
-        const track =
-          publication.track;
-
-        if (track) {
-          attachVideo(
-            track,
-            room.localParticipant,
-            true
-          );
-        }
-      }
-
-      updateStage();
-    }
-  );
-
-
-  /* MINHA TELA PAROU */
-
-  room.on(
-    LK.RoomEvent.LocalTrackUnpublished,
-    (publication) => {
-
-      if (
-        publication?.source ===
-        LK.Track.Source.ScreenShare
-      ) {
-        removeLocalPreview();
-      }
-
-      updateStage();
-    }
-  );
-
-
-  /* DESCONECTOU */
 
   room.on(
     LK.RoomEvent.Disconnected,
     () => {
 
-      if ($("status")) {
-        $("status").textContent =
-          "OFFLINE";
-      }
+      $("status").textContent = "OFFLINE";
 
       sharing = false;
 
       if ($("share")) {
-        $("share").textContent =
-          "🖥 Compartilhar tela";
+        $("share").textContent = "🖥 Compartilhar tela";
       }
     }
   );
 }
 
 
-/* =====================================================
-   MOSTRAR VÍDEO
-===================================================== */
+/* ===============================
+   VÍDEO
+================================ */
 
-function attachVideo(
-  track,
-  participant,
-  local = false
-) {
+function attachVideo(track, participant, local = false) {
 
-  const rawId =
-    `video-${participant.identity}-${track.sid || "screen"}`;
+  const identity =
+    participant?.identity ||
+    "participant";
+
+  const sid =
+    track?.sid ||
+    Math.random().toString(36).slice(2);
 
   const id =
-    rawId.replace(
-      /[^a-zA-Z0-9_-]/g,
-      ""
-    );
+    `video-${identity}-${sid}`
+      .replace(/[^a-zA-Z0-9_-]/g, "");
 
-  if ($(id)) {
-    return;
-  }
+  if ($(id)) return;
 
-  const wrap =
-    document.createElement("div");
 
-  wrap.className =
-    "video-card";
+  const wrap = document.createElement("div");
 
+  wrap.className = "video-card";
   wrap.id = id;
 
+
   if (local) {
-    wrap.dataset.localPreview =
-      "1";
+    wrap.dataset.localPreview = "1";
   }
 
 
-  const video =
-    track.attach();
+  const video = track.attach();
 
   video.autoplay = true;
   video.playsInline = true;
 
 
-  /*
-    Evita eco para quem
-    está transmitindo
-  */
-
-  if (local) {
-    video.muted = true;
-  }
-
-
   const label =
     document.createElement("div");
 
-  label.className =
-    "video-label";
+  label.className = "video-label";
 
   label.textContent =
-    `${participant.name || "Participante"}${
+    `${participant?.name || "Participante"}${
       local ? " • você" : ""
     }`;
 
 
-  wrap.append(
-    video,
-    label
-  );
+  wrap.appendChild(video);
+  wrap.appendChild(label);
 
-
-  $("videos").appendChild(
-    wrap
-  );
+  $("videos").appendChild(wrap);
 
   updateStage();
 }
 
-
-/* =====================================================
-   REMOVER PREVIEW LOCAL
-===================================================== */
 
 function removeLocalPreview() {
 
@@ -403,30 +239,18 @@ function removeLocalPreview() {
     .querySelectorAll(
       '[data-local-preview="1"]'
     )
-    .forEach(
-      (element) =>
-        element.remove()
-    );
+    .forEach((el) => el.remove());
+
 }
 
-
-/* =====================================================
-   LIMPAR CARDS VAZIOS
-===================================================== */
 
 function removeEmptyVideoCards() {
 
   document
-    .querySelectorAll(
-      ".video-card"
-    )
+    .querySelectorAll(".video-card")
     .forEach((card) => {
 
-      if (
-        !card.querySelector(
-          "video"
-        )
-      ) {
+      if (!card.querySelector("video")) {
         card.remove();
       }
 
@@ -434,429 +258,486 @@ function removeEmptyVideoCards() {
 }
 
 
-/* =====================================================
-   ATUALIZAR PALCO
-===================================================== */
+/* ===============================
+   PALCO
+================================ */
 
 function updateStage() {
 
-  if (
-    !$("emptyStage") ||
-    !$("videos")
-  ) {
-    return;
-  }
-
   const hasVideo =
-    $("videos").querySelector(
-      ".video-card"
-    );
+    $("videos").children.length > 0;
 
-  $("emptyStage")
-    .classList
-    .toggle(
-      "hidden",
-      !!hasVideo
-    );
+  $("emptyStage").classList.toggle(
+    "hidden",
+    hasVideo
+  );
+
 }
 
 
-/* =====================================================
-   LISTA DE PESSOAS
-===================================================== */
+/* ===============================
+   PARTICIPANTES
+================================ */
 
 function updatePeople() {
 
-  if (!liveRoom) {
-    return;
-  }
+  if (!liveRoom) return;
+
 
   const all = [
     liveRoom.localParticipant,
-    ...liveRoom
-      .remoteParticipants
-      .values(),
+    ...liveRoom.remoteParticipants.values(),
   ];
 
 
-  /* CONTADOR DO TOPO */
-
-  if ($("count")) {
-    $("count").textContent =
-      `👥 ${all.length}/${MAX_PARTICIPANTS} assistindo`;
-  }
+  const total = all.length;
 
 
-  /* CONTADOR DA LATERAL */
-
-  if ($("sideCount")) {
-    $("sideCount").textContent =
-      `${all.length}/${MAX_PARTICIPANTS}`;
-  }
+  $("count").textContent =
+    `${total}/6 assistindo`;
 
 
-  if (!$("people")) {
-    return;
+  const sideCount =
+    $("sideCount");
+
+  if (sideCount) {
+    sideCount.textContent =
+      `${total}/6`;
   }
 
 
   $("people").innerHTML = "";
 
 
-  all.forEach(
-    (participant) => {
+  all.forEach((p) => {
 
-      const chip =
-        document.createElement(
-          "span"
-        );
+    const chip =
+      document.createElement("span");
 
+    if (p === liveRoom.localParticipant) {
 
-      if (
-        participant ===
-        liveRoom.localParticipant
-      ) {
+      chip.textContent =
+        `${p.name || "Você"} (você)`;
 
-        chip.textContent =
-          `${participant.name || "Você"} (você)`;
+    } else {
 
-      } else {
+      chip.textContent =
+        p.name || "Participante";
 
-        chip.textContent =
-          participant.name ||
-          "Participante";
-      }
-
-
-      $("people")
-        .appendChild(chip);
     }
-  );
+
+    $("people").appendChild(chip);
+
+  });
 }
 
 
-/* =====================================================
-   BOTÕES CRIAR / ENTRAR
-===================================================== */
+/* ===============================
+   CRIAR / ENTRAR
+================================ */
 
-$("create").onclick =
-  () => enter(true);
+$("create").onclick = () => {
+  enter(true);
+};
+
+$("join").onclick = () => {
+  enter(false);
+};
 
 
-$("join").onclick =
-  () => enter(false);
-
-
-/* =====================================================
+/* ===============================
    COMPARTILHAR TELA
-===================================================== */
+================================ */
 
-$("share").onclick =
-  async () => {
+$("share").onclick = async () => {
 
-    if (!liveRoom) {
+  if (!liveRoom) {
+    return setMessage(
+      "Você ainda não está conectado à sala.",
+      true
+    );
+  }
+
+
+  /* PARAR TRANSMISSÃO */
+
+  if (sharing) {
+
+    try {
+
+      for (const track of screenTracks) {
+
+        try {
+
+          await liveRoom.localParticipant
+            .unpublishTrack(track);
+
+        } catch (e) {
+          console.warn(e);
+        }
+
+
+        try {
+          track.stop();
+        } catch (e) {
+          console.warn(e);
+        }
+      }
+
+
+      screenTracks = [];
+
+      removeLocalPreview();
+
+      sharing = false;
+
+      $("share").textContent =
+        "🖥 Compartilhar tela";
 
       setMessage(
-        "Você ainda não está conectado à sala.",
+        "Transmissão encerrada.",
+        true
+      );
+
+      updateStage();
+
+      return;
+
+    } catch (err) {
+
+      console.error(err);
+
+      setMessage(
+        "Não foi possível parar a transmissão.",
         true
       );
 
       return;
     }
+  }
 
 
-    setMessage("", true);
+  /* COMEÇAR TRANSMISSÃO */
+
+  try {
+
+    setMessage(
+      "Escolha a janela ou tela que deseja compartilhar.",
+      true
+    );
 
 
-    /* =============================================
-       SE JÁ ESTIVER TRANSMITINDO:
-       PARA A TRANSMISSÃO
-    ============================================= */
+    /*
+      IMPORTANTE:
+      esta chamada abre diretamente
+      o seletor nativo do Edge/Chrome.
+    */
 
-    if (
-      liveRoom
-        .localParticipant
-        .isScreenShareEnabled
-    ) {
+    const stream =
+      await navigator.mediaDevices
+        .getDisplayMedia({
+          video: {
+            frameRate: {
+              ideal:
+                $("fps")?.value === "60"
+                  ? 60
+                  : 30,
+            },
+          },
+
+          audio: true,
+        });
+
+
+    const videoTrack =
+      stream.getVideoTracks()[0];
+
+    const audioTrack =
+      stream.getAudioTracks()[0];
+
+
+    if (!videoTrack) {
+
+      stream
+        .getTracks()
+        .forEach((track) => track.stop());
+
+      throw new Error(
+        "Nenhuma tela foi selecionada."
+      );
+    }
+
+
+    /*
+      TRANSFORMA A CAPTURA
+      EM TRACK DO LIVEKIT
+    */
+
+    const localVideoTrack =
+      new LK.LocalVideoTrack(
+        videoTrack
+      );
+
+
+    await liveRoom.localParticipant
+      .publishTrack(
+        localVideoTrack,
+        {
+          source:
+            LK.Track.Source.ScreenShare,
+          simulcast: true,
+        }
+      );
+
+
+    screenTracks.push(
+      localVideoTrack
+    );
+
+
+    /*
+      ÁUDIO DA TELA/JANELA
+    */
+
+    if (audioTrack) {
 
       try {
 
-        await liveRoom
-          .localParticipant
-          .setScreenShareEnabled(
-            false
+        const localAudioTrack =
+          new LK.LocalAudioTrack(
+            audioTrack
           );
 
 
-        sharing = false;
+        await liveRoom.localParticipant
+          .publishTrack(
+            localAudioTrack,
+            {
+              source:
+                LK.Track.Source.ScreenShareAudio,
+            }
+          );
 
 
-        $("share").textContent =
-          "🖥 Compartilhar tela";
+        screenTracks.push(
+          localAudioTrack
+        );
 
+      } catch (audioError) {
+
+        console.warn(
+          "Áudio da tela não pôde ser publicado:",
+          audioError
+        );
+      }
+    }
+
+
+    /*
+      MOSTRA A SUA PRÓPRIA
+      TRANSMISSÃO NA TELA
+    */
+
+    attachVideo(
+      localVideoTrack,
+      liveRoom.localParticipant,
+      true
+    );
+
+
+    sharing = true;
+
+
+    $("share").textContent =
+      "⏹ Parar transmissão";
+
+
+    setMessage(
+      "🔴 Você está transmitindo sua tela.",
+      true
+    );
+
+
+    /*
+      SE O USUÁRIO CLICAR EM
+      "PARAR COMPARTILHAMENTO"
+      NO PRÓPRIO EDGE
+    */
+
+    videoTrack.addEventListener(
+      "ended",
+      async () => {
+
+        if (!sharing) return;
+
+
+        for (const track of screenTracks) {
+
+          try {
+
+            await liveRoom.localParticipant
+              .unpublishTrack(track);
+
+          } catch (e) {
+            console.warn(e);
+          }
+
+        }
+
+
+        screenTracks = [];
 
         removeLocalPreview();
 
-        updateStage();
+        sharing = false;
 
+        $("share").textContent =
+          "🖥 Compartilhar tela";
 
         setMessage(
           "Transmissão encerrada.",
           true
         );
 
-
-      } catch (error) {
-
-        console.error(
-          "ERRO AO PARAR:",
-          error
-        );
-
-
-        setMessage(
-          "Não foi possível parar a transmissão.",
-          true
-        );
-      }
-
-
-      return;
-    }
-
-
-    /* =============================================
-       INICIAR COMPARTILHAMENTO
-
-       O NAVEGADOR DEVE ABRIR
-       O SELETOR DE TELA/JANELA
-    ============================================= */
-
-    try {
-
-      setMessage(
-        "Escolha a tela ou janela que deseja compartilhar.",
-        true
-      );
-
-
-      /*
-        IMPORTANTE:
-
-        Não forçamos áudio aqui.
-
-        Isso permite que o navegador
-        abra normalmente o seletor
-        de compartilhamento.
-      */
-
-      await liveRoom
-        .localParticipant
-        .setScreenShareEnabled(
-          true
-        );
-
-
-      sharing = true;
-
-
-      $("share").textContent =
-        "⏹ Parar transmissão";
-
-
-      setMessage(
-        "Sua tela está sendo compartilhada.",
-        true
-      );
-
-
-      updateStage();
-
-
-    } catch (error) {
-
-      console.error(
-        "ERRO AO COMPARTILHAR TELA:",
-        error
-      );
-
-
-      sharing = false;
-
-
-      $("share").textContent =
-        "🖥 Compartilhar tela";
-
-
-      /*
-        Agora mostramos o erro
-        verdadeiro na própria página.
-      */
-
-      const errorName =
-        error?.name ||
-        "Erro";
-
-
-      const errorMessage =
-        error?.message ||
-        "Erro desconhecido";
-
-
-      setMessage(
-        `Erro ao compartilhar: ${errorName} - ${errorMessage}`,
-        true
-      );
-    }
-  };
-
-
-/* =====================================================
-   COPIAR CONVITE
-===================================================== */
-
-$("invite").onclick =
-  async () => {
-
-    const url =
-      `${location.origin}${location.pathname}` +
-      `?room=${encodeURIComponent(
-        currentCode
-      )}`;
-
-
-    try {
-
-      await navigator
-        .clipboard
-        .writeText(url);
-
-
-      setMessage(
-        "Link do convite copiado! Agora é só mandar para a pessoa.",
-        true
-      );
-
-
-    } catch (error) {
-
-      setMessage(
-        `Convite: ${url}`,
-        true
-      );
-    }
-  };
-
-
-/* =====================================================
-   VOLUME
-===================================================== */
-
-if ($("volume")) {
-
-  $("volume")
-    .addEventListener(
-      "input",
-      (event) => {
-
-        const volume =
-          Number(
-            event.target.value
-          ) / 100;
-
-
-        document
-          .querySelectorAll(
-            "#videos video"
-          )
-          .forEach(
-            (video) => {
-
-              /*
-                Não mexemos no
-                preview local.
-              */
-
-              if (!video.muted) {
-                video.volume =
-                  volume;
-              }
-            }
-          );
+        updateStage();
       }
     );
-}
 
 
-/* =====================================================
-   SAIR DA SALA
-===================================================== */
-
-$("leave").onclick =
-  async () => {
-
-    try {
-
-      if (liveRoom) {
-
-        if (
-          liveRoom
-            .localParticipant
-            .isScreenShareEnabled
-        ) {
-
-          await liveRoom
-            .localParticipant
-            .setScreenShareEnabled(
-              false
-            )
-            .catch(() => {});
-        }
+    updateStage();
 
 
-        await liveRoom.disconnect();
-      }
+  } catch (err) {
+
+    console.error(
+      "Erro ao compartilhar:",
+      err
+    );
 
 
-    } finally {
+    sharing = false;
 
-      location.href =
-        location.pathname;
+    screenTracks = [];
+
+
+    $("share").textContent =
+      "🖥 Compartilhar tela";
+
+
+    if (
+      err.name === "NotAllowedError"
+    ) {
+
+      setMessage(
+        "Compartilhamento cancelado.",
+        true
+      );
+
+    } else {
+
+      setMessage(
+        `Erro ao compartilhar: ${
+          err.message ||
+          "não foi possível iniciar."
+        }`,
+        true
+      );
     }
-  };
+  }
+};
 
 
-/* =====================================================
-   FECHAR / ATUALIZAR PÁGINA
-===================================================== */
+/* ===============================
+   CONVITE
+================================ */
+
+$("invite").onclick = async () => {
+
+  const url =
+    `${location.origin}${location.pathname}` +
+    `?room=${encodeURIComponent(currentCode)}`;
+
+
+  try {
+
+    await navigator.clipboard
+      .writeText(url);
+
+    setMessage(
+      "Link do convite copiado! Agora é só mandar para a pessoa.",
+      true
+    );
+
+  } catch {
+
+    setMessage(
+      `Convite: ${url}`,
+      true
+    );
+  }
+};
+
+
+/* ===============================
+   SAIR
+================================ */
+
+$("leave").onclick = async () => {
+
+  try {
+
+    for (const track of screenTracks) {
+
+      try {
+        track.stop();
+      } catch {}
+    }
+
+
+    if (liveRoom) {
+      await liveRoom.disconnect();
+    }
+
+  } finally {
+
+    location.href =
+      location.pathname;
+  }
+};
+
+
+/* ===============================
+   FECHAR PÁGINA
+================================ */
 
 window.addEventListener(
   "beforeunload",
   () => {
 
-    if (liveRoom) {
-      liveRoom.disconnect();
-    }
+    screenTracks.forEach(
+      (track) => {
+
+        try {
+          track.stop();
+        } catch {}
+
+      }
+    );
+
+    liveRoom?.disconnect();
   }
 );
 
 
-/* =====================================================
-   NOME SALVO
-===================================================== */
+/* ===============================
+   NOME SALVO / CONVITE
+================================ */
 
-if ($("name")) {
+$("name").value =
+  localStorage.getItem(
+    "mtrName"
+  ) || "";
 
-  $("name").value =
-    localStorage.getItem(
-      "mtrName"
-    ) || "";
-}
-
-
-/* =====================================================
-   CONVITE RECEBIDO PELO LINK
-===================================================== */
 
 const invitedRoom =
   new URLSearchParams(
@@ -867,12 +748,9 @@ const invitedRoom =
 if (invitedRoom) {
 
   $("roomCode").value =
-    normalizeRoom(
-      invitedRoom
-    );
-
+    normalizeRoom(invitedRoom);
 
   setMessage(
-    "Convite carregado. Coloque seu nome e clique em “Entrar na sala”."
+    'Convite carregado. Coloque seu nome e clique em "Entrar na sala".'
   );
 }
