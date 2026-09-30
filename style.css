@@ -4469,3 +4469,23 @@ button#camera {
   font-size: 13px !important;
   line-height: 13px !important;
 }
+/* ARRUMAR BOTÃO LIGAR WEBCAM */
+
+.share-button.camera-button {
+  width: 100% !important;
+
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+
+  padding: 0 14px !important;
+  margin: 0 !important;
+
+  flex: 0 0 46px !important;
+
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
