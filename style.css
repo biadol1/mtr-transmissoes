@@ -4148,3 +4148,290 @@ body {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
+/* =========================================
+   TELA DE ENTRADA - MTR PREMIUM
+========================================= */
+
+.welcome-screen {
+  position: relative;
+  overflow: hidden;
+}
+
+/* escurecimento para destacar o card */
+.welcome-overlay {
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 0, 45, .08),
+      transparent 32%
+    ),
+    rgba(0, 0, 0, .22) !important;
+}
+
+
+/* CARD PRINCIPAL */
+
+.welcome-card {
+  position: relative !important;
+  overflow: hidden !important;
+
+  width: min(520px, 90vw) !important;
+
+  padding: 35px 38px 38px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(45, 0, 13, .88),
+      rgba(10, 2, 6, .94)
+    ) !important;
+
+  border:
+    1px solid rgba(255, 30, 70, .75) !important;
+
+  border-radius: 18px !important;
+
+  box-shadow:
+    0 0 35px rgba(255, 0, 45, .12),
+    0 20px 60px rgba(0, 0, 0, .55),
+    inset 0 0 40px rgba(255, 0, 45, .04) !important;
+
+  backdrop-filter: blur(8px);
+}
+
+
+/* textura dentro do card */
+
+.welcome-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 42px,
+      rgba(255, 25, 55, .035) 43px,
+      transparent 45px,
+      transparent 80px
+    ),
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(255, 0, 45, .13),
+      transparent 38%
+    );
+
+  z-index: 0;
+}
+
+.welcome-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* LOGO */
+
+.welcome-logo {
+  width: 150px !important;
+
+  margin-bottom: 20px !important;
+
+  filter:
+    drop-shadow(0 0 7px rgba(255, 0, 45, .8))
+    drop-shadow(0 0 22px rgba(255, 0, 45, .35)) !important;
+}
+
+
+/* TÍTULO */
+
+.welcome-card h1 {
+  margin-bottom: 28px !important;
+
+  color: #fff !important;
+
+  font-size: 25px !important;
+  font-weight: 900 !important;
+
+  text-align: center !important;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, .8),
+    0 0 15px rgba(255, 0, 45, .12) !important;
+}
+
+
+/* LABELS */
+
+.welcome-card label {
+  color: #ff6a89 !important;
+
+  font-size: 12px !important;
+  font-weight: 900 !important;
+
+  letter-spacing: 1.5px !important;
+}
+
+
+/* INPUTS */
+
+.welcome-card input {
+  height: 52px !important;
+
+  box-sizing: border-box !important;
+
+  padding: 0 16px !important;
+
+  color: white !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(9, 3, 6, .96),
+      rgba(18, 2, 8, .92)
+    ) !important;
+
+  border:
+    1px solid rgba(255, 35, 70, .65) !important;
+
+  border-radius: 9px !important;
+
+  outline: none !important;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    transform .2s ease !important;
+}
+
+
+/* quando clicar no campo */
+
+.welcome-card input:focus {
+  border-color: #ff1748 !important;
+
+  box-shadow:
+    0 0 0 2px rgba(255, 23, 72, .10),
+    0 0 18px rgba(255, 23, 72, .20) !important;
+}
+
+
+/* espaço entre os campos */
+
+.room-entry {
+  margin-top: 16px !important;
+}
+
+
+/* BOTÕES */
+
+.welcome-card .buttons {
+  gap: 12px !important;
+  margin-top: 20px !important;
+}
+
+.welcome-card button {
+  min-height: 50px !important;
+
+  border-radius: 9px !important;
+
+  font-weight: 900 !important;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    filter .18s ease !important;
+}
+
+
+/* CRIAR SALA */
+
+#create {
+  background:
+    linear-gradient(
+      135deg,
+      #ff1748,
+      #d40738
+    ) !important;
+
+  border: 1px solid #ff426a !important;
+
+  box-shadow:
+    0 0 18px rgba(255, 0, 55, .22),
+    inset 0 1px 0 rgba(255,255,255,.18) !important;
+}
+
+
+/* ENTRAR */
+
+#join {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(17, 3, 8, .96),
+      rgba(5, 2, 4, .98)
+    ) !important;
+
+  border:
+    1px solid rgba(255, 35, 70, .75) !important;
+
+  color: white !important;
+}
+
+
+/* HOVER */
+
+#create:hover,
+#join:hover {
+  transform: translateY(-2px) !important;
+
+  box-shadow:
+    0 0 22px rgba(255, 0, 55, .32) !important;
+
+  filter: brightness(1.08);
+}
+
+
+/* detalhe luminoso embaixo */
+
+.welcome-card::after {
+  content: "━━━━ ••• ✦ ••• ━━━━";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 10px;
+
+  transform: translateX(-50%);
+
+  color: #ff1748;
+
+  font-size: 8px;
+  letter-spacing: 1px;
+
+  opacity: .65;
+
+  white-space: nowrap;
+
+  text-shadow:
+    0 0 5px #ff1748,
+    0 0 12px rgba(255, 0, 55, .7);
+
+  animation: welcomeGlow 1.6s ease-in-out infinite;
+}
+
+
+@keyframes welcomeGlow {
+
+  0%, 100% {
+    opacity: .35;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+}
