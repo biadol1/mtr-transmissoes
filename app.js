@@ -451,6 +451,35 @@ function attachVideo(
   $("videos")
     .appendChild(wrap);
 
+   
+/* =====================================================
+   COLOCAR O ÁUDIO DESTA PESSOA DENTRO DO CARD
+===================================================== */
+
+if (!local && participant?.identity) {
+
+  document
+    .querySelectorAll(
+      'audio[data-mtr-remote-audio="1"]'
+    )
+    .forEach((audio) => {
+
+      if (
+        audio.dataset.mtrParticipant ===
+        participant.identity
+      ) {
+
+        wrap.appendChild(audio);
+
+        /* Continua sem som até clicar em Assistir */
+        audio.muted = true;
+        audio.volume = 0;
+
+      }
+
+    });
+
+}
   updateStage();
 }
 
@@ -762,16 +791,7 @@ async function startScreenShare() {
             }
           },
 
-          audio: {
-  echoCancellation: false,
-  noiseSuppression: false,
-  autoGainControl: false,
-  suppressLocalAudioPlayback: false
-},
-
-systemAudio: "include",
-selfBrowserSurface: "exclude",
-surfaceSwitching: "include"
+          audio: true
         });
 
 
