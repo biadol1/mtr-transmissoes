@@ -3486,14 +3486,11 @@ video {
   background: #050505 !important;
 }
 
-
 /* =====================================================
    WEBCAMS PEQUENAS SOBRE A TRANSMISSÃO
 ===================================================== */
 
-#videos.mtr-screen-active
-.mtr-camera-card {
-
+#videos.mtr-screen-active .mtr-camera-card {
   display: block !important;
 
   position: absolute !important;
@@ -3501,15 +3498,17 @@ video {
   width: 150px !important;
   height: 90px !important;
 
-  min-width: 0 !important;
-  min-height: 0 !important;
+  min-width: 150px !important;
+  min-height: 90px !important;
 
   max-width: 150px !important;
   max-height: 90px !important;
 
   margin: 0 !important;
 
-  z-index: 50 !important;
+  right: 25px !important;
+
+  z-index: 100 !important;
 
   overflow: hidden !important;
 
@@ -3522,100 +3521,72 @@ video {
   box-shadow: 0 5px 18px rgba(0,0,0,.75) !important;
 
   float: none !important;
-
   transform: none !important;
-}
-
-
-/* =====================================================
-   POSIÇÃO DAS WEBCAMS DURANTE COMPARTILHAMENTO
-===================================================== */
-
-#videos.mtr-screen-active
-.mtr-camera-card {
-
-  position: relative !important;
-
-  display: inline-block !important;
-
-  float: right !important;
-
-  width: 150px !important;
-  height: 90px !important;
-
-  min-width: 150px !important;
-  min-height: 90px !important;
-
-  max-width: 150px !important;
-  max-height: 90px !important;
-
-  margin: 20px 12px 0 0 !important;
-
-  z-index: 100 !important;
-
-  inset: auto !important;
-
-  transform: none !important;
-
-  flex: none !important;
 
   grid-column: auto !important;
   grid-row: auto !important;
 }
 
 
-/* FORÇA O VÍDEO A CABER NO CARD PEQUENO */
-
-#videos.mtr-screen-active
-.mtr-camera-card video {
-
-  width: 150px !important;
-  height: 90px !important;
-
-  min-width: 150px !important;
-  min-height: 90px !important;
-
-  max-width: 150px !important;
-  max-height: 90px !important;
-
-  object-fit: cover !important;
+/* WEBCAM 1 */
+#videos.mtr-screen-active .mtr-camera-card:nth-of-type(1) {
+  top: 25px !important;
 }
+
+/* WEBCAM 2 */
+#videos.mtr-screen-active .mtr-camera-card:nth-of-type(2) {
+  top: 125px !important;
+}
+
+/* WEBCAM 3 */
+#videos.mtr-screen-active .mtr-camera-card:nth-of-type(3) {
+  top: 225px !important;
+}
+
+/* WEBCAM 4 */
+#videos.mtr-screen-active .mtr-camera-card:nth-of-type(4) {
+  top: 325px !important;
+}
+
+/* WEBCAM 5 */
+#videos.mtr-screen-active .mtr-camera-card:nth-of-type(5) {
+  top: 425px !important;
+}
+
+/* WEBCAM 6 */
+#videos.mtr-screen-active .mtr-camera-card:nth-of-type(6) {
+  top: 525px !important;
+}
+
 
 /* VÍDEO DENTRO DA WEBCAM */
 
-#videos.mtr-screen-active
-.mtr-camera-card video {
-
+#videos.mtr-screen-active .mtr-camera-card video {
   display: block !important;
 
-  width: 150px !important;
-  height: 90px !important;
+  width: 100% !important;
+  height: 100% !important;
 
   min-width: 0 !important;
   min-height: 0 !important;
 
-  max-width: 150px !important;
-  max-height: 90px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
 
   object-fit: cover !important;
 }
 
+
 /* NOME DA PESSOA */
 
-#videos.mtr-screen-active
-.mtr-camera-card
-.video-label {
-
+#videos.mtr-screen-active .mtr-camera-card .video-label {
   left: 7px !important;
   bottom: 7px !important;
 
-  padding:
-    4px 7px !important;
+  padding: 4px 7px !important;
 
-  font-size:
-    10px !important;
+  font-size: 10px !important;
 }
-
 
 /* =====================================================
    CELULAR
