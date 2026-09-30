@@ -1425,6 +1425,25 @@ if (
 }
 
 
+/* MODO CONVITE */
+if (roomFromUrl) {
+
+  const createButton =
+    document.getElementById("create");
+
+  if (createButton) {
+    createButton.style.display = "none";
+  }
+
+  const joinButton =
+    document.getElementById("join");
+
+  if (joinButton) {
+    joinButton.textContent = "Entrar na sala";
+  }
+
+}
+
 /* =====================================================
    ESTADO INICIAL
 ===================================================== */
