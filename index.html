@@ -394,7 +394,9 @@
         <div class="stage">
 
 
-          <!-- SEM TRANSMISSÃO -->
+          <!-- =========================
+               SEM TRANSMISSÃO
+          ========================== -->
 
           <div
             id="emptyStage"
@@ -418,14 +420,24 @@
               começar sua transmissão.
             </p>
 
+          </div>
 
-            <!-- BOTÃO PRINCIPAL -->
+
+          <!-- =========================
+               BOTÃO DE COMPARTILHAMENTO
+
+               IMPORTANTE:
+               ELE FICA FORA DO EMPTY-STAGE.
+               ASSIM NÃO SOME QUANDO OUTRA
+               PESSOA ESTIVER TRANSMITINDO.
+          ========================== -->
+
+          <div class="share-control-area">
 
             <button
               id="share"
               type="button"
               class="share-button"
-              onclick="startMTRShare()"
             >
               🖥 Compartilhar tela
             </button>
@@ -433,17 +445,22 @@
           </div>
 
 
-          <!-- VÍDEOS -->
+          <!-- =========================
+               TRANSMISSÕES
+          ========================== -->
 
           <div
             id="videos"
             class="videos"
           ></div>
 
+
         </div>
 
 
-        <!-- CONTROLES -->
+        <!-- =========================
+             CONTROLES INFERIORES
+        ========================== -->
 
         <div class="bottom-controls">
 
@@ -480,6 +497,7 @@
           class="message center"
         ></p>
 
+
       </section>
 
     </div>
@@ -496,14 +514,15 @@
   ></script>
 
 
-  <!-- APP -->
+  <!-- =========================
+       APP
+  ========================== -->
 
   <script src="app.js"></script>
 
 
   <!-- =========================
-       BOTÃO DE EMERGÊNCIA
-       PARA COMPARTILHAMENTO
+       FALLBACK DO BOTÃO
   ========================== -->
 
   <script>
@@ -514,35 +533,44 @@
         "BOTÃO HTML COMPARTILHAR CLICADO"
       );
 
-      /*
-       * Primeiro tentamos disparar o evento
-       * configurado pelo app.js.
-       */
-
-      const button =
-        document.getElementById("share");
-
-      if (
-        button &&
-        typeof button.onclick === "function" &&
-        button.onclick !== window.startMTRShare
-      ) {
-
-        return;
-
-      }
 
       /*
-       * Caso o app.js não tenha registrado
-       * corretamente o clique, testamos
-       * diretamente o seletor do navegador.
+       * O app.js é responsável pelo
+       * compartilhamento real através
+       * do LiveKit.
+       *
+       * Este fallback serve apenas caso
+       * o botão não tenha recebido
+       * corretamente o evento.
        */
+
 
       try {
 
+        const shareButton =
+          document.getElementById("share");
+
+
+        /*
+         * Se o app.js já colocou um
+         * listener no botão, não fazemos
+         * nada aqui.
+         */
+
+        if (
+          shareButton &&
+          shareButton.dataset.appReady === "1"
+        ) {
+
+          return;
+
+        }
+
+
         console.log(
-          "Abrindo seletor de compartilhamento..."
+          "Testando seletor de compartilhamento..."
         );
+
 
         const stream =
           await navigator.mediaDevices.getDisplayMedia({
@@ -550,24 +578,30 @@
             audio: true
           });
 
+
         console.log(
           "Tela selecionada com sucesso.",
           stream
         );
 
+
         /*
-         * Este fallback confirma que o botão
+         * O fallback NÃO publica a tela.
+         * Apenas confirma que o navegador
          * consegue abrir o seletor.
          */
 
         stream
           .getTracks()
-          .forEach(track => track.stop());
+          .forEach(
+            track => track.stop()
+          );
+
 
       } catch (error) {
 
         console.error(
-          "Erro no seletor de tela:",
+          "Erro ao abrir compartilhamento:",
           error
         );
 
@@ -576,6 +610,7 @@
     };
 
   </script>
+
 
 </body>
 
