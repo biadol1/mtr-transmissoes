@@ -3496,18 +3496,20 @@ video {
 
   display: block !important;
 
-  position: relative !important;
-  float: right !important;
+  position: absolute !important;
 
-  width: 145px !important;
-  height: 85px !important;
+  width: 150px !important;
+  height: 90px !important;
 
-  min-width: 145px !important;
-  min-height: 85px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
 
-  margin: 12px 12px 0 0 !important;
+  max-width: 150px !important;
+  max-height: 90px !important;
 
-  z-index: 20 !important;
+  margin: 0 !important;
+
+  z-index: 50 !important;
 
   overflow: hidden !important;
 
@@ -3515,26 +3517,100 @@ video {
 
   background: #050505 !important;
 
-  border:
-    1px solid
-    rgba(255, 35, 75, .9) !important;
+  border: 2px solid #ff234b !important;
 
-  box-shadow:
-    0 5px 18px
-    rgba(0, 0, 0, .75) !important;
+  box-shadow: 0 5px 18px rgba(0,0,0,.75) !important;
+
+  float: none !important;
+
+  transform: none !important;
 }
+
+
+/* WEBCAM 1 */
+
+#videos.mtr-screen-active
+.mtr-camera-card:nth-of-type(1) {
+
+  top: 25px !important;
+  right: 25px !important;
+
+}
+
+
+/* WEBCAM 2 */
+
+#videos.mtr-screen-active
+.mtr-camera-card:nth-of-type(2) {
+
+  top: 125px !important;
+  right: 25px !important;
+
+}
+
+
+/* WEBCAM 3 */
+
+#videos.mtr-screen-active
+.mtr-camera-card:nth-of-type(3) {
+
+  top: 225px !important;
+  right: 25px !important;
+
+}
+
+
+/* WEBCAM 4 */
+
+#videos.mtr-screen-active
+.mtr-camera-card:nth-of-type(4) {
+
+  top: 325px !important;
+  right: 25px !important;
+
+}
+
+
+/* WEBCAM 5 */
+
+#videos.mtr-screen-active
+.mtr-camera-card:nth-of-type(5) {
+
+  top: 425px !important;
+  right: 25px !important;
+
+}
+
+
+/* WEBCAM 6 */
+
+#videos.mtr-screen-active
+.mtr-camera-card:nth-of-type(6) {
+
+  top: 525px !important;
+  right: 25px !important;
+
+}
+
+
+/* VÍDEO DENTRO DA WEBCAM */
 
 #videos.mtr-screen-active
 .mtr-camera-card video {
 
   display: block !important;
 
-  width: 100% !important;
-  height: 100% !important;
+  width: 150px !important;
+  height: 90px !important;
+
+  min-width: 0 !important;
+  min-height: 0 !important;
+
+  max-width: 150px !important;
+  max-height: 90px !important;
 
   object-fit: cover !important;
 }
-
 
 /* NOME DA PESSOA */
 
