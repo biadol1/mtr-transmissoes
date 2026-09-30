@@ -2461,3 +2461,299 @@ body {
     inset 0 0 100px rgba(0,0,0,.52),
     0 0 25px rgba(255,0,40,.08) !important;
 }
+/* ==========================================
+   MTR — TEXTURAS NAS ÁREAS DA INTERFACE
+========================================== */
+
+/* Textura geral da lateral */
+.sidebar {
+  position: relative !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(65, 0, 18, .94),
+      rgba(8, 3, 7, .98)
+    ) !important;
+}
+
+/* textura diagonal da lateral inteira */
+.sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    repeating-linear-gradient(
+      125deg,
+      transparent 0px,
+      transparent 22px,
+      rgba(255, 30, 60, .035) 23px,
+      transparent 25px,
+      transparent 48px
+    ),
+
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 0, 45, .10),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      circle at 80% 65%,
+      rgba(255, 0, 45, .07),
+      transparent 35%
+    );
+}
+
+/* conteúdo fica acima da textura */
+.sidebar > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ==========================================
+   TEXTURA DOS CARDS
+========================================== */
+
+.invite-card,
+.stream-side-section,
+.settings-section {
+  position: relative !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(58, 3, 17, .82),
+      rgba(8, 3, 7, .88)
+    ) !important;
+
+  border: 1px solid rgba(255, 40, 72, .42) !important;
+
+  box-shadow:
+    inset 0 0 25px rgba(255, 0, 40, .045),
+    0 5px 18px rgba(0, 0, 0, .28);
+}
+
+
+/* textura interna dos cards */
+.invite-card::before,
+.stream-side-section::before,
+.settings-section::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+
+    /* riscos diagonais */
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 17px,
+      rgba(255,255,255,.018) 18px,
+      transparent 20px,
+      transparent 38px
+    ),
+
+    /* brilho vermelho */
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(255, 0, 45, .13),
+      transparent 42%
+    ),
+
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(255, 20, 55, .09),
+      transparent 38%
+    );
+}
+
+
+/* tudo dentro do card fica acima da textura */
+.invite-card > *,
+.stream-side-section > *,
+.settings-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ==========================================
+   "NA SALA"
+========================================== */
+
+.side-section:not(.stream-side-section):not(.settings-section) {
+  position: relative;
+}
+
+.side-section:not(.stream-side-section):not(.settings-section)::after {
+  content: "";
+
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  top: 0;
+  bottom: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      transparent 20%,
+      rgba(255, 0, 40, .035) 50%,
+      transparent 80%
+    );
+
+  opacity: .8;
+}
+
+
+/* ==========================================
+   VAGAS
+========================================== */
+
+.empty-slot {
+  position: relative !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(60, 0, 18, .48),
+      rgba(5, 3, 6, .55)
+    ) !important;
+
+  border-color:
+    rgba(255, 40, 70, .24) !important;
+}
+
+.empty-slot::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      -35deg,
+      transparent 0 14px,
+      rgba(255,255,255,.018) 15px,
+      transparent 17px 30px
+    );
+}
+
+
+/* ==========================================
+   TRANSMISSÕES — BRILHO EXTRA
+========================================== */
+
+.stream-side-section {
+  box-shadow:
+    inset 0 0 30px rgba(255, 0, 40, .055),
+    0 0 15px rgba(255, 0, 40, .06);
+}
+
+.stream-side-section::after {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 90px;
+
+  right: -45px;
+  bottom: -45px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 0, 40, .10);
+
+  filter: blur(20px);
+
+  pointer-events: none;
+}
+
+
+/* ==========================================
+   CONFIGURAÇÕES — TEXTURA MAIS ESCURA
+========================================== */
+
+.settings-section {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(42, 3, 14, .90),
+      rgba(5, 3, 6, .94)
+    ) !important;
+}
+
+.settings-section::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      155deg,
+      transparent 0 25px,
+      rgba(255, 0, 40, .025) 26px,
+      transparent 28px 50px
+    );
+}
+
+
+/* ==========================================
+   LINHAS DE BRILHO ENTRE AS SEÇÕES
+========================================== */
+
+.sidebar .side-section {
+  border-bottom-color:
+    rgba(255, 30, 60, .18) !important;
+}
+
+.sidebar .side-section::before {
+  background-image:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 25, 55, .10),
+      transparent
+    );
+}
+
+
+/* ==========================================
+   EFEITO HOVER NOS CARDS
+========================================== */
+
+.invite-card:hover,
+.stream-side-section:hover,
+.settings-section:hover {
+  border-color:
+    rgba(255, 50, 80, .55) !important;
+
+  box-shadow:
+    inset 0 0 30px rgba(255, 0, 40, .065),
+    0 0 18px rgba(255, 0, 40, .08);
+
+  transition: .2s ease;
+}
