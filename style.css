@@ -4476,3 +4476,208 @@ body {
 
   border-radius: 7px !important;
 }
+/* =====================================================
+   MTR — WEBCAM PREMIUM
+   Efeito aplicado SOMENTE às webcams
+===================================================== */
+
+#videos .mtr-camera-card {
+  position: relative;
+
+  border: 2px solid #ff1748 !important;
+  border-radius: 14px !important;
+
+  overflow: hidden !important;
+
+  background: #050505 !important;
+
+  box-shadow:
+    0 0 5px rgba(255, 23, 72, .95),
+    0 0 14px rgba(255, 23, 72, .55),
+    0 0 28px rgba(255, 0, 55, .25),
+    inset 0 0 12px rgba(255, 23, 72, .08) !important;
+
+  transition:
+    box-shadow .25s ease,
+    border-color .25s ease,
+    transform .25s ease !important;
+}
+
+
+/* =====================================================
+   BRILHO VERMELHO PULSANDO
+===================================================== */
+
+#videos .mtr-camera-card {
+  animation:
+    mtrCameraGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes mtrCameraGlow {
+
+  0%,
+  100% {
+    border-color:
+      rgba(255, 23, 72, .70);
+
+    box-shadow:
+      0 0 4px rgba(255, 23, 72, .70),
+      0 0 12px rgba(255, 23, 72, .35),
+      0 0 24px rgba(255, 0, 55, .15);
+  }
+
+  50% {
+    border-color:
+      rgba(255, 70, 100, 1);
+
+    box-shadow:
+      0 0 7px rgba(255, 23, 72, 1),
+      0 0 20px rgba(255, 23, 72, .60),
+      0 0 35px rgba(255, 0, 55, .30);
+  }
+
+}
+
+
+/* =====================================================
+   VÍDEO DA WEBCAM
+===================================================== */
+
+#videos .mtr-camera-card video {
+  border-radius: 12px !important;
+
+  object-fit: cover !important;
+
+  filter:
+    contrast(1.04)
+    saturate(1.05);
+
+  transition:
+    filter .25s ease !important;
+}
+
+
+/* =====================================================
+   ESCURECIMENTO SUAVE NAS BORDAS
+===================================================== */
+
+#videos .mtr-camera-card::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, .03) 50%,
+      rgba(0, 0, 0, .38) 100%
+    );
+
+}
+
+
+/* =====================================================
+   NOME DA PESSOA
+===================================================== */
+
+#videos
+.mtr-camera-card
+.video-label {
+
+  position: absolute !important;
+
+  left: 10px !important;
+  bottom: 10px !important;
+
+  z-index: 10 !important;
+
+  padding:
+    5px 10px !important;
+
+  border-radius:
+    999px !important;
+
+  color:
+    #ffffff !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 5, .92),
+      rgba(80, 0, 20, .90)
+    ) !important;
+
+  border:
+    1px solid
+    rgba(255, 50, 80, .70) !important;
+
+  box-shadow:
+    0 0 10px
+    rgba(255, 0, 50, .22) !important;
+
+  font-size:
+    11px !important;
+
+  font-weight:
+    900 !important;
+
+  letter-spacing:
+    .2px;
+
+}
+
+
+/* BOLINHA VERMELHA ANTES DO NOME */
+
+#videos
+.mtr-camera-card
+.video-label::before {
+
+  content: "";
+
+  display: inline-block;
+
+  width: 6px;
+  height: 6px;
+
+  margin-right: 6px;
+
+  border-radius: 50%;
+
+  background:
+    #ff1748;
+
+  box-shadow:
+    0 0 7px
+    #ff1748;
+
+  vertical-align:
+    middle;
+
+}
+
+
+/* =====================================================
+   HOVER DA WEBCAM
+===================================================== */
+
+#videos .mtr-camera-card:hover {
+
+  border-color:
+    #ff5470 !important;
+
+  box-shadow:
+    0 0 8px rgba(255, 23, 72, 1),
+    0 0 24px rgba(255, 23, 72, .65),
+    0 0 42px rgba(255, 0, 55, .30) !important;
+
+}
