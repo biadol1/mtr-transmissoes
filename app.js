@@ -2826,13 +2826,31 @@ function mtrApplySelection() {
     );
 
 
-  if (videos) {
+ if (videos) {
 
-    videos.dataset.cameraCount =
-      String(cameras.length);
+  videos.dataset.cameraCount =
+    String(cameras.length);
+
+  /*
+    Se existe uma transmissão selecionada,
+    ativa o modo TELA + WEBCAMS.
+  */
+
+  if (mtrSelectedStream) {
+
+    videos.classList.add(
+      "mtr-screen-active"
+    );
+
+  } else {
+
+    videos.classList.remove(
+      "mtr-screen-active"
+    );
 
   }
 
+}
 
   /* ==========================================
      COMPARTILHAMENTOS DE TELA
@@ -3410,7 +3428,134 @@ video {
 
 `;
 
+/* =====================================================
+   TELA COMPARTILHADA + WEBCAMS
+===================================================== */
 
+#videos.mtr-screen-active {
+
+  display: block !important;
+
+  position: relative !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  padding: 12px !important;
+
+  box-sizing: border-box !important;
+
+}
+
+
+/* TELA COMPARTILHADA GRANDE */
+
+#videos.mtr-screen-active
+.video-card.mtr-watching {
+
+  display: block !important;
+
+  position: absolute !important;
+
+  inset: 12px !important;
+
+  width: auto !important;
+  height: auto !important;
+
+  z-index: 1 !important;
+
+  margin: 0 !important;
+
+  border-radius: 14px !important;
+
+  overflow: hidden !important;
+
+  background: #050505 !important;
+
+}
+
+
+#videos.mtr-screen-active
+.video-card.mtr-watching video {
+
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: contain !important;
+
+}
+
+
+/* WEBCAMS VIRAM MINIATURAS */
+
+#videos.mtr-screen-active
+.mtr-camera-card {
+
+  position: relative !important;
+
+  float: right !important;
+
+  width: 190px !important;
+  height: 110px !important;
+
+  margin:
+    0 0 10px 10px !important;
+
+  z-index: 10 !important;
+
+  border-radius: 12px !important;
+
+  overflow: hidden !important;
+
+  box-shadow:
+    0 6px 20px
+    rgba(0, 0, 0, .65) !important;
+
+}
+
+
+/* WEBCAM POR CIMA DA TELA */
+
+#videos.mtr-screen-active
+.mtr-camera-card video {
+
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+
+}
+
+
+/* NOME MENOR NA MINI WEBCAM */
+
+#videos.mtr-screen-active
+.mtr-camera-card
+.video-label {
+
+  left: 7px !important;
+  bottom: 7px !important;
+
+  padding: 4px 7px !important;
+
+  font-size: 10px !important;
+
+}
+
+
+/* CELULAR */
+
+@media (max-width: 700px) {
+
+  #videos.mtr-screen-active
+  .mtr-camera-card {
+
+    width: 120px !important;
+    height: 75px !important;
+
+  }
+
+}
 /* COLOCA O CSS NA PÁGINA */
 
 document.head.appendChild(
