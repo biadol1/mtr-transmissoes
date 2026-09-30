@@ -3987,7 +3987,7 @@ body {
 ========================================= */
 
 .empty-stage p::after {
-  content: "━━━━ ••• ◆ ••• ━━━━" !important;
+  content: "━━━━ ••• ✦ ••• ━━━━" !important;
 
   display: block !important;
 
