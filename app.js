@@ -183,70 +183,119 @@ async function enter(create) {
 
 function bindRoomEvents(room) {
 
-  room.on(
-    LK.RoomEvent.TrackSubscribed,
-    (
-      track,
-      publication,
-      participant
-    ) => {
+ room.on(
+  LK.RoomEvent.TrackSubscribed,
+  (
+    track,
+    publication,
+    participant
+  ) => {
 
-      if (
-        track.kind ===
-        LK.Track.Kind.Video
-      ) {
-        attachVideo(
-          track,
-          participant
-        );
-      }
+    /* =========================
+       VÍDEO
+    ========================= */
 
-      if (
-        track.kind ===
-        LK.Track.Kind.Audio
-      ) {
+    if (
+      track.kind ===
+      LK.Track.Kind.Video
+    ) {
 
-        const audio =
-          track.attach();
+      attachVideo(
+        track,
+        participant
+      );
 
-        audio.autoplay = true;
-        audio.controls = false;
-
-        audio.volume =
-          Number(
-            $("volume")?.value || 75
-          ) / 100;
-
-        document.body.appendChild(
-          audio
-        );
-
-        audio.play().catch(() => {
-
-          console.log(
-            "Áudio aguardando interação do usuário."
-          );
-
-          document.addEventListener(
-            "click",
-            () => {
-              audio
-                .play()
-                .catch(() => {});
-            },
-            { once: true }
-          );
-        });
-
-        console.log(
-          "ÁUDIO DA TRANSMISSÃO RECEBIDO"
-        );
-      }
-
-      updatePeople();
-      updateStage();
     }
-  );
+
+
+    /* =========================
+       ÁUDIO
+    ========================= */
+
+    if (
+      track.kind ===
+      LK.Track.Kind.Audio
+    ) {
+
+      const audio =
+        track.attach();
+
+      audio.autoplay = false;
+      audio.controls = false;
+
+      /* começa SEM som */
+      audio.muted = true;
+      audio.volume = 0;
+
+      audio.dataset.mtrParticipant =
+        participant.identity;
+
+      audio.dataset.mtrRemoteAudio =
+        "1";
+
+
+      /* procura o card da pessoa */
+
+      const participantId =
+        participant.identity
+          .replace(
+            /[^a-zA-Z0-9_-]/g,
+            ""
+          );
+
+      const participantCard =
+        Array.from(
+          document.querySelectorAll(
+            "#videos .video-card"
+          )
+        ).find(
+          (card) =>
+            card.id.includes(
+              participantId
+            )
+        );
+
+
+      if (participantCard) {
+
+        participantCard
+          .appendChild(audio);
+
+      } else {
+
+        /*
+          Se o áudio chegar antes
+          do vídeo, mantém escondido
+          e SILENCIADO.
+        */
+
+        audio.style.display =
+          "none";
+
+        document.body
+          .appendChild(audio);
+
+      }
+
+
+      audio.pause();
+      audio.muted = true;
+      audio.volume = 0;
+
+
+      console.log(
+        "Áudio remoto recebido e silenciado:",
+        participant.name
+      );
+
+    }
+
+
+    updatePeople();
+    updateStage();
+
+  }
+); 
 
 
   room.on(
