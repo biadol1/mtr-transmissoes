@@ -1252,13 +1252,22 @@ async function startCamera() {
 
     cameraOn = true;
 
-    updateCameraButton();
+updateCameraButton();
 
 
-    setMessage(
-      "Webcam ligada.",
-      true
-    );
+/* MOSTRA MINHA WEBCAM NA TELA */
+
+attachVideo(
+  localCameraTrack,
+  liveRoom.localParticipant,
+  true
+);
+
+
+setMessage(
+  "Webcam ligada.",
+  true
+);
 
 
   } catch (error) {
