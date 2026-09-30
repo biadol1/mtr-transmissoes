@@ -3224,20 +3224,27 @@ mtrSelectorStyle.textContent = `
 
   width: 100% !important;
 
-  height: 100% !important;
+  height: 420px !important;
 
   min-width: 0 !important;
 
   min-height: 0 !important;
 
+  max-height: 420px !important;
+
   margin: 0 !important;
+
+  align-self: center !important;
 
   inset: auto !important;
 
   transform: none !important;
 
-}
+  border-radius: 16px !important;
 
+  overflow: hidden !important;
+
+}
 
 /* VÍDEO DAS DUAS WEBCAMS */
 
@@ -3254,9 +3261,8 @@ mtrSelectorStyle.textContent = `
 
   min-height: 0 !important;
 
-  max-width: none !important;
-
-  max-height: none !important;
+  max-width: 100% !important;
+max-height: 100% !important;
 
   object-fit: cover !important;
 
