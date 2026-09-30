@@ -2776,8 +2776,12 @@ function mtrApplySelection() {
 
     card.style.display = "block";
 
-    if (mtrSelectedStream) {
+    const localScreen =
+  document.querySelector(
+    '#videos .video-card[data-local-preview="1"][data-mtr-type="screen"]'
+  );
 
+if (mtrSelectedStream || localScreen) {
   card.style.setProperty("position", "absolute", "important");
   card.style.setProperty("width", "150px", "important");
   card.style.setProperty("height", "90px", "important");
@@ -2873,8 +2877,27 @@ function mtrApplySelection() {
   videos.dataset.cameraCount =
     String(cameras.length);
 
-  // Ativa tela + webcams
-  if (mtrSelectedStream) {
+  /*
+    Verifica se EU estou compartilhando
+    minha tela.
+  */
+
+  const localScreen =
+    videos.querySelector(
+      '.video-card[data-local-preview="1"][data-mtr-type="screen"]'
+    );
+
+  /*
+    Ativa o modo tela + webcam quando:
+    - eu estou compartilhando; OU
+    - estou assistindo a tela de outra pessoa.
+  */
+
+  const screenActive =
+    Boolean(localScreen) ||
+    Boolean(mtrSelectedStream);
+
+  if (screenActive) {
 
     videos.classList.add(
       "mtr-screen-active"
