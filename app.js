@@ -3113,10 +3113,8 @@ mtrSelectorStyle.textContent = `
 
 
 /* =====================================================
-   WEBCAMS — GRADE AUTOMÁTICA ATÉ 6
+   WEBCAMS — TAMANHO BONITO ATÉ 6
 ===================================================== */
-
-/* CONFIGURAÇÃO GERAL */
 
 #videos[data-camera-count="1"],
 #videos[data-camera-count="2"],
@@ -3130,17 +3128,15 @@ mtrSelectorStyle.textContent = `
   width: 100% !important;
   height: 100% !important;
 
-  gap: 10px !important;
-
-  padding: 10px !important;
+  gap: 12px !important;
+  padding: 18px !important;
 
   box-sizing: border-box !important;
 
+  justify-content: center !important;
+  align-content: center !important;
+
   overflow: hidden !important;
-
-  align-items: stretch !important;
-  align-content: stretch !important;
-
 }
 
 
@@ -3150,8 +3146,11 @@ mtrSelectorStyle.textContent = `
 
 #videos[data-camera-count="1"] {
 
-  grid-template-columns: 1fr !important;
-  grid-template-rows: 1fr !important;
+  grid-template-columns:
+    minmax(0, 850px) !important;
+
+  grid-template-rows:
+    minmax(0, 480px) !important;
 
 }
 
@@ -3163,44 +3162,42 @@ mtrSelectorStyle.textContent = `
 #videos[data-camera-count="2"] {
 
   grid-template-columns:
-    repeat(2, minmax(0, 1fr)) !important;
+    repeat(2, minmax(0, 650px)) !important;
 
   grid-template-rows:
-    1fr !important;
+    minmax(0, 400px) !important;
 
 }
 
 
 /* =====================================================
    3 E 4 WEBCAMS
-   2 COLUNAS
 ===================================================== */
 
 #videos[data-camera-count="3"],
 #videos[data-camera-count="4"] {
 
   grid-template-columns:
-    repeat(2, minmax(0, 1fr)) !important;
+    repeat(2, minmax(0, 560px)) !important;
 
   grid-template-rows:
-    repeat(2, minmax(0, 1fr)) !important;
+    repeat(2, minmax(0, 300px)) !important;
 
 }
 
 
 /* =====================================================
    5 E 6 WEBCAMS
-   3 COLUNAS × 2 LINHAS
 ===================================================== */
 
 #videos[data-camera-count="5"],
 #videos[data-camera-count="6"] {
 
   grid-template-columns:
-    repeat(3, minmax(0, 1fr)) !important;
+    repeat(3, minmax(0, 430px)) !important;
 
   grid-template-rows:
-    repeat(2, minmax(0, 1fr)) !important;
+    repeat(2, minmax(0, 270px)) !important;
 
 }
 
@@ -3220,9 +3217,6 @@ mtrSelectorStyle.textContent = `
 
   min-width: 0 !important;
   min-height: 0 !important;
-
-  max-width: none !important;
-  max-height: none !important;
 
   margin: 0 !important;
 
@@ -3290,7 +3284,6 @@ mtrSelectorStyle.textContent = `
   color: #ffffff;
 
   font-size: 12px;
-
   font-weight: 800;
 
   pointer-events: none;
@@ -3318,10 +3311,12 @@ mtrSelectorStyle.textContent = `
       none !important;
 
     grid-auto-rows:
-      240px !important;
+      220px !important;
 
     overflow-y:
       auto !important;
+
+    padding: 8px !important;
 
   }
 
