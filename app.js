@@ -993,7 +993,25 @@ async function stopScreenShare() {
     removeLocalPreview();
 
     updateShareButton();
+/* SE NÃO ESTIVER ASSISTINDO NINGUÉM,
+   GARANTE QUE NENHUM ÁUDIO REMOTO CONTINUE TOCANDO */
 
+if (!mtrSelectedStream) {
+
+  document
+    .querySelectorAll("#videos video, #videos audio")
+    .forEach((media) => {
+
+      media.pause();
+      media.muted = true;
+      media.volume = 0;
+
+    });
+
+}
+
+/* REAPLICA QUEM ESTÁ SENDO ASSISTIDO */
+mtrApplySelection();
 
     if ($("selectedWindow")) {
 
