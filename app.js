@@ -2735,204 +2735,176 @@ function mtrStopWatching() {
 
 function mtrApplySelection() {
 
-  /*
-    ==========================================
-    1. WEBCAMS
+  /* ==========================================
+     WEBCAMS
+     Todas ficam visíveis automaticamente
+  ========================================== */
 
-    Webcam fica SEMPRE visível.
-
-    Não precisa clicar em:
-    "Assistir Sakura"
-    "Assistir Iipe"
-
-    E webcam continua SEM áudio.
-    ==========================================
-  */
-
-  document
-    .querySelectorAll(
-      '#videos .video-card[data-mtr-type="camera"]'
-    )
-    .forEach(
-      (card) => {
-
-        card.style.display =
-          "block";
-
-
-        card.classList.remove(
-          "mtr-watching"
-        );
-
-
-        card
-          .querySelectorAll(
-            "video, audio"
-          )
-          .forEach(
-            (media) => {
-
-              /*
-                Webcam nunca libera
-                áudio.
-              */
-
-              media.muted =
-                true;
-
-              media.volume =
-                0;
-
-
-              /*
-                O vídeo da webcam
-                precisa continuar
-                reproduzindo.
-              */
-
-              if (
-                media.tagName ===
-                "VIDEO"
-              ) {
-
-                media
-                  .play()
-                  .catch(
-                    () => {}
-                  );
-
-              } else {
-
-                media.pause();
-
-              }
-
-            }
-          );
-
-      }
+  const cameras =
+    Array.from(
+      document.querySelectorAll(
+        '#videos .video-card[data-mtr-type="camera"]'
+      )
     );
 
 
-  /*
-    ==========================================
-    2. COMPARTILHAMENTOS DE TELA
-    ==========================================
-  */
+  cameras.forEach((card) => {
+
+    card.style.display = "block";
+
+    card.classList.add(
+      "mtr-camera-card"
+    );
+
+    card.classList.remove(
+      "mtr-watching"
+    );
+
+
+    /* VÍDEO DA WEBCAM */
+
+    card
+      .querySelectorAll("video")
+      .forEach((video) => {
+
+        video.muted = true;
+        video.volume = 0;
+
+        video
+          .play()
+          .catch(() => {});
+
+      });
+
+
+    /* WEBCAM NÃO USA ÁUDIO */
+
+    card
+      .querySelectorAll("audio")
+      .forEach((audio) => {
+
+        audio.pause();
+        audio.muted = true;
+        audio.volume = 0;
+
+      });
+
+  });
+
+
+  /* ==========================================
+     INFORMA QUANTAS WEBCAMS ESTÃO NA TELA
+  ========================================== */
+
+  const videos =
+    document.getElementById(
+      "videos"
+    );
+
+
+  if (videos) {
+
+    videos.dataset.cameraCount =
+      String(cameras.length);
+
+  }
+
+
+  /* ==========================================
+     COMPARTILHAMENTOS DE TELA
+  ========================================== */
 
   const streams =
     mtrGetRemoteStreams();
 
 
-  streams.forEach(
-    (card) => {
+  streams.forEach((card) => {
 
-      const selected =
-        mtrSelectedStream &&
-        card.dataset
-          .mtrStreamId ===
-          mtrSelectedStream;
+    const selected =
+      mtrSelectedStream &&
+      card.dataset.mtrStreamId ===
+        mtrSelectedStream;
 
 
-      /*
-        TRANSMISSÃO ESCOLHIDA
-      */
+    /* TRANSMISSÃO ESCOLHIDA */
 
-      if (selected) {
+    if (selected) {
 
-        card.style.display =
-          "block";
+      card.style.display =
+        "block";
 
-
-        card.classList.add(
-          "mtr-watching"
-        );
+      card.classList.add(
+        "mtr-watching"
+      );
 
 
-        /*
-          Só aqui libera o áudio
-          da transmissão escolhida.
-        */
+      card
+        .querySelectorAll(
+          "video, audio"
+        )
+        .forEach((media) => {
 
-        card
-          .querySelectorAll(
-            "video, audio"
-          )
-          .forEach(
-            (media) => {
-
-              media.muted =
-                false;
+          media.muted =
+            false;
 
 
-              const volume =
-                document
-                  .getElementById(
-                    "volume"
-                  );
+          const volume =
+            document.getElementById(
+              "volume"
+            );
 
 
-              media.volume =
-                volume
-                  ? Number(
-                      volume.value
-                    ) / 100
-                  : 0.75;
+          media.volume =
+            volume
+              ? Number(
+                  volume.value
+                ) / 100
+              : 0.75;
 
 
-              media
-                .play()
-                .catch(
-                  () => {}
-                );
+          media
+            .play()
+            .catch(() => {});
 
-            }
-          );
+        });
 
 
-      /*
-        TRANSMISSÕES QUE NÃO
-        ESTÃO SENDO ASSISTIDAS
-      */
+    /* OUTRAS TRANSMISSÕES */
 
-      } else {
+    } else {
 
-        card.style.display =
-          "none";
+      card.style.display =
+        "none";
 
-
-        card.classList.remove(
-          "mtr-watching"
-        );
+      card.classList.remove(
+        "mtr-watching"
+      );
 
 
-        card
-          .querySelectorAll(
-            "video, audio"
-          )
-          .forEach(
-            (media) => {
+      card
+        .querySelectorAll(
+          "video, audio"
+        )
+        .forEach((media) => {
 
-              media.pause();
+          media.pause();
 
-              media.muted =
-                true;
+          media.muted =
+            true;
 
-              media.volume =
-                0;
+          media.volume =
+            0;
 
-            }
-          );
-
-      }
+        });
 
     }
-  );
+
+  });
 
 
-  /*
-    BOTÃO PARAR DE ASSISTIR
-  */
+  /* ==========================================
+     BOTÃO PARAR DE ASSISTIR
+  ========================================== */
 
   const stopButton =
     document.getElementById(
@@ -2948,7 +2920,6 @@ function mtrApplySelection() {
   }
 
 }
-
 
 /* =====================================================
    VISUAL DA LATERAL + WEBCAMS
@@ -3119,22 +3090,19 @@ mtrSelectorStyle.textContent = `
 
 /* =====================================================
    WEBCAMS
-
-   1 webcam = grande e centralizada
-   2 webcams = lado a lado
-   3/4 webcams = grade
-   5/6 webcams = grade automática
 ===================================================== */
 
-#videos:has(.mtr-camera-card) {
+#videos[data-camera-count="1"],
+#videos[data-camera-count="2"],
+#videos[data-camera-count="3"],
+#videos[data-camera-count="4"],
+#videos[data-camera-count="5"],
+#videos[data-camera-count="6"] {
 
-  display: grid;
+  display: grid !important;
 
   grid-template-columns:
-    repeat(
-      2,
-      minmax(0, 1fr)
-    );
+    repeat(2, minmax(0, 1fr)) !important;
 
   gap: 12px;
 
@@ -3146,14 +3114,66 @@ mtrSelectorStyle.textContent = `
 
   box-sizing: border-box;
 
+  align-items: center;
+
   align-content: center;
 
 }
 
 
+/* =====================================================
+   UMA WEBCAM
+===================================================== */
+
+#videos[data-camera-count="1"] {
+
+  grid-template-columns:
+    minmax(0, 1fr) !important;
+
+}
+
+
+#videos[data-camera-count="1"]
+.mtr-camera-card {
+
+  width: min(760px, 100%) !important;
+
+  justify-self: center;
+
+}
+
+
+/* =====================================================
+   DUAS WEBCAMS
+===================================================== */
+
+#videos[data-camera-count="2"] {
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr)) !important;
+
+}
+
+
+#videos[data-camera-count="2"]
+.mtr-camera-card {
+
+  width: 100% !important;
+
+  height: auto !important;
+
+  grid-column: auto !important;
+
+}
+
+
+/* =====================================================
+   CARD DA WEBCAM
+===================================================== */
+
 #videos .mtr-camera-card {
 
-  display: block;
+  display: block !important;
 
   position: relative;
 
@@ -3165,8 +3185,7 @@ mtrSelectorStyle.textContent = `
 
   border-radius: 16px;
 
-  background:
-    #050505;
+  background: #050505;
 
   border:
     1px solid
@@ -3189,27 +3208,32 @@ mtrSelectorStyle.textContent = `
 }
 
 
-#videos .mtr-camera-card video {
+/* =====================================================
+   VÍDEO DA WEBCAM
+===================================================== */
+
+#videos
+.mtr-camera-card
+video {
 
   display: block;
 
-  width: 100%;
+  width: 100% !important;
 
-  height: 100%;
+  height: auto !important;
 
-  min-height: 230px;
-
-  max-height: 70vh;
+  aspect-ratio: 16 / 9;
 
   object-fit: cover;
 
-  background:
-    #050505;
+  background: #050505;
 
 }
 
 
-/* NOME EM CIMA DA WEBCAM */
+/* =====================================================
+   NOME NA WEBCAM
+===================================================== */
 
 #videos
 .mtr-camera-card
@@ -3223,11 +3247,9 @@ mtrSelectorStyle.textContent = `
 
   z-index: 5;
 
-  padding:
-    7px 11px;
+  padding: 7px 11px;
 
-  border-radius:
-    999px;
+  border-radius: 999px;
 
   background:
     rgba(
@@ -3237,82 +3259,40 @@ mtrSelectorStyle.textContent = `
       .72
     );
 
-  color:
-    #ffffff;
+  color: #ffffff;
 
-  font-size:
-    12px;
+  font-size: 12px;
 
-  font-weight:
-    800;
+  font-weight: 800;
 
-  pointer-events:
-    none;
-
-}
-
-
-/* =====================================================
-   QUANDO EXISTIR UMA ÚNICA WEBCAM
-===================================================== */
-
-#videos
-.mtr-camera-card:only-child {
-
-  grid-column:
-    1 / -1;
-
-  width:
-    min(
-      760px,
-      100%
-    );
-
-  justify-self:
-    center;
+  pointer-events: none;
 
 }
 
 
 /* =====================================================
    CELULAR
-
-   No celular as webcams ficam
-   uma embaixo da outra.
 ===================================================== */
 
-@media
-(max-width: 700px) {
+@media (max-width: 700px) {
 
-  #videos:has(.mtr-camera-card) {
+  #videos[data-camera-count="1"],
+  #videos[data-camera-count="2"],
+  #videos[data-camera-count="3"],
+  #videos[data-camera-count="4"],
+  #videos[data-camera-count="5"],
+  #videos[data-camera-count="6"] {
 
     grid-template-columns:
-      1fr;
+      1fr !important;
 
-    gap:
-      10px;
+    gap: 10px;
 
-    padding:
-      8px;
-
-  }
-
-
-  #videos
-  .mtr-camera-card
-  video {
-
-    min-height:
-      200px;
-
-    max-height:
-      55vh;
+    padding: 8px;
 
   }
 
 }
-
-
 /* =====================================================
    TRANSMISSÃO QUE ESTÁ SENDO ASSISTIDA
 ===================================================== */
