@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 
 <head>
+
   <meta charset="utf-8">
 
   <meta
@@ -15,13 +16,16 @@
     rel="stylesheet"
     href="style.css"
   >
+
 </head>
+
 
 <body>
 
-  <!-- =========================
+
+  <!-- =========================================
        TELA DE ENTRADA
-  ========================== -->
+  ========================================== -->
 
   <section
     id="landing"
@@ -30,7 +34,9 @@
 
     <div class="welcome-overlay"></div>
 
+
     <div class="welcome-card">
+
 
       <img
         src="mtr-logo.png"
@@ -38,13 +44,16 @@
         class="welcome-logo"
       >
 
+
       <h1>
         Como você quer aparecer na sala?
       </h1>
 
+
       <label for="name">
         SEU NOME
       </label>
+
 
       <input
         id="name"
@@ -55,11 +64,15 @@
       >
 
 
+      <!-- CÓDIGO DA SALA -->
+
       <div class="room-entry">
+
 
         <label for="roomCode">
           CÓDIGO DA SALA
         </label>
+
 
         <input
           id="roomCode"
@@ -68,10 +81,14 @@
           placeholder="Ex.: MTR-01"
         >
 
+
       </div>
 
 
+      <!-- BOTÕES ENTRADA -->
+
       <div class="buttons">
+
 
         <button
           id="create"
@@ -79,6 +96,7 @@
         >
           Criar nova sala
         </button>
+
 
         <button
           id="join"
@@ -88,6 +106,7 @@
           Entrar na sala
         </button>
 
+
       </div>
 
 
@@ -96,14 +115,16 @@
         class="message"
       ></p>
 
+
     </div>
 
   </section>
 
 
-  <!-- =========================
+
+  <!-- =========================================
        SALA
-  ========================== -->
+  ========================================== -->
 
   <main
     id="roomView"
@@ -111,9 +132,12 @@
   >
 
 
-    <!-- TOPO -->
+    <!-- =========================================
+         TOPO
+    ========================================== -->
 
     <header class="topbar">
+
 
       <img
         src="mtr-logo.png"
@@ -121,7 +145,9 @@
         class="top-logo"
       >
 
+
       <div class="top-status">
+
 
         <div
           id="count"
@@ -130,57 +156,79 @@
           👥 1/6 assistindo
         </div>
 
+
         <div class="offline-badge">
 
+
           <span class="status-dot"></span>
+
 
           <span id="status">
             ONLINE
           </span>
 
+
         </div>
 
+
       </div>
+
 
     </header>
 
 
+
+    <!-- =========================================
+         LAYOUT
+    ========================================== -->
+
     <div class="stream-layout">
 
 
-      <!-- =========================
-           BARRA LATERAL
-      ========================== -->
+
+      <!-- =========================================
+           LATERAL ESQUERDA
+      ========================================== -->
 
       <aside class="sidebar">
 
+
+
+        <!-- SALA -->
 
         <h2 id="roomTitle">
           Sala MTR
         </h2>
 
 
-        <!-- =========================
+
+        <!-- =========================================
              CONVITE
-        ========================== -->
+        ========================================== -->
 
         <div class="invite-card">
+
 
           <div class="invite-icon">
             🔗
           </div>
 
+
           <div>
+
 
             <strong>
               Convide sua turma
             </strong>
 
+
             <p>
               Copie o link da sala e mande para a galera.
             </p>
 
+
           </div>
+
 
           <button
             id="invite"
@@ -190,26 +238,33 @@
             Copiar convite
           </button>
 
+
         </div>
 
 
-        <!-- =========================
-             PESSOAS
-        ========================== -->
+
+        <!-- =========================================
+             PESSOAS NA SALA
+        ========================================== -->
 
         <section class="side-section">
 
+
           <div class="section-title">
+
 
             <h3>
               Na sala
             </h3>
 
+
             <span id="sideCount">
               1/6
             </span>
 
+
           </div>
+
 
 
           <div
@@ -218,193 +273,82 @@
           ></div>
 
 
-          <div class="empty-slot">
-            ＋ Vaga disponível
-          </div>
+
+          <!-- VAGAS -->
 
           <div class="empty-slot">
             ＋ Vaga disponível
           </div>
 
-          <div class="empty-slot">
-            ＋ Vaga disponível
-          </div>
 
           <div class="empty-slot">
             ＋ Vaga disponível
           </div>
 
+
           <div class="empty-slot">
             ＋ Vaga disponível
           </div>
+
+
+          <div class="empty-slot">
+            ＋ Vaga disponível
+          </div>
+
+
+          <div class="empty-slot">
+            ＋ Vaga disponível
+          </div>
+
 
         </section>
 
 
-        <!-- =========================
+
+        <!-- =========================================
              TRANSMISSÕES
-        ========================== -->
+        ========================================== -->
 
         <section
           class="side-section stream-side-section"
         >
 
+
           <div class="section-title">
+
 
             <h3>
               📺 Transmissões
             </h3>
 
+
           </div>
 
 
-          <!--
-            O app.js coloca aqui automaticamente:
 
-            Assistir Sakura
-            Assistir Ipe
-            Parar de assistir
+          <!--
+            O APP.JS COLOCA AQUI:
+
+            ASSISTIR SAKURA
+            ASSISTIR IPE
+            PARAR DE ASSISTIR
           -->
 
           <div
             id="streamControlsSide"
           ></div>
 
-        </section>
 
 
-        <!-- =========================
-             CONFIGURAÇÕES
-        ========================== -->
-
-        <section
-          class="side-section settings-section"
-        >
-
-          <h3>
-            Configurar transmissão
-          </h3>
-
-
-          <label for="shareMode">
-            O que compartilhar
-          </label>
-
-          <select id="shareMode">
-
-            <option value="window">
-              Janela - áudio separado quando disponível
-            </option>
-
-            <option value="screen">
-              Tela inteira
-            </option>
-
-          </select>
-
-
-          <p class="helper">
-            Escolha a janela do jogo e ative o áudio dela
-            no seletor do navegador, se disponível.
-          </p>
-
-
-          <label for="quality">
-            Qualidade
-          </label>
-
-          <select id="quality">
-
-            <option value="720">
-              720p - mais leve
-            </option>
-
-            <option value="1080">
-              1080p - melhor qualidade
-            </option>
-
-          </select>
-
-
-          <label for="fps">
-            Movimento
-          </label>
-
-          <select id="fps">
-
-            <option value="30">
-              30 FPS - recomendado
-            </option>
-
-            <option value="60">
-              60 FPS - mais fluido
-            </option>
-
-          </select>
-
-
-          <label class="check-option">
-
-            <input
-              id="adaptive"
-              type="checkbox"
-              checked
-            >
-
-            Reduzir qualidade se a conexão piorar
-
-          </label>
-
-
-          <div class="audio-info">
-
-            <div>
-
-              <span>
-                🎙 Microfone
-              </span>
-
-              <strong>
-                Desligado
-              </strong>
-
-            </div>
-
-
-            <div>
-
-              <span>
-                🔊 Áudio da call
-              </span>
-
-              <strong>
-                Não capturar
-              </strong>
-
-            </div>
-
-
-            <div>
-
-              <span>
-                🎮 Áudio da janela
-              </span>
-
-              <strong>
-                Aguardando
-              </strong>
-
-            </div>
-
-          </div>
-
-
-          <!-- =========================
+          <!-- =========================================
                COMPARTILHAR TELA
-               AGORA NA LATERAL
-          ========================== -->
+
+               AGORA FICA AQUI
+               LOGO ABAIXO DAS TRANSMISSÕES
+          ========================================== -->
 
           <div class="share-control-area">
+
 
             <button
               id="share"
@@ -414,14 +358,194 @@
               🖥 Compartilhar tela
             </button>
 
+
           </div>
+
 
         </section>
 
 
-        <!-- =========================
-             SAIR
-        ========================== -->
+
+        <!-- =========================================
+             CONFIGURAÇÕES
+        ========================================== -->
+
+        <section
+          class="side-section settings-section"
+        >
+
+
+          <h3>
+            Configurar transmissão
+          </h3>
+
+
+
+          <!-- O QUE COMPARTILHAR -->
+
+          <label for="shareMode">
+            O que compartilhar
+          </label>
+
+
+          <select id="shareMode">
+
+
+            <option value="window">
+              Janela - áudio separado quando disponível
+            </option>
+
+
+            <option value="screen">
+              Tela inteira
+            </option>
+
+
+          </select>
+
+
+
+          <p class="helper">
+            Escolha a janela do jogo e ative o áudio dela
+            no seletor do navegador, se disponível.
+          </p>
+
+
+
+          <!-- QUALIDADE -->
+
+          <label for="quality">
+            Qualidade
+          </label>
+
+
+          <select id="quality">
+
+
+            <option value="720">
+              720p - mais leve
+            </option>
+
+
+            <option value="1080">
+              1080p - melhor qualidade
+            </option>
+
+
+          </select>
+
+
+
+          <!-- FPS -->
+
+          <label for="fps">
+            Movimento
+          </label>
+
+
+          <select id="fps">
+
+
+            <option value="30">
+              30 FPS - recomendado
+            </option>
+
+
+            <option value="60">
+              60 FPS - mais fluido
+            </option>
+
+
+          </select>
+
+
+
+          <!-- QUALIDADE ADAPTATIVA -->
+
+          <label class="check-option">
+
+
+            <input
+              id="adaptive"
+              type="checkbox"
+              checked
+            >
+
+
+            Reduzir qualidade se a conexão piorar
+
+
+          </label>
+
+
+
+          <!-- =========================================
+               INFORMAÇÕES DE ÁUDIO
+          ========================================== -->
+
+          <div class="audio-info">
+
+
+            <div>
+
+
+              <span>
+                🎙 Microfone
+              </span>
+
+
+              <strong>
+                Desligado
+              </strong>
+
+
+            </div>
+
+
+
+            <div>
+
+
+              <span>
+                🔊 Áudio da call
+              </span>
+
+
+              <strong>
+                Não capturar
+              </strong>
+
+
+            </div>
+
+
+
+            <div>
+
+
+              <span>
+                🎮 Áudio da janela
+              </span>
+
+
+              <strong>
+                Aguardando
+              </strong>
+
+
+            </div>
+
+
+          </div>
+
+
+        </section>
+
+
+
+        <!-- =========================================
+             SAIR DA SALA
+        ========================================== -->
 
         <button
           id="leave"
@@ -432,15 +556,22 @@
         </button>
 
 
+
       </aside>
 
 
-      <!-- =========================
+
+      <!-- =========================================
            ÁREA PRINCIPAL
-      ========================== -->
+
+           AQUI FICA SOMENTE A TRANSMISSÃO
+      ========================================== -->
 
       <section class="main-stream">
 
+
+
+        <!-- JANELA SELECIONADA -->
 
         <div
           id="selectedWindow"
@@ -450,17 +581,24 @@
         </div>
 
 
+
+        <!-- =========================================
+             PALCO
+        ========================================== -->
+
         <div class="stage">
 
 
-          <!-- =========================
-               SEM TRANSMISSÃO
-          ========================== -->
+
+          <!-- =========================================
+               QUANDO NÃO TEM TRANSMISSÃO
+          ========================================== -->
 
           <div
             id="emptyStage"
             class="empty-stage"
           >
+
 
             <img
               src="mtr-logo.png"
@@ -479,15 +617,16 @@
               ou compartilhe sua própria tela.
             </p>
 
+
           </div>
 
 
-          <!-- =========================
+
+          <!-- =========================================
                VÍDEOS
 
-               AQUI AGORA FICA SOMENTE
-               A TRANSMISSÃO.
-          ========================== -->
+               SÓ A TRANSMISSÃO APARECE AQUI
+          ========================================== -->
 
           <div
             id="videos"
@@ -495,20 +634,25 @@
           ></div>
 
 
+
         </div>
 
 
-        <!-- =========================
+
+        <!-- =========================================
              CONTROLES INFERIORES
-        ========================== -->
+        ========================================== -->
 
         <div class="bottom-controls">
 
+
           <div class="volume-control">
+
 
             <span>
               Volume
             </span>
+
 
             <input
               id="volume"
@@ -518,18 +662,23 @@
               value="75"
             >
 
+
             <span>
               ⛶
             </span>
 
+
           </div>
+
 
 
           <p>
             A transmissão só começa quando você autorizar.
           </p>
 
+
         </div>
+
 
 
         <p
@@ -538,25 +687,30 @@
         ></p>
 
 
+
       </section>
 
+
     </div>
+
 
   </main>
 
 
-  <!-- =========================
+
+  <!-- =========================================
        LIVEKIT
-  ========================== -->
+  ========================================== -->
 
   <script
     src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"
   ></script>
 
 
-  <!-- =========================
+
+  <!-- =========================================
        APP
-  ========================== -->
+  ========================================== -->
 
   <script src="app.js"></script>
 
