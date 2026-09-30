@@ -4022,3 +4022,26 @@ body {
 
   transform: none !important;
 }
+/* PISCAR DO ORNAMENTO */
+
+.empty-stage p::after {
+  animation: piscarMTR 1.4s ease-in-out infinite !important;
+}
+
+@keyframes piscarMTR {
+  0%, 100% {
+    opacity: 0.45;
+    text-shadow:
+      0 0 3px #ff1748,
+      0 0 7px rgba(255, 0, 55, .55);
+  }
+
+  50% {
+    opacity: 1;
+    text-shadow:
+      0 0 6px #ff1748,
+      0 0 14px #ff1748,
+      0 0 28px rgba(255, 0, 55, .95);
+  }
+}
+
