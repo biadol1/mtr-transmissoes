@@ -2343,3 +2343,121 @@ body,
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
+/* =========================================
+   MTR - FUNDO IGUAL AO MODELO
+========================================= */
+
+body {
+  background:
+    #050507 !important;
+}
+
+/* Fundo principal */
+.stream-app {
+  position: relative !important;
+
+  background:
+    linear-gradient(
+      rgba(3, 2, 4, .48),
+      rgba(3, 2, 4, .58)
+    ),
+    url("mtr-background.png") center center / cover fixed !important;
+
+  background-color: #050507 !important;
+}
+
+/* Textura e brilho vermelho */
+.stream-app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+
+  z-index: 0;
+
+  background:
+    radial-gradient(
+      circle at 8% 25%,
+      rgba(255, 0, 45, .22),
+      transparent 24%
+    ),
+
+    radial-gradient(
+      circle at 92% 70%,
+      rgba(255, 0, 45, .18),
+      transparent 28%
+    ),
+
+    linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 0, 40, .035) 35%,
+      transparent 50%,
+      rgba(255, 0, 40, .045) 72%,
+      transparent 100%
+    );
+
+  box-shadow:
+    inset 0 0 120px rgba(0,0,0,.72),
+    inset 0 0 55px rgba(255,0,40,.08);
+}
+
+/* Mancha/textura vermelha nas bordas */
+.stream-app::after {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+
+  z-index: 0;
+
+  opacity: .32;
+
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 34px,
+      rgba(255,255,255,.012) 35px,
+      transparent 36px,
+      transparent 70px
+    );
+
+  mix-blend-mode: screen;
+}
+
+/* Mantém o conteúdo por cima da textura */
+.topbar,
+.stream-layout {
+  position: relative;
+  z-index: 2;
+}
+
+/* Fundo da área principal */
+.main-stream {
+  background:
+    linear-gradient(
+      rgba(0,0,0,.12),
+      rgba(0,0,0,.20)
+    );
+}
+
+/* Palco com mais contraste */
+.stage {
+  background:
+    linear-gradient(
+      rgba(0,0,0,.18),
+      rgba(0,0,0,.32)
+    ),
+    url("mtr-background.png") center center / cover no-repeat !important;
+
+  border-color:
+    rgba(255, 30, 65, .48) !important;
+
+  box-shadow:
+    inset 0 0 100px rgba(0,0,0,.52),
+    0 0 25px rgba(255,0,40,.08) !important;
+}
