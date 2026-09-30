@@ -1037,3 +1037,41 @@ button {
     height: 60vh;
   }
 }
+/* ===== CORREÇÃO DEFINITIVA DA LOGO DA ENTRADA ===== */
+
+.welcome-card {
+  overflow: hidden;
+}
+
+.welcome-card .mtr-logo,
+.welcome-card .mtr-logo img,
+.welcome-card > img {
+  display: block !important;
+
+  width: 260px !important;
+  max-width: 80% !important;
+
+  height: 120px !important;
+  max-height: 120px !important;
+
+  object-fit: contain !important;
+
+  margin: 0 auto 15px !important;
+
+  background-size: contain !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.welcome-card img {
+  width: 260px !important;
+  max-width: 80% !important;
+
+  height: auto !important;
+  max-height: 120px !important;
+
+  object-fit: contain !important;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
