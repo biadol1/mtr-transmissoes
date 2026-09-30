@@ -4097,3 +4097,54 @@ body {
   accent-color: #ff1748;
   cursor: pointer;
 }
+/* =========================================
+   AVATAR MTR NA FRENTE DOS NOMES
+========================================= */
+
+.person-chip {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.person-avatar {
+  width: 22px !important;
+  height: 22px !important;
+
+  flex: 0 0 22px !important;
+
+  object-fit: contain !important;
+
+  padding: 2px !important;
+
+  border-radius: 50% !important;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 23, 72, .18),
+      rgba(5, 2, 5, .90)
+    ) !important;
+
+  border:
+    1px solid rgba(255, 45, 75, .55) !important;
+
+  box-shadow:
+    0 0 5px rgba(255, 23, 72, .55),
+    0 0 10px rgba(255, 23, 72, .20) !important;
+}
+
+.person-name {
+  min-width: 0 !important;
+
+  color: #fff !important;
+
+  font-weight: 600 !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
