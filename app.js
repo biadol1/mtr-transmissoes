@@ -1178,38 +1178,28 @@ if (inviteButton) {
 const volumeSlider =
   $("volume");
 
-
 if (volumeSlider) {
 
-  volumeSlider
-    .addEventListener(
-      "input",
-      (event) => {
+  volumeSlider.addEventListener(
+    "input",
+    (event) => {
 
-        const volume =
-          Number(
-            event.target.value
-          ) / 100;
+      const volume =
+        Number(event.target.value) / 100;
 
+      document
+        .querySelectorAll(
+          "#videos video, body > audio"
+        )
+        .forEach((media) => {
 
-        document
-          .querySelectorAll(
-            "#videos video"
-          )
-          .forEach(
-            (video) => {
+          if (!media.muted) {
+            media.volume = volume;
+          }
 
-              if (
-                !video.muted
-              ) {
-
-                video.volume =
-                  volume;
-              }
-            }
-          );
-      }
-    );
+        });
+    }
+  );
 }
 
 
