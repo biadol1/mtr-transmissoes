@@ -2772,10 +2772,52 @@ function mtrApplySelection() {
     );
 
 
-  cameras.forEach((card) => {
+  cameras.forEach((card, index) => {
 
     card.style.display = "block";
 
+    if (mtrSelectedStream) {
+
+  card.style.setProperty("position", "absolute", "important");
+  card.style.setProperty("width", "150px", "important");
+  card.style.setProperty("height", "90px", "important");
+  card.style.setProperty("min-width", "150px", "important");
+  card.style.setProperty("min-height", "90px", "important");
+  card.style.setProperty("max-width", "150px", "important");
+  card.style.setProperty("max-height", "90px", "important");
+
+  card.style.setProperty("right", "25px", "important");
+  card.style.setProperty(
+    "top",
+    `${25 + (index * 100)}px`,
+    "important"
+  );
+
+  card.style.setProperty("left", "auto", "important");
+  card.style.setProperty("bottom", "auto", "important");
+  card.style.setProperty("margin", "0", "important");
+  card.style.setProperty("z-index", "100", "important");
+
+} else {
+
+  /* VOLTA AO NORMAL QUANDO NÃO ESTIVER TELANDO */
+
+  card.style.removeProperty("position");
+  card.style.removeProperty("width");
+  card.style.removeProperty("height");
+  card.style.removeProperty("min-width");
+  card.style.removeProperty("min-height");
+  card.style.removeProperty("max-width");
+  card.style.removeProperty("max-height");
+  card.style.removeProperty("right");
+  card.style.removeProperty("top");
+  card.style.removeProperty("left");
+  card.style.removeProperty("bottom");
+  card.style.removeProperty("margin");
+  card.style.removeProperty("z-index");
+
+}
+     
     card.classList.add(
       "mtr-camera-card"
     );
