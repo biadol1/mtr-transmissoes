@@ -3427,3 +3427,135 @@ body {
     drop-shadow(0 0 14px rgba(255,0,50,.85))
     drop-shadow(0 0 32px rgba(255,0,50,.45)) !important;
 }
+/* =====================================================
+   MTR - TOPO INTEGRADO AO FUNDO IGUAL À REFERÊNCIA
+===================================================== */
+
+.topbar {
+  height: 72px !important;
+  min-height: 72px !important;
+
+  padding: 6px 20px !important;
+
+  /* tira a faixa vinho */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.42),
+      rgba(25,0,8,.20),
+      rgba(0,0,0,.48)
+    ),
+    url("mtr-background.png") center 12% / cover no-repeat !important;
+
+  border-bottom:
+    1px solid rgba(255, 25, 55, .48) !important;
+
+  box-shadow:
+    inset 0 -15px 30px rgba(0,0,0,.18),
+    0 3px 15px rgba(255,0,40,.06) !important;
+}
+
+
+/* remove aquela linha/efeito antigo */
+.topbar::after {
+  content: "" !important;
+
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+
+  height: 1px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,25,55,.85),
+      transparent
+    ) !important;
+}
+
+
+/* LOGO NO TOPO */
+
+.top-logo {
+  width: auto !important;
+  height: 55px !important;
+  max-width: 120px !important;
+
+  object-fit: contain !important;
+
+  filter:
+    drop-shadow(0 0 5px rgba(255,0,40,.85))
+    drop-shadow(0 0 15px rgba(255,0,40,.35)) !important;
+}
+
+
+/* BOTÕES DO CANTO DIREITO */
+
+.top-status {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+
+.viewer-count,
+.offline-badge {
+  min-height: 34px !important;
+
+  padding: 0 13px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(5,3,5,.90),
+      rgba(20,2,8,.82)
+    ) !important;
+
+  border:
+    1px solid rgba(255,40,70,.50) !important;
+
+  border-radius: 8px !important;
+
+  box-shadow:
+    inset 0 0 12px rgba(255,0,40,.035),
+    0 0 12px rgba(0,0,0,.35) !important;
+}
+
+
+/* =========================================
+   JUNTA O TOPO COM O RESTO DA ARTE
+========================================= */
+
+.stream-layout {
+  background:
+    linear-gradient(
+      rgba(0,0,0,.08),
+      rgba(0,0,0,.16)
+    ),
+    url("mtr-background.png") center center / cover fixed no-repeat !important;
+}
+
+
+/* tira aparência de faixa separada na área principal */
+
+.main-stream {
+  background: transparent !important;
+}
+
+
+/* barra "Nenhuma janela selecionada" */
+
+.selected-window {
+  background:
+    rgba(4,2,4,.58) !important;
+
+  border:
+    1px solid rgba(255,35,65,.30) !important;
+
+  border-radius: 6px !important;
+
+  margin-bottom: 5px !important;
+}
